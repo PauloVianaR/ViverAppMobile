@@ -230,7 +230,7 @@ namespace ViverAppMobile.Services
 
                 string isonlineinfo = schedule.IsOnline == 1 ? " (Online)" : string.Empty;
 
-                string description = $"Médico: {schedule.DoctorName}\nPaciente: {schedule.PacientName}\nAtendimento:[{EnumTranslator.TranslateAppointmentType(schedule.AppointmentType)}] {schedule.AppointmentDescription} {isonlineinfo}\nMotivo Cancelamento: {schedule.Feedback}";
+                string description = $"Médico: {schedule.DoctorName}\nPaciente: {schedule.PacientName}\nAtendimento:[{EnumTranslator.TranslateAppointmentType(schedule.AppointmentType)}] {schedule.AppointmentTitle} {isonlineinfo}\nMotivo Cancelamento: {schedule.Feedback}";
 
                 if (schedule.UserNameUpdated != schedule.PacientName)
                 {
