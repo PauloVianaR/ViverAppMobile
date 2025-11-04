@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mopups:PopupPage
+    x:Class="ViverAppMobile.Views.Popups.EditAppointmentPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+    BackgroundColor="#80000000">
+    <Border MaximumHeightRequest="480" Style="{StaticResource BorderPopupStyle}">
+        <Grid RowDefinitions="*,Auto">
+            <VerticalStackLayout Grid.Row="0" Spacing="12">
+                <VerticalStackLayout Spacing="8">
+                    <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
+                        <Label FontSize="16">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span FontFamily="AppIcons" Text="&#xe80b;" />
+                                    <Span FontFamily="Semibold" Text="   Editar Serviço" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label
+                            FontFamily="AppIcons"
+                            FontSize="12"
+                            Text="&#xe81e;"
+                            TextColor="Gray"
+                            VerticalTextAlignment="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="BackButtonPressed" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </FlexLayout>
+
+                    <Label
+                        FontSize="12"
+                        Text="Altere as informações do serviço abaixo e clique em salvar."
+                        TextColor="Gray" />
+
+                    <VerticalStackLayout Spacing="2">
+                        <Label
+                            FontFamily="Semibold"
+                            FontSize="12"
+                            Text="Tipo do Serviço" />
+                        <Border
+                            Margin="0,8,0,0"
+                            Padding="0,5,0,5"
+                            BackgroundColor="{StaticResource BackgroundGray}"
+                            Stroke="Transparent"
+                            StrokeShape="4">
+                            <FlexLayout AlignItems="Center" Direction="Row">
+                                <Picker
+                                    x:Name="AppointmentTypesPicker"
+                                    FlexLayout.Grow="1"
+                                    FontFamily="AppIcons"
+                                    FontSize="12"
+                                    SelectedIndex="0" />
+                            </FlexLayout>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="2">
+                        <Label
+                            FontFamily="Semibold"
+                            FontSize="12"
+                            Text="Nome do Serviço" />
+                        <Border
+                            Padding="0,5,0,5"
+                            BackgroundColor="{StaticResource BackgroundGray}"
+                            Stroke="Transparent"
+                            StrokeShape="4">
+                            <FlexLayout AlignItems="Center" Direction="Row">
+                                <Entry
+                                    x:Name="AppointmentTitleEntry"
+                                    FlexLayout.Grow="1"
+                                    FontSize="12"
+                                    Placeholder="Nome do serviço"
+                                    PlaceholderColor="DarkGray" />
+                            </FlexLayout>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="2">
+                        <Label
+                            FontFamily="Semibold"
+                            FontSize="12"
+                            Text="Descrição do Serviço" />
+                        <Border
+                            BackgroundColor="{StaticResource BackgroundGray}"
+                            Stroke="Transparent"
+                            StrokeShape="4">
+                            <Editor
+                                x:Name="AppointmentDescriptionEditor"
+                                AutoSize="TextChanges"
+                                FontSize="12"
+                                Placeholder="Descrição do Serviço"
+                                PlaceholderColor="DarkGray"
+                                VerticalTextAlignment="Center" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="6">
+                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                            <Label
+                                FontFamily="Semibold"
+                                FontSize="12"
+                                Text="Preço (R$)" />
+                            <Border
+                                Padding="0,5,0,5"
+                                BackgroundColor="{StaticResource BackgroundGray}"
+                                Stroke="Transparent"
+                                StrokeShape="4">
+                                <FlexLayout AlignItems="Center" Direction="Row">
+                                    <Entry
+                                        x:Name="AppointmentPriceEntry"
+                                        FlexLayout.Grow="1"
+                                        FontSize="12"
+                                        Keyboard="Numeric"
+                                        Placeholder="Preço (R$)"
+                                        PlaceholderColor="DarkGray" />
+                                </FlexLayout>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="2">
+                            <Label
+                                FontFamily="Semibold"
+                                FontSize="12"
+                                Text="Duração Média (min)" />
+                            <Border
+                                Padding="0,5,0,5"
+                                BackgroundColor="{StaticResource BackgroundGray}"
+                                Stroke="Transparent"
+                                StrokeShape="4">
+                                <FlexLayout AlignItems="Center" Direction="Row">
+                                    <Entry
+                                        x:Name="AppointmentAverageTimeMinEntry"
+                                        FlexLayout.Grow="1"
+                                        FontSize="12"
+                                        Keyboard="Numeric"
+                                        Placeholder="Tempo médio de duração (min)"
+                                        PlaceholderColor="DarkGray" />
+                                </FlexLayout>
+                            </Border>
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+            <Border
+                Grid.Row="1"
+                Margin="0,10,0,0"
+                Padding="10,8,10,8"
+                BackgroundColor="Black"
+                Stroke="Transparent"
+                StrokeShape="8"
+                VerticalOptions="End">
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="YesButtonPressed" />
+                </Border.GestureRecognizers>
+
+                <Label
+                    FontSize="13"
+                    HorizontalTextAlignment="Center"
+                    TextColor="White">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontFamily="AppIcons" Text="&#xe83d;" />
+                            <Span FontAttributes="Bold" Text="   Salvar" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </Border>
+        </Grid>
+    </Border>
+</mopups:PopupPage>

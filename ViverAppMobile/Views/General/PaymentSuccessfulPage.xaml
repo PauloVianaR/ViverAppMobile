@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ViverAppMobile.Views.General.PaymentSuccessfulPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <VerticalStackLayout Spacing="125">
+        <Label
+            Margin="10"
+            FontFamily="AppIcons"
+            FontSize="18"
+            Text="&#xe815;"
+            TextColor="Black">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Tapped="BackToLabel" />
+            </Label.GestureRecognizers>
+        </Label>
+
+        <VerticalStackLayout
+            HorizontalOptions="Center"
+            Spacing="25"
+            VerticalOptions="Center">
+
+            <Border
+                Padding="50"
+                BackgroundColor="White"
+                Shadow="{OnPlatform Android='5,5,10,Black',
+                                    iOS='5,5,10,Gray'}"
+                StrokeShape="RoundRectangle 30"
+                StrokeThickness="0">
+
+                <VerticalStackLayout
+                    Padding="0"
+                    HorizontalOptions="Center"
+                    Spacing="20">
+                    <Border
+                        Padding="30,0"
+                        BackgroundColor="#E6F8ED"
+                        HeightRequest="100"
+                        HorizontalOptions="Center"
+                        StrokeShape="90"
+                        StrokeThickness="0"
+                        VerticalOptions="Center">
+
+                        <Label
+                            FontFamily="AppIcons"
+                            FontSize="58"
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            Text="&#xE803;"
+                            TextColor="#2E7D32"
+                            VerticalOptions="Center"
+                            VerticalTextAlignment="Center" />
+                    </Border>
+
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="22"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="Pagamento realizado com sucesso!"
+                        TextColor="#1B5E20" />
+
+                    <Label
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        LineBreakMode="WordWrap"
+                        LineHeight="1.3"
+                        Text="Seu atendimento foi confirmado e agendado para a data solicitada. Fique atento ao calendário! 😁"
+                        TextColor="#4E4E4E" />
+
+                    <BoxView
+                        HeightRequest="1"
+                        HorizontalOptions="Center"
+                        WidthRequest="150"
+                        Color="#D8E8DA" />
+
+                    <Button
+                        Padding="15,10"
+                        BackgroundColor="#4CAF50"
+                        Clicked="BackTo"
+                        CornerRadius="25"
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        HorizontalOptions="Center"
+                        Text="Voltar"
+                        TextColor="White"
+                        WidthRequest="180" />
+
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>

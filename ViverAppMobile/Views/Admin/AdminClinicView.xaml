@@ -1,0 +1,1431 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="ViverAppMobile.Views.Admin.AdminClinicView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behavior="clr-namespace:ViverAppMobile.Behaviors"
+    xmlns:controls="clr-namespace:ViverAppMobile.Controls"
+    xmlns:converter="clr-namespace:ViverAppMobile.Converters"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:ViverAppMobile.ViewModels.Admin"
+    x:Name="AdminClinicPage"
+    BackgroundColor="{StaticResource PageBackground}">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converter:DecimalToBrlMoneyConverter x:Key="DecimalToBrlMoneyConverter" />
+            <converter:BoolToStringConverter
+                x:Key="BoolToStringConverter"
+                TextForFalse="&#xe80e;"
+                TextForTrue="&#xe83c;" />
+            <converter:FormValidationValueConverter x:Key="FormValidationValueConverter" />
+            <converter:SelectedValueToBoolConverter x:Key="SelectedValueToBoolConverter" />
+            <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
+            <converter:IntToDayOfWeekConverter x:Key="IntToDayOfWeekConverter" />
+            <converter:DateOnlyToStringConverter x:Key="DateOnlyToStringConverter" />
+            <converter:SByteToBoolConverter x:Key="SByteToBoolConverter" />
+            <converter:InverseSbyteToBoolConverter x:Key="InverseSbyteToBoolConverter" />
+            <converter:SelectedValueToColorConverter
+                x:Key="SelectedValueToColorConverter"
+                SelectedColor="White"
+                UnselectedColor="Transparent" />
+            <converter:SelectedValueToStringConverter
+                x:Key="SelectedValueToStringAppointmentStatusConverter"
+                TextForFalse="Inativo"
+                TextForTrue="Ativo" />
+            <converter:SelectedValueToColorConverter
+                x:Key="SelectedValueToBackgroundColorAppointmentStatusConverter"
+                SelectedColor="Black"
+                UnselectedColor="LightGray" />
+            <converter:SelectedValueToColorConverter
+                x:Key="SelectedValueToTextColorAppointmentStatusConverter"
+                SelectedColor="White"
+                UnselectedColor="Black" />
+            <converter:AppointmentTypeToColorConverter x:Key="AppointmentTypeToColorConverter" />
+            <converter:AppointmentTypeToStringConverter
+                x:Key="AppointmentTypeToStringConverter"
+                ConsultationText="&#xe811;   Consulta"
+                ExaminationText="&#xe817;   Exame"
+                SurgeryText="&#xe806;   Cirurgia" />
+            <converter:SelectedValueToStringConverter
+                x:Key="SelectedValueToStringAvailabilityDayOfWeekClinicConverter"
+                TextForFalse="Fechada"
+                TextForTrue="Aberta" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ContentView.BindingContext>
+        <vm:AdminClinicViewModel />
+    </ContentView.BindingContext>
+
+    <RefreshView Command="{Binding ReloadPageCommand}" IsRefreshing="{Binding IsReloading}">
+        <ScrollView>
+            <VerticalStackLayout Padding="15" Spacing="20">
+                <!--#region Header-->
+                <VerticalStackLayout Spacing="4">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="22"
+                        Text="Configurações da Clínica" />
+                    <Label
+                        FontSize="13"
+                        LineHeight="1.5"
+                        Text="Gerencie informações, serviços e funcionamento da clínica e do aplicativo Viver"
+                        TextColor="Gray" />
+                </VerticalStackLayout>
+
+                <Border
+                    Padding="3"
+                    BackgroundColor="#ececf0"
+                    Stroke="Transparent"
+                    StrokeShape="10">
+                    <Grid ColumnDefinitions="*,*,*,*">
+                        <Border
+                            Grid.Column="0"
+                            Padding="4"
+                            BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToColorConverter}, ConverterParameter=0}"
+                            Stroke="Transparent"
+                            StrokeShape="10">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SwitchSelectedTabCommand}" CommandParameter="0" />
+                            </Border.GestureRecognizers>
+
+                            <Label
+                                FontSize="12"
+                                HorizontalTextAlignment="Center"
+                                Text="Informações"
+                                TextColor="Black"
+                                VerticalTextAlignment="Center" />
+                        </Border>
+                        <Border
+                            Grid.Column="1"
+                            Padding="4"
+                            BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToColorConverter}, ConverterParameter=1}"
+                            Stroke="Transparent"
+                            StrokeShape="10">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SwitchSelectedTabCommand}" CommandParameter="1" />
+                            </Border.GestureRecognizers>
+
+                            <Label
+                                FontSize="12"
+                                HorizontalTextAlignment="Center"
+                                Text="Serviços"
+                                TextColor="Black"
+                                VerticalTextAlignment="Center" />
+                        </Border>
+                        <Border
+                            Grid.Column="2"
+                            Padding="4"
+                            BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToColorConverter}, ConverterParameter=2}"
+                            Stroke="Transparent"
+                            StrokeShape="10">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SwitchSelectedTabCommand}" CommandParameter="2" />
+                            </Border.GestureRecognizers>
+
+                            <Label
+                                FontSize="12"
+                                HorizontalTextAlignment="Center"
+                                Text="Horários"
+                                TextColor="Black"
+                                VerticalTextAlignment="Center" />
+                        </Border>
+                        <Border
+                            Grid.Column="3"
+                            Padding="4"
+                            BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToColorConverter}, ConverterParameter=3}"
+                            Stroke="Transparent"
+                            StrokeShape="10">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SwitchSelectedTabCommand}" CommandParameter="3" />
+                            </Border.GestureRecognizers>
+
+                            <Label
+                                FontSize="12"
+                                HorizontalTextAlignment="Center"
+                                Text="Sistema"
+                                TextColor="Black"
+                                VerticalTextAlignment="Center" />
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!--#endregion-->
+
+                <!--#region  INFORMATIONS-->
+
+                <Border
+                    IsVisible="{Binding SelectedTab, Converter={StaticResource SelectedValueToBoolConverter}, ConverterParameter=0}"
+                    Shadow="{StaticResource BottomShadow}"
+                    Style="{StaticResource MasterBorderStyle}">
+                    <VerticalStackLayout Spacing="10">
+                        <VerticalStackLayout Spacing="6">
+                            <HorizontalStackLayout Spacing="10">
+                                <Label
+                                    FontFamily="AppIcons"
+                                    Text="&#xf0f7;"
+                                    TextColor="Black"
+                                    VerticalTextAlignment="Center" />
+                                <Label
+                                    FontFamily="Semibold"
+                                    FontSize="13"
+                                    Text="Dados da Clínica" />
+                            </HorizontalStackLayout>
+                            <Label
+                                FontSize="12"
+                                Text="Informações básicas e dados de contato"
+                                TextColor="Gray" />
+                        </VerticalStackLayout>
+
+                        <StackLayout Padding="0,10,0,0">
+                            <HorizontalStackLayout Spacing="6">
+                                <Label
+                                    FontSize="12"
+                                    Text="Razão Social"
+                                    TextColor="Black" />
+                                <Label
+                                    FontSize="16"
+                                    IsVisible="{Binding CorporateReason, Converter={StaticResource FormValidationValueConverter}, ConverterParameter=NotEmpty}"
+                                    Text="*"
+                                    TextColor="Red"
+                                    VerticalTextAlignment="Center" />
+                            </HorizontalStackLayout>
+                            <Border
+                                Padding="5"
+                                BackgroundColor="#f2f2f5"
+                                Stroke="Transparent"
+                                StrokeShape="RoundRectangle 8">
+                                <FlexLayout
+                                    AlignItems="Center"
+                                    BackgroundColor="Transparent"
+                                    Direction="Row"
+                                    JustifyContent="Start">
+                                    <Label
+                                        Padding="8"
+                                        FontFamily="AppIcons"
+                                        Text="&#xf0f6;" />
+                                    <Entry
+                                        Margin="0,0,-5,0"
+                                        BackgroundColor="Transparent"
+                                        FlexLayout.Grow="1"
+                                        Placeholder="Clínica X LTDA"
+                                        PlaceholderColor="DarkGray"
+                                        Text="{Binding CorporateReason}"
+                                        TextColor="Black" />
+                                </FlexLayout>
+                            </Border>
+                        </StackLayout>
+
+                        <StackLayout Padding="0,5,0,0">
+                            <HorizontalStackLayout Spacing="6">
+                                <Label
+                                    FontSize="12"
+                                    Text="Nome Fantasia"
+                                    TextColor="Black" />
+                                <Label
+                                    FontSize="16"
+                                    IsVisible="{Binding FantasyName, Converter={StaticResource FormValidationValueConverter}, ConverterParameter=NotEmpty}"
+                                    Text="*"
+                                    TextColor="Red"
+                                    VerticalTextAlignment="Center" />
+                            </HorizontalStackLayout>
+                            <Border
+                                Padding="5"
+                                BackgroundColor="#f2f2f5"
+                                Stroke="Transparent"
+                                StrokeShape="RoundRectangle 8">
+                                <FlexLayout
+                                    AlignItems="Center"
+                                    BackgroundColor="Transparent"
+                                    Direction="Row"
+                                    JustifyContent="Start">
+                                    <Label
+                                        Padding="8"
+                                        FontFamily="AppIcons"
+                                        Text="&#xe812;" />
+                                    <Entry
+                                        Margin="0,0,-5,0"
+                                        BackgroundColor="Transparent"
+                                        FlexLayout.Grow="1"
+                                        Placeholder="Clínica X"
+                                        PlaceholderColor="DarkGray"
+                                        Text="{Binding FantasyName}"
+                                        TextColor="Black" />
+                                </FlexLayout>
+                            </Border>
+                        </StackLayout>
+
+                        <StackLayout>
+                            <HorizontalStackLayout Spacing="6">
+                                <Label
+                                    FontSize="12"
+                                    Text="CNPJ"
+                                    TextColor="Black" />
+                                <Label
+                                    FontSize="16"
+                                    IsVisible="{Binding Cnpj, Converter={StaticResource FormValidationValueConverter}, ConverterParameter=CNPJ}"
+                                    Text="*"
+                                    TextColor="Red"
+                                    VerticalTextAlignment="Center" />
+                            </HorizontalStackLayout>
+                            <Border
+                                Padding="5"
+                                BackgroundColor="#f2f2f5"
+                                Stroke="Transparent"
+                                StrokeShape="RoundRectangle 8">
+                                <FlexLayout
+                                    AlignItems="Center"
+                                    BackgroundColor="Transparent"
+                                    Direction="Row"
+                                    JustifyContent="Start">
+                                    <Label
+                                        Padding="8"
+                                        FontFamily="AppIcons"
+                                        Text="&#xe805;" />
+                                    <Entry
+                                        Margin="0,0,-5,0"
+                                        BackgroundColor="Transparent"
+                                        FlexLayout.Grow="1"
+                                        Keyboard="Numeric"
+                                        Placeholder="00.000.000/0000-00"
+                                        PlaceholderColor="DarkGray"
+                                        Text="{Binding Cnpj}"
+                                        TextColor="Black">
+                                        <Entry.Behaviors>
+                                            <toolkit:MaskedBehavior Mask="XX.XXX.XXX/XXXX-XX" />
+                                        </Entry.Behaviors>
+                                    </Entry>
+                                </FlexLayout>
+                            </Border>
+                        </StackLayout>
+
+                        <StackLayout>
+                            <HorizontalStackLayout Spacing="6">
+                                <Label
+                                    FontSize="12"
+                                    Text="Telefone"
+                                    TextColor="Black" />
+                                <Label
+                                    FontSize="16"
+                                    IsVisible="{Binding Phone, Converter={StaticResource FormValidationValueConverter}, ConverterParameter=Phone}"
+                                    Text="*"
+                                    TextColor="Red"
+                                    VerticalTextAlignment="Center" />
+                            </HorizontalStackLayout>
+                            <Border
+                                Padding="5"
+                                BackgroundColor="#f2f2f5"
+                                Stroke="Transparent"
+                                StrokeShape="RoundRectangle 8">
+                                <FlexLayout
+                                    AlignItems="Center"
+                                    BackgroundColor="Transparent"
+                                    Direction="Row"
+                                    JustifyContent="Start">
+                                    <Label
+                                        Padding="8"
+                                        FontFamily="AppIcons"
+                                        Text="&#xe804;" />
+                                    <Entry
+                                        Margin="0,0,-5,0"
+                                        BackgroundColor="Transparent"
+                                        FlexLayout.Grow="1"
+                                        Keyboard="Telephone"
+                                        Placeholder="(11) 3000-0000"
+                                        PlaceholderColor="DarkGray"
+                                        Text="{Binding Phone}"
+                                        TextColor="Black">
+                                        <Entry.Behaviors>
+                                            <toolkit:MaskedBehavior Mask="(XX) XXXX-XXXX" />
+                                        </Entry.Behaviors>
+                                    </Entry>
+                                </FlexLayout>
+                            </Border>
+                        </StackLayout>
+
+                        <StackLayout>
+                            <HorizontalStackLayout Spacing="6">
+                                <Label
+                                    FontSize="12"
+                                    Text="Email"
+                                    TextColor="Black" />
+                                <Label
+                                    FontSize="16"
+                                    IsVisible="{Binding Email, Converter={StaticResource FormValidationValueConverter}, ConverterParameter=Email}"
+                                    Text="*"
+                                    TextColor="Red"
+                                    VerticalTextAlignment="Center" />
+                            </HorizontalStackLayout>
+                            <Border
+                                Padding="5"
+                                BackgroundColor="#f2f2f5"
+                                Stroke="Transparent"
+                                StrokeShape="RoundRectangle 8">
+                                <FlexLayout
+                                    AlignItems="Center"
+                                    BackgroundColor="Transparent"
+                                    Direction="Row"
+                                    JustifyContent="Start">
+                                    <Label
+                                        Padding="8"
+                                        FontFamily="AppIcons"
+                                        Text="&#xe82c;" />
+                                    <Entry
+                                        Margin="0,0,-5,0"
+                                        BackgroundColor="Transparent"
+                                        FlexLayout.Grow="1"
+                                        Keyboard="Email"
+                                        Placeholder="seu@email.com"
+                                        PlaceholderColor="DarkGray"
+                                        Text="{Binding Email}"
+                                        TextColor="Black" />
+                                </FlexLayout>
+                            </Border>
+                        </StackLayout>
+
+                        <StackLayout Spacing="12">
+                            <Border />
+                            <Label FontSize="12" VerticalTextAlignment="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span FontFamily="AppIcons" Text="&#xe807;" />
+                                        <Span FontFamily="Semibold" Text="  Endereço" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <StackLayout>
+                                <HorizontalStackLayout Spacing="6">
+                                    <Label
+                                        FontSize="12"
+                                        Text="CEP"
+                                        TextColor="Black" />
+                                    <Label
+                                        FontSize="16"
+                                        IsVisible="{Binding Cep, Converter={StaticResource FormValidationValueConverter}, ConverterParameter=CEP}"
+                                        Text="*"
+                                        TextColor="Red"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+                                <Border
+                                    Padding="5"
+                                    BackgroundColor="#f2f2f5"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 8">
+                                    <FlexLayout AlignItems="Center">
+                                        <Entry
+                                            Margin="-3,0,-5,0"
+                                            BackgroundColor="Transparent"
+                                            FlexLayout.Grow="1"
+                                            FontFamily="AppIcons"
+                                            Keyboard="Numeric"
+                                            Placeholder="&#xe800;  00000-000"
+                                            PlaceholderColor="DarkGray"
+                                            Text="{Binding Cep}"
+                                            TextColor="Black">
+                                            <Entry.Behaviors>
+                                                <toolkit:MaskedBehavior Mask="XXXXX-XXX" />
+                                            </Entry.Behaviors>
+                                        </Entry>
+                                        <Label
+                                            Margin="6,0,0,0"
+                                            Padding="6"
+                                            FontFamily="AppIcons"
+                                            HorizontalTextAlignment="Center"
+                                            Text="&#xe832;">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding SearchAdressByCepCommand}" />
+                                            </Label.GestureRecognizers>
+                                        </Label>
+                                    </FlexLayout>
+                                </Border>
+                            </StackLayout>
+                            <StackLayout>
+                                <HorizontalStackLayout Spacing="6">
+                                    <Label
+                                        FontSize="12"
+                                        Text="Rua/Avenida"
+                                        TextColor="Black" />
+                                    <Label
+                                        FontSize="16"
+                                        IsVisible="{Binding Adress, Converter={StaticResource FormValidationValueConverter}, ConverterParameter=NotEmpty}"
+                                        Text="*"
+                                        TextColor="Red"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+                                <Border
+                                    Padding="5"
+                                    BackgroundColor="#f2f2f5"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 8">
+                                    <FlexLayout AlignItems="Center">
+                                        <Entry
+                                            Margin="-3,0,-5,0"
+                                            BackgroundColor="Transparent"
+                                            FlexLayout.Grow="1"
+                                            Placeholder="Rua das Flores"
+                                            PlaceholderColor="DarkGray"
+                                            Text="{Binding Adress}"
+                                            TextColor="Black" />
+                                    </FlexLayout>
+                                </Border>
+                            </StackLayout>
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="6">
+                                <StackLayout Grid.Column="0">
+                                    <HorizontalStackLayout Spacing="6">
+                                        <Label
+                                            FontSize="12"
+                                            Text="Número"
+                                            TextColor="Black" />
+                                        <Label
+                                            FontSize="16"
+                                            IsVisible="{Binding Number, Converter={StaticResource FormValidationValueConverter}, ConverterParameter=Number}"
+                                            Text="*"
+                                            TextColor="Red"
+                                            VerticalTextAlignment="Center" />
+                                    </HorizontalStackLayout>
+                                    <Border
+                                        Padding="5"
+                                        BackgroundColor="#f2f2f5"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 8">
+                                        <FlexLayout AlignItems="Center">
+                                            <Entry
+                                                Margin="-3,0,-5,0"
+                                                BackgroundColor="Transparent"
+                                                FlexLayout.Grow="1"
+                                                Placeholder="123"
+                                                PlaceholderColor="DarkGray"
+                                                Text="{Binding Number}"
+                                                TextColor="Black" />
+                                        </FlexLayout>
+                                    </Border>
+                                </StackLayout>
+                                <StackLayout Grid.Column="1">
+                                    <Label FontSize="12" Text="Complemento" />
+                                    <Border
+                                        Padding="5"
+                                        BackgroundColor="#f2f2f5"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 8">
+                                        <FlexLayout AlignItems="Center">
+                                            <Entry
+                                                Margin="-3,0,-5,0"
+                                                BackgroundColor="Transparent"
+                                                FlexLayout.Grow="1"
+                                                Placeholder="Sala 2 (opcional)"
+                                                PlaceholderColor="DarkGray"
+                                                Text="{Binding Complement}"
+                                                TextColor="Black" />
+                                        </FlexLayout>
+                                    </Border>
+                                </StackLayout>
+                            </Grid>
+                            <StackLayout>
+                                <HorizontalStackLayout Spacing="6">
+                                    <Label
+                                        FontSize="12"
+                                        Text="Bairro"
+                                        TextColor="Black" />
+                                    <Label
+                                        FontSize="16"
+                                        IsVisible="{Binding Neighborhood, Converter={StaticResource FormValidationValueConverter}, ConverterParameter=NotEmpty}"
+                                        Text="*"
+                                        TextColor="Red"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+                                <Border
+                                    Padding="5"
+                                    BackgroundColor="#f2f2f5"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 8">
+                                    <FlexLayout AlignItems="Center">
+                                        <Entry
+                                            Margin="-3,0,-5,0"
+                                            BackgroundColor="Transparent"
+                                            FlexLayout.Grow="1"
+                                            Placeholder="Centro"
+                                            PlaceholderColor="DarkGray"
+                                            Text="{Binding Neighborhood}"
+                                            TextColor="Black" />
+                                    </FlexLayout>
+                                </Border>
+                            </StackLayout>
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="6">
+                                <StackLayout Grid.Column="0">
+                                    <HorizontalStackLayout Spacing="6">
+                                        <Label
+                                            FontSize="12"
+                                            Text="Cidade"
+                                            TextColor="Black" />
+                                        <Label
+                                            FontSize="16"
+                                            IsVisible="{Binding City, Converter={StaticResource FormValidationValueConverter}, ConverterParameter=NotNumberOrEmpty}"
+                                            Text="*"
+                                            TextColor="Red"
+                                            VerticalTextAlignment="Center" />
+                                    </HorizontalStackLayout>
+                                    <Border
+                                        Padding="5"
+                                        BackgroundColor="#f2f2f5"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 8">
+                                        <FlexLayout AlignItems="Center">
+                                            <Entry
+                                                Margin="-3,0,-5,0"
+                                                BackgroundColor="Transparent"
+                                                FlexLayout.Grow="1"
+                                                Placeholder="Betim"
+                                                PlaceholderColor="DarkGray"
+                                                Text="{Binding City}"
+                                                TextColor="Black" />
+                                        </FlexLayout>
+                                    </Border>
+                                </StackLayout>
+                                <StackLayout Grid.Column="1">
+                                    <HorizontalStackLayout Spacing="6">
+                                        <Label
+                                            FontSize="12"
+                                            Text="Estado"
+                                            TextColor="Black" />
+                                        <Label
+                                            FontSize="16"
+                                            IsVisible="{Binding State, Converter={StaticResource FormValidationValueConverter}, ConverterParameter=BrState}"
+                                            Text="*"
+                                            TextColor="Red"
+                                            VerticalTextAlignment="Center" />
+                                    </HorizontalStackLayout>
+                                    <Border
+                                        Padding="5"
+                                        BackgroundColor="#f2f2f5"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 8">
+                                        <FlexLayout AlignItems="Center">
+                                            <Entry
+                                                Margin="-3,0,-5,0"
+                                                BackgroundColor="Transparent"
+                                                FlexLayout.Grow="1"
+                                                Placeholder="MG"
+                                                PlaceholderColor="DarkGray"
+                                                Text="{Binding State}"
+                                                TextColor="Black">
+                                                <Entry.Behaviors>
+                                                    <toolkit:MaskedBehavior Mask="XX" />
+                                                </Entry.Behaviors>
+                                            </Entry>
+                                        </FlexLayout>
+                                    </Border>
+                                </StackLayout>
+                            </Grid>
+                            <Border />
+                        </StackLayout>
+
+                        <Border
+                            Margin="0,5,0,0"
+                            Padding="5"
+                            BackgroundColor="Black"
+                            Stroke="Transparent"
+                            StrokeShape="6">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SaveClinicInfoCommand}" />
+                            </Border.GestureRecognizers>
+
+                            <Label
+                                FontFamily="Semibold"
+                                FontSize="13"
+                                HorizontalTextAlignment="Center"
+                                Text="Salvar Informações"
+                                TextColor="White" />
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!--#endregion-->
+
+                <!--#region CLINIC-->
+
+                <Border
+                    IsVisible="{Binding SelectedTab, Converter={StaticResource SelectedValueToBoolConverter}, ConverterParameter=1}"
+                    Shadow="{StaticResource BottomShadow}"
+                    Style="{StaticResource MasterBorderStyle}">
+                    <VerticalStackLayout Spacing="12">
+                        <VerticalStackLayout Spacing="6">
+                            <HorizontalStackLayout Spacing="10">
+                                <Label
+                                    FontFamily="AppIcons"
+                                    Text="&#xe81f;"
+                                    TextColor="Black"
+                                    VerticalTextAlignment="Center" />
+                                <Label
+                                    FontFamily="Semibold"
+                                    FontSize="13"
+                                    Text="Tipos de Atendimento" />
+                            </HorizontalStackLayout>
+                            <Label
+                                FontSize="12"
+                                Text="Gerencie os serviços oferecidos pela clínica"
+                                TextColor="Gray" />
+                        </VerticalStackLayout>
+
+                        <Border
+                            Margin="0,5,0,0"
+                            Padding="10"
+                            BackgroundColor="#f9fafb"
+                            StrokeShape="6"
+                            StrokeThickness="0.5">
+                            <toolkit:Expander x:Name="AddNewAppointmentExpander" ExpandedChanged="Expander_ExpandedChanged">
+                                <toolkit:Expander.Header>
+                                    <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
+                                        <Label
+                                            FontFamily="Semibold"
+                                            FontSize="12"
+                                            Text="Adicionar novo tipo de serviço de atendimento" />
+                                        <Label
+                                            x:Name="AddNewAppointmentIconLabelExpand"
+                                            ClassId="IconLabelExpand"
+                                            FontFamily="AppIcons"
+                                            FontSize="12"
+                                            Text="&#xe80e;"
+                                            TextColor="Black" />
+                                    </FlexLayout>
+                                </toolkit:Expander.Header>
+
+                                <toolkit:Expander.Content>
+                                    <VerticalStackLayout
+                                        Margin="0,10,0,0"
+                                        Opacity="0"
+                                        Spacing="6">
+                                        <Border
+                                            Margin="0,8,0,0"
+                                            Padding="0,5,0,5"
+                                            BackgroundColor="{StaticResource BackgroundGray}"
+                                            Stroke="Transparent"
+                                            StrokeShape="4">
+                                            <FlexLayout AlignItems="Center" Direction="Row">
+                                                <Picker
+                                                    FlexLayout.Grow="1"
+                                                    FontFamily="AppIcons"
+                                                    FontSize="12"
+                                                    ItemsSource="{Binding AppointmentTypes}"
+                                                    SelectedItem="{Binding SelectedAppointmentType}" />
+                                            </FlexLayout>
+                                        </Border>
+
+                                        <Border
+                                            Padding="0,5,0,5"
+                                            BackgroundColor="{StaticResource BackgroundGray}"
+                                            Stroke="Transparent"
+                                            StrokeShape="4">
+                                            <FlexLayout AlignItems="Center" Direction="Row">
+                                                <Entry
+                                                    FlexLayout.Grow="1"
+                                                    FontSize="12"
+                                                    Placeholder="Nome do serviço"
+                                                    PlaceholderColor="DarkGray"
+                                                    Text="{Binding AppointmentTitle}" />
+                                            </FlexLayout>
+                                        </Border>
+
+                                        <Border
+                                            BackgroundColor="{StaticResource BackgroundGray}"
+                                            Stroke="Transparent"
+                                            StrokeShape="4">
+                                            <Editor
+                                                AutoSize="TextChanges"
+                                                FontSize="12"
+                                                Placeholder="Descrição do Serviço"
+                                                PlaceholderColor="DarkGray"
+                                                Text="{Binding AppointmentDescription}"
+                                                VerticalTextAlignment="Center" />
+                                        </Border>
+
+                                        <Border
+                                            Padding="0,5,0,5"
+                                            BackgroundColor="{StaticResource BackgroundGray}"
+                                            Stroke="Transparent"
+                                            StrokeShape="4">
+                                            <FlexLayout AlignItems="Center" Direction="Row">
+                                                <Entry
+                                                    FlexLayout.Grow="1"
+                                                    FontSize="12"
+                                                    Keyboard="Numeric"
+                                                    Placeholder="Preço (R$)"
+                                                    PlaceholderColor="DarkGray"
+                                                    Text="{Binding AppointmentPrice}" />
+                                            </FlexLayout>
+                                        </Border>
+                                        <Border
+                                            Padding="0,5,0,5"
+                                            BackgroundColor="{StaticResource BackgroundGray}"
+                                            Stroke="Transparent"
+                                            StrokeShape="4">
+                                            <FlexLayout AlignItems="Center" Direction="Row">
+                                                <Entry
+                                                    FlexLayout.Grow="1"
+                                                    FontSize="12"
+                                                    Keyboard="Numeric"
+                                                    Placeholder="Tempo médio de duração (min)"
+                                                    PlaceholderColor="DarkGray"
+                                                    Text="{Binding AppointmentAverageTimeMin}" />
+                                            </FlexLayout>
+                                        </Border>
+
+                                        <Border
+                                            Margin="0,10,0,3"
+                                            Padding="6"
+                                            BackgroundColor="Black"
+                                            Stroke="Transparent"
+                                            StrokeShape="6">
+
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding AddAppointmentCommand}" />
+                                            </Border.GestureRecognizers>
+
+                                            <Label
+                                                FontSize="12"
+                                                HorizontalTextAlignment="Center"
+                                                TextColor="White">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span FontFamily="AppIcons" Text="&#xe80e;" />
+                                                        <Span FontAttributes="Bold" Text="   Adicionar" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                        </Border>
+                                    </VerticalStackLayout>
+                                </toolkit:Expander.Content>
+                            </toolkit:Expander>
+                        </Border>
+
+                        <Border
+                            Padding="10"
+                            BackgroundColor="#f9fafb"
+                            StrokeShape="8">
+                            <toolkit:Expander x:Name="FilterExpander" ExpandedChanged="Expander_ExpandedChanged">
+                                <toolkit:Expander.Header>
+                                    <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
+                                        <Label FontSize="12">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span FontFamily="AppIcons" Text="&#xe810;" />
+                                                    <Span Text="  Filtros" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label
+                                            x:Name="FiltersIconLabelExpand"
+                                            ClassId="IconLabelExpand"
+                                            FontFamily="AppIcons"
+                                            FontSize="12"
+                                            Text="&#xe80e;"
+                                            TextColor="Black" />
+                                    </FlexLayout>
+                                </toolkit:Expander.Header>
+
+                                <toolkit:Expander.Content>
+                                    <StackLayout Margin="0,20,0,0" Spacing="10">
+                                        <Border
+                                            Padding="0,-6"
+                                            BackgroundColor="{StaticResource BackgroundGray}"
+                                            Stroke="Transparent"
+                                            StrokeShape="RoundRectangle 8">
+                                            <SearchBar
+                                                FontSize="13"
+                                                Placeholder="Buscar pelo nome do serviço...."
+                                                PlaceholderColor="Gray"
+                                                SearchCommand="{Binding FilterAppointmentsCommand}"
+                                                Text="{Binding AppointmentDescritionFilter}" />
+                                        </Border>
+                                        <Border
+                                            Padding="0,-8"
+                                            BackgroundColor="{StaticResource BackgroundGray}"
+                                            Stroke="Transparent"
+                                            StrokeShape="RoundRectangle 8">
+                                            <Picker
+                                                FontFamily="AppIcons"
+                                                FontSize="12"
+                                                ItemsSource="{Binding AppointmentTypesFilter}"
+                                                SelectedItem="{Binding SelectedAppointmentTypeFilter}"
+                                                TextColor="Gray" />
+                                        </Border>
+                                    </StackLayout>
+                                </toolkit:Expander.Content>
+                            </toolkit:Expander>
+                        </Border>
+
+                        <CollectionView ItemSizingStrategy="MeasureAllItems" ItemsSource="{Binding Appointments}">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout ItemSpacing="6" Orientation="Vertical" />
+                            </CollectionView.ItemsLayout>
+
+                            <CollectionView.EmptyView>
+                                <Border
+                                    Padding="15"
+                                    BackgroundColor="White"
+                                    StrokeShape="8">
+                                    <StackLayout Padding="10" Spacing="6">
+                                        <Label
+                                            Padding="10"
+                                            FontFamily="AppIcons"
+                                            FontSize="60"
+                                            HorizontalTextAlignment="Center"
+                                            Text="&#xe801;"
+                                            TextColor="Gray"
+                                            VerticalTextAlignment="Center" />
+                                        <Label
+                                            FontAttributes="Bold"
+                                            HorizontalTextAlignment="Center"
+                                            Text="Nenhum serviço encontrado" />
+                                        <Label
+                                            HorizontalTextAlignment="Center"
+                                            Text="Tente ajustar os filtros de busca"
+                                            TextColor="Gray" />
+                                    </StackLayout>
+                                </Border>
+                            </CollectionView.EmptyView>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="10" Style="{StaticResource MasterBorderStyle}">
+                                        <VerticalStackLayout Spacing="4">
+                                            <Border
+                                                Padding="8,4,8,4"
+                                                BackgroundColor="{Binding Model.Idappointmenttype, Converter={StaticResource AppointmentTypeToColorConverter}}"
+                                                HorizontalOptions="Start"
+                                                Stroke="Transparent"
+                                                StrokeShape="6">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontFamily="AppIcons"
+                                                    FontSize="12"
+                                                    Text="{Binding Model.Title}"
+                                                    TextColor="White" />
+                                            </Border>
+                                            <Grid ColumnDefinitions="*,Auto">
+                                                <VerticalStackLayout Spacing="4">
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontFamily="AppIcons"
+                                                        FontSize="12"
+                                                        Text="{Binding Model.Idappointmenttype, Converter={StaticResource AppointmentTypeToStringConverter}}"
+                                                        TextColor="Black" />
+                                                    <Label
+                                                        FontSize="11"
+                                                        Text="{Binding Model.Price, Converter={StaticResource DecimalToBrlMoneyConverter}}"
+                                                        TextColor="Green" />
+                                                    <Label FontSize="11" TextColor="Gray">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xe801;" />
+                                                                <Span Text="  " />
+                                                                <Span Text="{Binding Model.Averagetime}" />
+                                                                <Span Text=" hrs" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </VerticalStackLayout>
+                                                <VerticalStackLayout Grid.Column="1">
+                                                    <Border
+                                                        Padding="8,2,8,2"
+                                                        BackgroundColor="{Binding IsActive, Converter={StaticResource SelectedValueToBackgroundColorAppointmentStatusConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                                        HorizontalOptions="End"
+                                                        IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
+                                                        Stroke="Transparent"
+                                                        StrokeShape="4">
+                                                        <Label
+                                                            FontAttributes="Bold"
+                                                            FontSize="10"
+                                                            Text="{Binding IsActive, Converter={StaticResource SelectedValueToStringAppointmentStatusConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                                            TextColor="{Binding IsActive, Converter={StaticResource SelectedValueToTextColorAppointmentStatusConverter}, ConverterParameter={StaticResource TrueParam}}" />
+                                                    </Border>
+                                                    <ActivityIndicator
+                                                        HorizontalOptions="End"
+                                                        IsRunning="{Binding IsBusy}"
+                                                        IsVisible="{Binding IsBusy}" />
+                                                    <Switch
+                                                        FlowDirection="RightToLeft"
+                                                        IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
+                                                        IsToggled="{Binding IsActive, Converter={StaticResource SelectedValueToBoolConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                                        OnColor="LightSeaGreen"
+                                                        ThumbColor="Black"
+                                                        Toggled="Switch_Toggled" />
+                                                </VerticalStackLayout>
+                                            </Grid>
+                                            <Grid
+                                                ColumnDefinitions="*,*"
+                                                ColumnSpacing="6"
+                                                IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}">
+                                                <Border
+                                                    Grid.Column="0"
+                                                    Padding="8,4,8,4"
+                                                    StrokeShape="6"
+                                                    StrokeThickness="1">
+
+                                                    <Border.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.EditAppointmentCommand, Source={x:Reference AdminClinicPage}}" CommandParameter="{Binding .}" />
+                                                    </Border.GestureRecognizers>
+
+                                                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                                                        <Label
+                                                            FontFamily="AppIcons"
+                                                            FontSize="12"
+                                                            Text="&#xe80b;" />
+                                                        <Label FontSize="12" Text="Editar" />
+                                                    </HorizontalStackLayout>
+                                                </Border>
+                                                <Border
+                                                    Grid.Column="1"
+                                                    Padding="8,4,8,4"
+                                                    BackgroundColor="Red"
+                                                    StrokeShape="6"
+                                                    StrokeThickness="1">
+
+                                                    <Border.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.RemoveAppointmentCommand, Source={x:Reference AdminClinicPage}}" CommandParameter="{Binding .}" />
+                                                    </Border.GestureRecognizers>
+
+                                                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                                                        <Label
+                                                            FontFamily="AppIcons"
+                                                            FontSize="12"
+                                                            Text="&#xe80a;"
+                                                            TextColor="White" />
+                                                        <Label
+                                                            FontSize="12"
+                                                            Text="Remover"
+                                                            TextColor="White" />
+                                                    </HorizontalStackLayout>
+                                                </Border>
+                                            </Grid>
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+                <!--#endregion-->
+
+                <!--#region  AVAILABILITIES-->
+
+                <VerticalStackLayout IsVisible="{Binding SelectedTab, Converter={StaticResource SelectedValueToBoolConverter}, ConverterParameter=2}" Spacing="15">
+                    <Border Shadow="{StaticResource BottomShadow}" Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout Spacing="12">
+                            <VerticalStackLayout Spacing="6">
+                                <HorizontalStackLayout Spacing="10">
+                                    <Label
+                                        FontFamily="AppIcons"
+                                        Text="&#xe801;"
+                                        TextColor="Black"
+                                        VerticalTextAlignment="Center" />
+                                    <Label
+                                        FontFamily="Semibold"
+                                        FontSize="13"
+                                        Text="Horários de funcionamento" />
+                                </HorizontalStackLayout>
+                                <Label
+                                    FontSize="12"
+                                    Text="Gerencie os horários em que a clínica estará aberta e disponível para atendimentos"
+                                    TextColor="Gray" />
+                            </VerticalStackLayout>
+
+                            <CollectionView ItemSizingStrategy="MeasureAllItems" ItemsSource="{Binding AvailabilitiesClinic}">
+                                <CollectionView.ItemsLayout>
+                                    <LinearItemsLayout ItemSpacing="6" Orientation="Vertical" />
+                                </CollectionView.ItemsLayout>
+
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Padding="10" Style="{StaticResource MasterBorderStyle}">
+                                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="4">
+                                                <VerticalStackLayout Grid.Column="0">
+                                                    <Label
+                                                        FontFamily="Semibold"
+                                                        FontSize="13"
+                                                        Text="{Binding Model.Daytype, Converter={StaticResource IntToDayOfWeekConverter}}"
+                                                        VerticalTextAlignment="Center" />
+                                                    <HorizontalStackLayout
+                                                        Grid.Column="1"
+                                                        IsVisible="{Binding IsActive}"
+                                                        Spacing="2"
+                                                        VerticalOptions="End">
+                                                        <controls:CustomTimePicker Time="{Binding Model.Starttime}" WidthRequest="67" />
+                                                        <Label
+                                                            FontFamily="Semibold"
+                                                            FontSize="13"
+                                                            Text="às"
+                                                            VerticalTextAlignment="Center" />
+                                                        <controls:CustomTimePicker Time="{Binding Model.Endtime}" WidthRequest="67" />
+                                                    </HorizontalStackLayout>
+                                                    <Label
+                                                        Margin="0,10,0,0"
+                                                        FontSize="12"
+                                                        IsVisible="{Binding IsActive, Converter={StaticResource InverseBoolConverter}}"
+                                                        Text="[Clínica fechada neste dia]"
+                                                        TextColor="Gray"
+                                                        VerticalTextAlignment="End" />
+                                                </VerticalStackLayout>
+                                                <VerticalStackLayout Grid.Column="1">
+                                                    <Border
+                                                        Padding="8,2,8,2"
+                                                        BackgroundColor="{Binding IsActive, Converter={StaticResource SelectedValueToBackgroundColorAppointmentStatusConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                                        HorizontalOptions="End"
+                                                        IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
+                                                        Stroke="Transparent"
+                                                        StrokeShape="4">
+                                                        <Label
+                                                            FontAttributes="Bold"
+                                                            FontSize="10"
+                                                            Text="{Binding IsActive, Converter={StaticResource SelectedValueToStringAvailabilityDayOfWeekClinicConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                                            TextColor="{Binding IsActive, Converter={StaticResource SelectedValueToTextColorAppointmentStatusConverter}, ConverterParameter={StaticResource TrueParam}}" />
+                                                    </Border>
+                                                    <ActivityIndicator
+                                                        HeightRequest="50"
+                                                        HorizontalOptions="End"
+                                                        IsRunning="{Binding IsBusy}"
+                                                        IsVisible="{Binding IsBusy}"
+                                                        WidthRequest="50" />
+                                                    <Switch
+                                                        FlowDirection="RightToLeft"
+                                                        IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
+                                                        IsToggled="{Binding IsActive, Converter={StaticResource SelectedValueToBoolConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                                        OnColor="LightSeaGreen"
+                                                        ThumbColor="Black"
+                                                        Toggled="Switch_Toggled" />
+                                                </VerticalStackLayout>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+
+                            <Border
+                                Margin="0,5,0,0"
+                                Padding="5"
+                                BackgroundColor="Black"
+                                Stroke="Transparent"
+                                StrokeShape="6">
+
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding UpdateAvailabilitiesClinicCommand}" />
+                                </Border.GestureRecognizers>
+
+                                <Label
+                                    FontFamily="Semibold"
+                                    FontSize="13"
+                                    HorizontalTextAlignment="Center"
+                                    Text="Salvar Horários"
+                                    TextColor="White" />
+                            </Border>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border
+                        Margin="0,0,0,10"
+                        Shadow="{StaticResource BottomShadow}"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout Spacing="12">
+                            <VerticalStackLayout Spacing="6">
+                                <HorizontalStackLayout Spacing="10">
+                                    <Label
+                                        FontFamily="AppIcons"
+                                        Text="&#xf133;"
+                                        TextColor="Black"
+                                        VerticalTextAlignment="Center" />
+                                    <Label
+                                        FontFamily="Semibold"
+                                        FontSize="13"
+                                        Text="Feriados" />
+                                </HorizontalStackLayout>
+                                <Label
+                                    FontSize="12"
+                                    Text="Defina os feriados em que a clínica não funcionará"
+                                    TextColor="Gray" />
+                            </VerticalStackLayout>
+
+                            <Border
+                                Padding="10"
+                                BackgroundColor="#f9fafb"
+                                StrokeShape="8">
+                                <toolkit:Expander x:Name="AddHolidayExpander" ExpandedChanged="Expander_ExpandedChanged">
+                                    <toolkit:Expander.Header>
+                                        <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
+                                            <Label FontSize="12" Text="Adicionar Feriado" />
+                                            <Label
+                                                x:Name="AddHolidayIconLabelExpand"
+                                                ClassId="IconLabelExpand"
+                                                FontFamily="AppIcons"
+                                                FontSize="12"
+                                                Text="&#xe80e;"
+                                                TextColor="Black" />
+                                        </FlexLayout>
+                                    </toolkit:Expander.Header>
+
+                                    <toolkit:Expander.Content>
+                                        <StackLayout Margin="0,20,0,0" Spacing="10">
+                                            <Border
+                                                Padding="0,5,0,5"
+                                                BackgroundColor="{StaticResource BackgroundGray}"
+                                                Stroke="Transparent"
+                                                StrokeShape="4">
+                                                <FlexLayout AlignItems="Center" Direction="Row">
+                                                    <Entry
+                                                        FlexLayout.Grow="1"
+                                                        FontSize="12"
+                                                        Placeholder="Nome do feriado"
+                                                        PlaceholderColor="DarkGray"
+                                                        Text="{Binding HolidayName}" />
+                                                </FlexLayout>
+                                            </Border>
+                                            <Border
+                                                Padding="0,5,0,5"
+                                                BackgroundColor="{StaticResource BackgroundGray}"
+                                                StrokeShape="4"
+                                                StrokeThickness="0.5">
+                                                <FlexLayout AlignItems="Center">
+                                                    <controls:FullWidthDatePicker
+                                                        BackgroundColor="Transparent"
+                                                        Date="{Binding HolidayDate}"
+                                                        FlexLayout.Basis="0%"
+                                                        FlexLayout.Grow="1"
+                                                        FontSize="12"
+                                                        HorizontalOptions="Fill"
+                                                        MaximumDate="{Binding LastDayOfYear}"
+                                                        MinimumDate="{Binding FirstDayOfYear}"
+                                                        MinimumWidthRequest="0"
+                                                        VerticalOptions="Center" />
+                                                </FlexLayout>
+                                            </Border>
+                                            <Border
+                                                Margin="0,5,0,0"
+                                                Padding="5"
+                                                BackgroundColor="Black"
+                                                Stroke="Transparent"
+                                                StrokeShape="6">
+
+                                                <Border.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding AddNewHolidayCommand}" />
+                                                </Border.GestureRecognizers>
+
+                                                <Label
+                                                    FontFamily="Semibold"
+                                                    FontSize="12"
+                                                    HorizontalTextAlignment="Center"
+                                                    TextColor="White">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span FontFamily="AppIcons" Text="&#xe80e;" />
+                                                            <Span FontFamily="Semibold" Text="   Adicionar Feriado" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                            </Border>
+                                        </StackLayout>
+                                    </toolkit:Expander.Content>
+                                </toolkit:Expander>
+                            </Border>
+
+                            <CollectionView ItemsSource="{Binding Holidays}">
+                                <CollectionView.ItemsLayout>
+                                    <LinearItemsLayout ItemSpacing="6" Orientation="Vertical" />
+                                </CollectionView.ItemsLayout>
+
+                                <CollectionView.EmptyView>
+                                    <StackLayout Padding="20,10,20,10" Spacing="10">
+                                        <Label
+                                            FontFamily="AppIcons"
+                                            FontSize="Large"
+                                            HorizontalTextAlignment="Center"
+                                            Text="&#xe810;"
+                                            TextColor="Gray" />
+                                        <Label
+                                            FontFamily="Semibold"
+                                            FontSize="12"
+                                            HorizontalTextAlignment="Center"
+                                            Text="Ops... Para que nenhum feriado foi cadastrado ainda" />
+                                    </StackLayout>
+                                </CollectionView.EmptyView>
+
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Padding="10" Style="{StaticResource MasterBorderStyle}">
+                                            <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
+                                                <VerticalStackLayout Spacing="4">
+                                                    <Label
+                                                        FontFamily="Semibold"
+                                                        FontSize="13"
+                                                        Text="{Binding Holidayname}" />
+                                                    <Label
+                                                        FontSize="12"
+                                                        Text="{Binding Holidaydate, Converter={StaticResource DateOnlyToStringConverter}}"
+                                                        TextColor="Gray" />
+                                                </VerticalStackLayout>
+                                                <Border
+                                                    Padding="8,6,8,6"
+                                                    BackgroundColor="Red"
+                                                    Stroke="Transparent"
+                                                    StrokeShape="4"
+                                                    VerticalOptions="Center">
+
+                                                    <Border.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.DropHolidayCommand, Source={x:Reference AdminClinicPage}}" CommandParameter="{Binding .}" />
+                                                    </Border.GestureRecognizers>
+
+                                                    <Label
+                                                        FontFamily="AppIcons"
+                                                        FontSize="12"
+                                                        Text="&#xe80a;"
+                                                        TextColor="White" />
+                                                </Border>
+                                            </FlexLayout>
+                                        </Border>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+                <!--#endregion-->
+
+                <!--#region CONFIGS-->
+
+                <VerticalStackLayout
+                    IsVisible="{Binding SelectedTab, Converter={StaticResource SelectedValueToBoolConverter}, ConverterParameter=3}"
+                    Shadow="{StaticResource BottomShadow}"
+                    Spacing="15">
+                    <Border Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout Spacing="12">
+                            <VerticalStackLayout Spacing="6">
+                                <HorizontalStackLayout Spacing="10">
+                                    <Label
+                                        FontFamily="AppIcons"
+                                        Text="&#xe82f;"
+                                        TextColor="Black"
+                                        VerticalTextAlignment="Center" />
+                                    <Label
+                                        FontFamily="Semibold"
+                                        FontSize="13"
+                                        Text="Configurações do Sistema" />
+                                </HorizontalStackLayout>
+                                <Label
+                                    FontSize="12"
+                                    Text="Configure o funcionamento geral do Aplicativo"
+                                    TextColor="Gray" />
+                            </VerticalStackLayout>
+
+                            <CollectionView ItemSizingStrategy="MeasureAllItems" ItemsSource="{Binding Configs}">
+                                <CollectionView.ItemsLayout>
+                                    <LinearItemsLayout ItemSpacing="6" Orientation="Vertical" />
+                                </CollectionView.ItemsLayout>
+
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Padding="10,8,10,8" Style="{StaticResource MasterBorderStyle}">
+                                            <VerticalStackLayout Padding="0,0,0,5" Spacing="0">
+                                                <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
+                                                    <Label
+                                                        FontFamily="Semibold"
+                                                        FontSize="13"
+                                                        Text="{Binding Model.Name}" />
+                                                    <ActivityIndicator
+                                                        HeightRequest="20"
+                                                        IsRunning="{Binding IsBusy}"
+                                                        IsVisible="{Binding IsBusy}"
+                                                        WidthRequest="20" />
+                                                </FlexLayout>
+                                                <Grid ColumnDefinitions="*,Auto" IsVisible="{Binding Model.Valueisbool, Converter={StaticResource SByteToBoolConverter}}">
+                                                    <Label
+                                                        Grid.Column="0"
+                                                        FontSize="12"
+                                                        Text="{Binding Model.Description}"
+                                                        TextColor="Gray"
+                                                        VerticalTextAlignment="Center" />
+                                                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                                        <Border
+                                                            Padding="8,2,8,2"
+                                                            BackgroundColor="{Binding IsActive, Converter={StaticResource SelectedValueToBackgroundColorAppointmentStatusConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                                            HorizontalOptions="End"
+                                                            IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
+                                                            Stroke="Transparent"
+                                                            StrokeShape="4">
+                                                            <Label
+                                                                FontAttributes="Bold"
+                                                                FontSize="10"
+                                                                Text="{Binding IsActive, Converter={StaticResource SelectedValueToStringAppointmentStatusConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                                                TextColor="{Binding IsActive, Converter={StaticResource SelectedValueToTextColorAppointmentStatusConverter}, ConverterParameter={StaticResource TrueParam}}" />
+                                                        </Border>
+                                                        <controls:CustomSwitch
+                                                            FlowDirection="RightToLeft"
+                                                            IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
+                                                            IsToggled="{Binding IsActive, Converter={StaticResource SelectedValueToBoolConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                                            OffColor="White"
+                                                            OnColor="LightSeaGreen"
+                                                            SwitchHeight="23"
+                                                            SwitchWidth="43"
+                                                            ThumbColor="Black"
+                                                            ThumbSize="12"
+                                                            Toggled="Switch_Toggled" />
+                                                    </VerticalStackLayout>
+                                                </Grid>
+
+                                                <Grid
+                                                    Margin="0,18,0,0"
+                                                    ColumnDefinitions="*,Auto"
+                                                    ColumnSpacing="4"
+                                                    IsVisible="{Binding Model.Valueisbool, Converter={StaticResource InverseSbyteToBoolConverter}}">
+                                                    <Border
+                                                        Grid.Column="0"
+                                                        BackgroundColor="#f2f2f5"
+                                                        IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
+                                                        Stroke="Transparent"
+                                                        StrokeShape="RoundRectangle 8">
+                                                        <FlexLayout AlignItems="Center">
+                                                            <Entry
+                                                                BackgroundColor="Transparent"
+                                                                FlexLayout.Grow="1"
+                                                                Keyboard="Numeric"
+                                                                Placeholder="Valor"
+                                                                PlaceholderColor="DarkGray"
+                                                                Text="{Binding Model.Value}"
+                                                                TextColor="Black" />
+                                                        </FlexLayout>
+                                                    </Border>
+                                                    <Border
+                                                        Grid.Column="1"
+                                                        Padding="8,4,8,4"
+                                                        BackgroundColor="DarkGreen"
+                                                        IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
+                                                        Stroke="Transparent"
+                                                        StrokeShape="4"
+                                                        VerticalOptions="Center">
+
+                                                        <Border.GestureRecognizers>
+                                                            <TapGestureRecognizer Command="{Binding BindingContext.UpdateNotBoolConfigCommand, Source={x:Reference AdminClinicPage}}" CommandParameter="{Binding .}" />
+                                                        </Border.GestureRecognizers>
+
+                                                        <Label
+                                                            FontFamily="AppIcons"
+                                                            FontSize="12"
+                                                            Text="&#xe803;"
+                                                            TextColor="White" />
+                                                    </Border>
+                                                </Grid>
+                                            </VerticalStackLayout>
+                                        </Border>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+                <!--#endregion-->
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentView>

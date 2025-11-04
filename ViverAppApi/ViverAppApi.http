@@ -1,0 +1,6 @@
+@ViverAppApi_HostAddress = http://localhost:5218
+
+GET {{ViverAppApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

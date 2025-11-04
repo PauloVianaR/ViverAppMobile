@@ -1,0 +1,189 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
+		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
+		<!-- <TargetFrameworks>$(TargetFrameworks);net9.0-tizen</TargetFrameworks> -->
+
+		<!-- Note for MacCatalyst:
+		The default runtime is maccatalyst-x64, except in Release config, in which case the default is maccatalyst-x64;maccatalyst-arm64.
+		When specifying both architectures, use the plural <RuntimeIdentifiers> instead of the singular <RuntimeIdentifier>.
+		The Mac App Store will NOT accept apps with ONLY maccatalyst-arm64 indicated;
+		either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
+		<!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
+
+		<OutputType>Exe</OutputType>
+		<RootNamespace>ViverAppMobile</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>    
+
+		<!-- Display name -->
+		<ApplicationTitle>Viver</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>com.vivercompany.viverappmobile</ApplicationId>
+
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
+		<WindowsPackageType>None</WindowsPackageType>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">23.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>$(NoWarn);MVVMTK0045</NoWarn>
+    <NoWarn>$(NoWarn);XC0022</NoWarn>
+    <NoWarn>$(NoWarn);CA1416</NoWarn>
+    <NoWarn>$(NoWarn);XC0025</NoWarn>
+    <NoWarn>$(NoWarn);NU1608</NoWarn>
+    <NoWarn>$(NoWarn);XA0141</NoWarn>
+    <EnforceCodeStyleInBuild>False</EnforceCodeStyleInBuild>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <DefaultLanguage>pt-br</DefaultLanguage>
+    <AndroidEnableAapt2>true</AndroidEnableAapt2>
+    <AndroidUseLatestPlatformSdk>true</AndroidUseLatestPlatformSdk>
+    <AndroidLinkMode>None</AndroidLinkMode>
+    <!--RunAOTCompilation>true</RunAOTCompilation-->
+  </PropertyGroup>
+
+	<ItemGroup>
+		<!-- App Icon -->
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#FFFFFF" />
+
+		<!-- Splash Screen -->
+    <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#FFFFFF" BaseSize="512,512" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+    
+    <!-- AppSettings -->
+    <EmbeddedResource Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+
+    		<!-- Custom Fonts -->
+    <!-- <MauiFont Include="Resources\Fonts\*" /> -->
+    <MauiFont Include="Resources\Fonts\OpenSans-Regular.ttf" />
+    <MauiFont Include="Resources\Fonts\OpenSans-Semibold.ttf" Alias="Semibold" />
+    <MauiFont Include="Resources\Fonts\fontello.ttf" Alias="AppIcons" />
+
+    <!-- Roboto padrão -->
+    <MauiFont Include="Resources\Fonts\Roboto-Regular.ttf" Alias="Roboto" />
+    <MauiFont Include="Resources\Fonts\Roboto-Bold.ttf" Alias="RobotoBold" />
+    <MauiFont Include="Resources\Fonts\Roboto-BoldItalic.ttf" Alias="RobotoBoldItalic" />
+    <MauiFont Include="Resources\Fonts\Roboto-Italic.ttf" Alias="RobotoItalic" />
+    <MauiFont Include="Resources\Fonts\Roboto-Light.ttf" Alias="RobotoLight" />
+    <MauiFont Include="Resources\Fonts\Roboto-LightItalic.ttf" Alias="RobotoLightItalic" />
+    <MauiFont Include="Resources\Fonts\Roboto-Medium.ttf" Alias="RobotoMedium" />
+    <MauiFont Include="Resources\Fonts\Roboto-MediumItalic.ttf" Alias="RobotoMediumItalic" />
+    <MauiFont Include="Resources\Fonts\Roboto-SemiBold.ttf" Alias="RobotoSemiBold" />
+    <MauiFont Include="Resources\Fonts\Roboto-SemiBoldItalic.ttf" Alias="RobotoSemiBoldItalic" />
+    <MauiFont Include="Resources\Fonts\Roboto-Black.ttf" Alias="RobotoBlack" />
+    <MauiFont Include="Resources\Fonts\Roboto-BlackItalic.ttf" Alias="RobotoBlackItalic" />
+    <MauiFont Include="Resources\Fonts\Roboto-ExtraBold.ttf" Alias="RobotoExtraBold" />
+    <MauiFont Include="Resources\Fonts\Roboto-ExtraBoldItalic.ttf" Alias="RobotoExtraBoldItalic" />
+    <MauiFont Include="Resources\Fonts\Roboto-ExtraLight.ttf" Alias="RobotoExtraLight" />
+    <MauiFont Include="Resources\Fonts\Roboto-ExtraLightItalic.ttf" Alias="RobotoExtraLightItalic" />
+
+    <!-- Roboto SemiCondensed -->
+    <MauiFont Include="Resources\Fonts\Roboto_SemiCondensed-Regular.ttf" Alias="RobotoSemiCondensed" />
+    <MauiFont Include="Resources\Fonts\Roboto_SemiCondensed-Bold.ttf" Alias="RobotoSemiCondensedBold" />
+    <MauiFont Include="Resources\Fonts\Roboto_SemiCondensed-BoldItalic.ttf" Alias="RobotoSemiCondensedBoldItalic" />
+    <MauiFont Include="Resources\Fonts\Roboto_SemiCondensed-Light.ttf" Alias="RobotoSemiCondensedLight" />
+    <MauiFont Include="Resources\Fonts\Roboto_SemiCondensed-LightItalic.ttf" Alias="RobotoSemiCondensedLightItalic" />
+    <MauiFont Include="Resources\Fonts\Roboto_SemiCondensed-Medium.ttf" Alias="RobotoSemiCondensedMedium" />
+    <MauiFont Include="Resources\Fonts\Roboto_SemiCondensed-MediumItalic.ttf" Alias="RobotoSemiCondensedMediumItalic" />
+    <MauiFont Include="Resources\Fonts\Roboto_SemiCondensed-SemiBold.ttf" Alias="RobotoSemiCondensedSemiBold" />
+    <MauiFont Include="Resources\Fonts\Roboto_SemiCondensed-SemiBoldItalic.ttf" Alias="RobotoSemiCondensedSemiBoldItalic" />
+    <MauiFont Include="Resources\Fonts\Roboto_SemiCondensed-Thin.ttf" Alias="RobotoSemiCondensedThin" />
+    <MauiFont Include="Resources\Fonts\Roboto_SemiCondensed-ThinItalic.ttf" Alias="RobotoSemiCondensedThinItalic" />
+
+
+    <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <AndroidResource Remove="Platforms\Android\Resources\xml\network_security_config.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiAsset Remove="Resources\Raw\pagamentosucesso.html" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="WebControls\call.html" />
+	  <None Remove="WebControls\loading.html" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="Resources\Raw\pagamentosucesso.html" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiAsset Include="WebControls\call.html">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </MauiAsset>
+	  <MauiAsset Include="WebControls\loading.html">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </MauiAsset>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui" Version="10.0.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="LiveChartsCore.SkiaSharpView.Maui" Version="2.0.0-rc6.1" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="9.0.10" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.8" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
+		<PackageReference Include="Mopups" Version="1.3.4" />
+		<PackageReference Include="Polly" Version="8.6.3" />
+		<PackageReference Include="Syncfusion.Maui.Calendar" Version="30.2.7" />
+		<PackageReference Include="WebRTCme" Version="2.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\ViverApp.Shared\ViverApp.Shared.csproj" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
+	  <PackageReference Include="Xamarin.Firebase.Messaging">
+	    <Version>124.0.3</Version>
+	  </PackageReference>
+	</ItemGroup>
+
+  <ItemGroup>
+    <GoogleServicesJson Include="Platforms/Android/google-services.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Controls\SkeletonView.xaml.cs">
+      <DependentUpon>SkeletonView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\SkeletonControl.xaml.cs">
+      <DependentUpon>SkeletonControl.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <MauiXaml Update="Controls\SkeletonView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Controls\SkeletonControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\General\PaymentSuccessfulPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+  </ItemGroup>
+</Project>

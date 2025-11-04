@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="ViverAppMobile.Controls.SkeletonView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:ViverAppMobile.Controls">
+    <controls:SkeletonControl x:Name="Skeleton" IsVisible="False">
+        <VerticalStackLayout Spacing="6">
+            <Border
+                Margin="10"
+                Padding="60"
+                Background="{StaticResource ShimmerBrush}"
+                StrokeShape="12"
+                StrokeThickness="0.5" />
+
+            <Grid
+                ColumnDefinitions="*,*"
+                ColumnSpacing="10"
+                RowDefinitions="*,*"
+                RowSpacing="10">
+                <Border
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="10"
+                    Padding="40"
+                    Background="{StaticResource ShimmerBrush}"
+                    StrokeShape="12"
+                    StrokeThickness="0.5" />
+                <Border
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="10"
+                    Padding="40"
+                    Background="{StaticResource ShimmerBrush}"
+                    StrokeShape="12"
+                    StrokeThickness="0.5" />
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="10"
+                    Padding="40"
+                    Background="{StaticResource ShimmerBrush}"
+                    StrokeShape="12"
+                    StrokeThickness="0.5" />
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="10"
+                    Padding="40"
+                    Background="{StaticResource ShimmerBrush}"
+                    StrokeShape="12"
+                    StrokeThickness="0.5" />
+            </Grid>
+
+            <Grid Padding="16" ColumnSpacing="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border
+                    Background="{StaticResource ShimmerBrush}"
+                    HeightRequest="48"
+                    StrokeShape="24"
+                    WidthRequest="48" />
+
+                <StackLayout Grid.Column="1" Spacing="6">
+                    <BoxView
+                        Background="{StaticResource ShimmerBrush}"
+                        CornerRadius="4"
+                        HeightRequest="14" />
+                    <BoxView
+                        Background="{StaticResource ShimmerBrush}"
+                        CornerRadius="4"
+                        HeightRequest="12" />
+                    <BoxView
+                        Margin="0,8,0,0"
+                        Background="{StaticResource ShimmerBrush}"
+                        CornerRadius="6"
+                        HeightRequest="18" />
+                </StackLayout>
+            </Grid>
+
+            <Grid Padding="16" ColumnSpacing="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border
+                    Background="{StaticResource ShimmerBrush}"
+                    HeightRequest="48"
+                    StrokeShape="24"
+                    WidthRequest="48" />
+
+                <StackLayout Grid.Column="1" Spacing="6">
+                    <BoxView
+                        Background="{StaticResource ShimmerBrush}"
+                        CornerRadius="4"
+                        HeightRequest="14" />
+                    <BoxView
+                        Background="{StaticResource ShimmerBrush}"
+                        CornerRadius="4"
+                        HeightRequest="12" />
+                    <BoxView
+                        Margin="0,8,0,0"
+                        Background="{StaticResource ShimmerBrush}"
+                        CornerRadius="6"
+                        HeightRequest="18" />
+                </StackLayout>
+            </Grid>
+
+            <Border
+                Margin="10"
+                Padding="60"
+                Background="{StaticResource ShimmerBrush}"
+                StrokeShape="12"
+                StrokeThickness="0.5" />
+        </VerticalStackLayout>
+    </controls:SkeletonControl>
+</ContentView>

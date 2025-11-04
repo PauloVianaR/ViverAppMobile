@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mopups:PopupPage
+    x:Class="ViverAppMobile.Views.Popups.AppointmentAttachmentsPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+    x:Name="AppointmentAttachmentsPage"
+    BackgroundColor="#80000000">
+    <Border
+        HeightRequest="500"
+        MaximumHeightRequest="500"
+        Style="{StaticResource BorderPopupStyle}">
+        <ScrollView>
+            <Grid RowDefinitions="*,Auto">
+                <VerticalStackLayout Grid.Row="0" Spacing="12">
+                    <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
+                        <Label FontSize="16" TextColor="Black">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span FontFamily="AppIcons" Text="&#xe820;" />
+                                    <Span FontFamily="Semibold" Text="  Anexos do Atendimento" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label
+                            FontFamily="AppIcons"
+                            FontSize="12"
+                            Text="&#xe81e;"
+                            TextColor="Gray">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="BackButtonPressed" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </FlexLayout>
+
+                    <Label
+                        FontSize="12"
+                        Text="Arquivos relacionados ao atendimento finalizado"
+                        TextColor="Gray" />
+
+                    <CollectionView x:Name="AttachmentsCollection">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="6" Orientation="Vertical" />
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.EmptyView>
+                            <ContentView BindingContext="Ops... Parece que este atendimento não possui anexos." ControlTemplate="{StaticResource EmptyStateTemplate}" />
+                        </CollectionView.EmptyView>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    Padding="8"
+                                    BackgroundColor="{StaticResource BackgroundGray}"
+                                    Stroke="Transparent"
+                                    StrokeShape="6">
+                                    <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="10">
+                                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                            <Label
+                                                FontFamily="Semibold"
+                                                FontSize="11"
+                                                Text="{Binding Filename}" />
+                                            <Label FontSize="11" TextColor="Gray">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding Size, FallbackValue=0, TargetNullValue=0}" />
+                                                        <Span Text="KB" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                        </VerticalStackLayout>
+                                        <Border
+                                            Grid.Column="1"
+                                            Padding="8"
+                                            BackgroundColor="White"
+                                            StrokeShape="6">
+
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding BindingContext.DownloadFileAsyncCommand, Source={x:Reference AppointmentAttachmentsPage}}" CommandParameter="{Binding .}" />
+                                            </Border.GestureRecognizers>
+
+                                            <Label FontFamily="AppIcons" Text="&#xf02e;" />
+                                        </Border>
+                                        <Border
+                                            Grid.Column="2"
+                                            Padding="8"
+                                            BackgroundColor="White"
+                                            IsVisible="{Binding BindingContext.Isnotpatient, Source={x:Reference AppointmentAttachmentsPage}}"
+                                            StrokeShape="6">
+
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding BindingContext.DeleteFileAsyncCommand, Source={x:Reference AppointmentAttachmentsPage}}" CommandParameter="{Binding .}" />
+                                            </Border.GestureRecognizers>
+
+                                            <Label
+                                                FontFamily="AppIcons"
+                                                Text="&#xe81e;"
+                                                TextColor="Red" />
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+
+                <Border
+                    x:Name="UploadMoreButton"
+                    Grid.Row="1"
+                    Padding="10"
+                    StrokeThickness="0.8"
+                    Style="{StaticResource MasterBorderStyle}">
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="UploadFile" />
+                    </Border.GestureRecognizers>
+
+                    <Label HorizontalTextAlignment="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontFamily="AppIcons" Text="&#xf02f;" />
+                                <Span Text="   Anexar Arquivo" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </Border>
+            </Grid>
+        </ScrollView>
+    </Border>
+</mopups:PopupPage>

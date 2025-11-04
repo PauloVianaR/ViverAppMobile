@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ViverAppMobile.Views.Patient.PatientTabbedPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:ViverAppMobile.Converters"
+    xmlns:vm="clr-namespace:ViverAppMobile.ViewModels.Patient"
+    BackgroundColor="White">
+
+    <ContentPage.BindingContext>
+        <vm:PatientMainPageViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:TabColorConverter x:Key="TabColorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!--  HEADER  -->
+        <FlexLayout
+            Grid.Row="0"
+            Padding="12"
+            BackgroundColor="#145efc"
+            Direction="Row"
+            JustifyContent="SpaceBetween">
+
+            <StackLayout Spacing="10">
+                <FlexLayout AlignItems="Center" Direction="Row">
+                    <Label
+                        FontFamily="Semibold"
+                        FontSize="18"
+                        Text="Viver"
+                        TextColor="White" />
+                </FlexLayout>
+                <HorizontalStackLayout Spacing="10">
+                    <Label TextColor="White">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Olá, " />
+                                <Span Text="{Binding UserName}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Border
+                        Padding="10,2,10,2"
+                        BackgroundColor="#2b80ff"
+                        Stroke="Transparent"
+                        StrokeShape="RoundRectangle 6">
+                        <HorizontalStackLayout Spacing="5">
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="11"
+                                Text="&#xe812;"
+                                TextColor="White"
+                                VerticalOptions="Center" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="11"
+                                Text="Paciente"
+                                TextColor="White" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="AppIcons"
+                                FontSize="11"
+                                IsVisible="{Binding IsUserPremium}"
+                                Text="&#xe80f;"
+                                TextColor="Gold"
+                                VerticalTextAlignment="Center" />
+                        </HorizontalStackLayout>
+                    </Border>
+                </HorizontalStackLayout>
+            </StackLayout>
+
+            <Label
+                FontFamily="AppIcons"
+                FontSize="15"
+                HorizontalOptions="Center"
+                Text="&#xf02d;"
+                TextColor="White"
+                VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding LoggoutCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
+        </FlexLayout>
+
+        <!--  BODY  -->
+        <ContentView
+            x:Name="MainContent"
+            Grid.Row="1"
+            Content="{Binding CurrentView}" />
+
+        <!--  FOOTER  -->
+        <Border Grid.Row="2">
+            <Grid
+                BackgroundColor="White"
+                ColumnDefinitions="*,*,*,*,*"
+                HeightRequest="60">
+
+                <Grid.Resources>
+                    <Style x:Key="TabItemStyle" TargetType="VerticalStackLayout">
+                        <Setter Property="Padding" Value="0,5,0,0" />
+                        <Setter Property="HorizontalOptions" Value="Center" />
+                        <Setter Property="VerticalOptions" Value="Center" />
+                        <Setter Property="Spacing" Value="7" />
+                    </Style>
+                </Grid.Resources>
+
+                <VerticalStackLayout Grid.Column="0" Style="{StaticResource TabItemStyle}">
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectedTabCommand}">
+                            <TapGestureRecognizer.CommandParameter>
+                                <x:Int32>0</x:Int32>
+                            </TapGestureRecognizer.CommandParameter>
+                        </TapGestureRecognizer>
+                    </VerticalStackLayout.GestureRecognizers>
+                    <Label
+                        FontFamily="AppIcons"
+                        FontSize="15"
+                        HorizontalOptions="Center"
+                        Text="&#xe807;"
+                        TextColor="{Binding SelectedIndex, Converter={StaticResource TabColorConverter}, ConverterParameter=0}" />
+                    <Label
+                        FontSize="12"
+                        HorizontalOptions="Center"
+                        Text="Início"
+                        TextColor="{Binding SelectedIndex, Converter={StaticResource TabColorConverter}, ConverterParameter=0}" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="1" Style="{StaticResource TabItemStyle}">
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectedTabCommand}">
+                            <TapGestureRecognizer.CommandParameter>
+                                <x:Int32>1</x:Int32>
+                            </TapGestureRecognizer.CommandParameter>
+                        </TapGestureRecognizer>
+                    </VerticalStackLayout.GestureRecognizers>
+                    <Label
+                        FontFamily="AppIcons"
+                        FontSize="15"
+                        HorizontalOptions="Center"
+                        Text="&#xf133;"
+                        TextColor="{Binding SelectedIndex, Converter={StaticResource TabColorConverter}, ConverterParameter=1}" />
+                    <Label
+                        FontSize="12"
+                        HorizontalOptions="Center"
+                        Text="Agendar"
+                        TextColor="{Binding SelectedIndex, Converter={StaticResource TabColorConverter}, ConverterParameter=1}" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="2" Style="{StaticResource TabItemStyle}">
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectedTabCommand}">
+                            <TapGestureRecognizer.CommandParameter>
+                                <x:Int32>2</x:Int32>
+                            </TapGestureRecognizer.CommandParameter>
+                        </TapGestureRecognizer>
+                    </VerticalStackLayout.GestureRecognizers>
+                    <Label
+                        FontFamily="AppIcons"
+                        FontSize="15"
+                        HorizontalOptions="Center"
+                        Text="&#xe801;"
+                        TextColor="{Binding SelectedIndex, Converter={StaticResource TabColorConverter}, ConverterParameter=2}" />
+                    <Label
+                        FontSize="12"
+                        HorizontalOptions="Center"
+                        Text="Agenda"
+                        TextColor="{Binding SelectedIndex, Converter={StaticResource TabColorConverter}, ConverterParameter=2}" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout
+                    Grid.Column="3"
+                    Spacing="6"
+                    Style="{StaticResource TabItemStyle}">
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectedTabCommand}">
+                            <TapGestureRecognizer.CommandParameter>
+                                <x:Int32>3</x:Int32>
+                            </TapGestureRecognizer.CommandParameter>
+                        </TapGestureRecognizer>
+                    </VerticalStackLayout.GestureRecognizers>
+                    <Label
+                        Margin="0,-2,0,0"
+                        FontFamily="AppIcons"
+                        FontSize="18"
+                        HorizontalOptions="Center"
+                        Text="&#xe805;"
+                        TextColor="{Binding SelectedIndex, Converter={StaticResource TabColorConverter}, ConverterParameter=3}" />
+                    <Label
+                        FontSize="12"
+                        HorizontalOptions="Center"
+                        Text="Pagamento"
+                        TextColor="{Binding SelectedIndex, Converter={StaticResource TabColorConverter}, ConverterParameter=3}" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="4" Style="{StaticResource TabItemStyle}">
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectedTabCommand}">
+                            <TapGestureRecognizer.CommandParameter>
+                                <x:Int32>4</x:Int32>
+                            </TapGestureRecognizer.CommandParameter>
+                        </TapGestureRecognizer>
+                    </VerticalStackLayout.GestureRecognizers>
+                    <Label
+                        FontFamily="AppIcons"
+                        FontSize="15"
+                        HorizontalOptions="Center"
+                        Text="&#xe812;"
+                        TextColor="{Binding SelectedIndex, Converter={StaticResource TabColorConverter}, ConverterParameter=4}" />
+                    <Label
+                        FontSize="12"
+                        HorizontalOptions="Center"
+                        Text="Perfil"
+                        TextColor="{Binding SelectedIndex, Converter={StaticResource TabColorConverter}, ConverterParameter=4}" />
+                </VerticalStackLayout>
+
+            </Grid>
+        </Border>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mopups:PopupPage
+    x:Class="ViverAppMobile.Views.Popups.CompleteSchedulePopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converter="clr-namespace:ViverAppMobile.Converters"
+    xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+    x:Name="CompleteSchedulePage"
+    BackgroundColor="#80000000">
+    <Border
+        HeightRequest="730"
+        MaximumHeightRequest="730"
+        Style="{StaticResource BorderPopupStyle}">
+
+        <Border.Resources>
+            <ResourceDictionary>
+                <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
+                <converter:DateTimeToStringConverter x:Key="DateTimeToHoursStringConverter" CurrentFormat="HH:mm" />
+                <converter:DateTimeToStringConverter x:Key="DateTimeToDateStringConverter" CurrentFormat="dd/MM/yyyy" />
+                <converter:DateOnlyToStringConverter x:Key="DateOnlyToStringConverter" CurrentFormat="age" />
+                <converter:SByteToBoolConverter x:Key="SByteToBoolConverter" />
+                <converter:AppointmentTypeToColorConverter x:Key="AppointmentTypeToColorConverter" />
+                <converter:AppointmentTypeToStringConverter
+                    x:Key="AppointmentTypeToICONConverter"
+                    ConsultationText="&#xe811;   Consulta"
+                    ExaminationText="&#xe817;   Exame"
+                    SurgeryText="&#xe806;   Cirurgia" />
+                <converter:BoolToDoubleConverter
+                    x:Key="BoolToDoubleConverter"
+                    DoubleForFalse="0.5"
+                    DoubleForTrue="1" />
+            </ResourceDictionary>
+        </Border.Resources>
+
+        <ScrollView>
+            <VerticalStackLayout Spacing="16">
+                <VerticalStackLayout Spacing="8">
+                    <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
+                        <Label FontSize="16" TextColor="Black">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span
+                                        FontFamily="AppIcons"
+                                        FontSize="20"
+                                        Text="&#xf0f6;"
+                                        TextColor="MediumBlue" />
+                                    <Span FontFamily="Semibold" Text="  Finalizar Atendimento" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label
+                            FontFamily="AppIcons"
+                            FontSize="12"
+                            Text="&#xe81e;"
+                            TextColor="Gray">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="BackButtonPressed" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </FlexLayout>
+                    <Label
+                        FontSize="12"
+                        HorizontalTextAlignment="Center"
+                        Text="Preencha o laudo e/ou anexe os documentos necessários para concluir o atendimento"
+                        TextColor="Gray" />
+                </VerticalStackLayout>
+
+                <Border Padding="10" Style="{StaticResource MasterBorderStyle}">
+                    <VerticalStackLayout Spacing="14">
+                        <Label
+                            FontFamily="Semibold"
+                            FontSize="14"
+                            Text="Informações do Atendimento" />
+
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+                            <Border
+                                Grid.Column="0"
+                                Padding="10,8,10,8"
+                                BackgroundColor="{StaticResource BackgroundBlue}"
+                                Stroke="Transparent"
+                                StrokeShape="40">
+                                <Label
+                                    FontFamily="AppIcons"
+                                    Text="&#xe812;"
+                                    TextColor="Blue"
+                                    VerticalTextAlignment="Center" />
+                            </Border>
+
+                            <VerticalStackLayout
+                                Grid.Column="1"
+                                Spacing="3"
+                                VerticalOptions="Center">
+                                <HorizontalStackLayout Spacing="6">
+                                    <Label
+                                        FontFamily="Semibold"
+                                        FontSize="13"
+                                        LineBreakMode="TailTruncation"
+                                        MaxLines="1"
+                                        Text="{Binding UserSchedule.UserName}" />
+                                    <Border
+                                        Padding="6,2,6,2"
+                                        StrokeShape="6"
+                                        StrokeThickness="0.7"
+                                        Style="{StaticResource MasterBorderStyle}">
+                                        <Label
+                                            FontSize="11"
+                                            HorizontalTextAlignment="Center"
+                                            Text="{Binding UserSchedule.PatientBirthDate, Converter={StaticResource DateOnlyToStringConverter}}" />
+                                    </Border>
+                                </HorizontalStackLayout>
+
+                                <Label
+                                    FontSize="12"
+                                    LineBreakMode="TailTruncation"
+                                    MaxLines="2"
+                                    Text="{Binding UserSchedule.AppointmentTitle}"
+                                    TextColor="Gray"
+                                    VerticalTextAlignment="Center" />
+
+                                <HorizontalStackLayout Spacing="30">
+                                    <Label FontSize="11" TextColor="Gray">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span FontFamily="AppIcons" Text="&#xf133;" />
+                                                <Span Text="  " />
+                                                <Span Text="{Binding UserSchedule.AppointmentDate, Converter={StaticResource DateTimeToDateStringConverter}}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label FontSize="11" TextColor="Gray">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span FontFamily="AppIcons" Text="&#xe801;" />
+                                                <Span Text="  " />
+                                                <Span Text="{Binding UserSchedule.AppointmentDate, Converter={StaticResource DateTimeToHoursStringConverter}}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout
+                                Grid.Column="2"
+                                Spacing="2"
+                                VerticalOptions="Center">
+                                <Grid RowDefinitions="*,*" RowSpacing="4">
+                                    <Border
+                                        Grid.Row="0"
+                                        Padding="6,3,6,3"
+                                        BackgroundColor="{Binding UserSchedule.AppointmentType, Converter={StaticResource AppointmentTypeToColorConverter}}"
+                                        Stroke="Transparent"
+                                        StrokeShape="4">
+                                        <Label
+                                            FontFamily="AppIcons"
+                                            FontSize="11"
+                                            Text="{Binding UserSchedule.AppointmentType, Converter={StaticResource AppointmentTypeToICONConverter}}"
+                                            TextColor="White"
+                                            VerticalTextAlignment="End" />
+                                    </Border>
+                                    <Border
+                                        Grid.Row="1"
+                                        Padding="6,3,6,3"
+                                        BackgroundColor="#f3e8ff"
+                                        IsVisible="{Binding UserSchedule.IsOnline, Converter={StaticResource SByteToBoolConverter}}"
+                                        Stroke="Transparent"
+                                        StrokeShape="4">
+                                        <Label
+                                            FontSize="10"
+                                            HorizontalTextAlignment="Center"
+                                            TextColor="Purple">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span FontFamily="AppIcons" Text="&#xe802;" />
+                                                    <Span Text="  Online" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </Border>
+                                </Grid>
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <Border
+                            Padding="10"
+                            BackgroundColor="{StaticResource BackgroundGray}"
+                            Stroke="Transparent"
+                            Style="{StaticResource MasterBorderStyle}">
+                            <Label
+                                FontSize="12"
+                                LineBreakMode="TailTruncation"
+                                LineHeight="1.3"
+                                MaxLines="3">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span FontAttributes="Bold" Text="Observações: " />
+                                        <Span Text="{Binding UserSchedule.Obs}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
+
+                <VerticalStackLayout Spacing="4">
+                    <HorizontalStackLayout Spacing="8">
+                        <Label
+                            FontFamily="Semibold"
+                            FontSize="12"
+                            Text="Laudo do Atendimento" />
+                        <Label
+                            FontSize="16"
+                            IsVisible="{Binding CanFinalize, Converter={StaticResource InverseBoolConverter}}"
+                            Text="*"
+                            TextColor="Red"
+                            VerticalTextAlignment="End" />
+                    </HorizontalStackLayout>
+                    <Border
+                        FlexLayout.Grow="1"
+                        Stroke="Transparent"
+                        StrokeShape="8">
+                        <Editor
+                            x:Name="MedicalReportEditor"
+                            AutoSize="TextChanges"
+                            BackgroundColor="{StaticResource BackgroundGray}"
+                            FontSize="12"
+                            MinimumHeightRequest="150"
+                            Placeholder="Descreva os procedimentos realizados, observações, clínicas, resultados do atendimento, diagnóstico, prescrição, recomendações e etc...&#x0a;&#x0a;Obs: esta caixa de texto é expansível, então você consegue preenchê-la a vontade."
+                            PlaceholderColor="Gray"
+                            TextChanged="MedicalReportEditor_TextChanged" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="4">
+                    <Label
+                        FontFamily="Semibold"
+                        FontSize="12"
+                        Text="Anexos" />
+                    <Border
+                        StrokeDashArray="4"
+                        StrokeThickness="1"
+                        Style="{StaticResource MasterBorderStyle}">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="UploadFile" />
+                        </Border.GestureRecognizers>
+
+                        <VerticalStackLayout HorizontalOptions="Center" Spacing="8">
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="24"
+                                HorizontalTextAlignment="Center"
+                                Text="&#xf02f;"
+                                TextColor="Gray" />
+                            <Label
+                                FontSize="13"
+                                HorizontalTextAlignment="Center"
+                                Text="Clique aqui para fazer upload de arquivos"
+                                TextColor="Gray" />
+                            <Label
+                                FontSize="11"
+                                HorizontalTextAlignment="Center"
+                                LineHeight="1.3"
+                                Text="Formatos aceitos: PDF, JPG, JPEG, PNG, DOC, DOCX, TXT (máx. 10MB cada)"
+                                TextColor="Gray" />
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+                <CollectionView x:Name="AttachmentsCollection">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="4" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Padding="8"
+                                BackgroundColor="{StaticResource BackgroundGray}"
+                                Stroke="Transparent"
+                                StrokeShape="6">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                    <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                        <Label
+                                            FontFamily="Semibold"
+                                            FontSize="11"
+                                            Text="{Binding Filename}" />
+                                        <Label FontSize="11" TextColor="Gray">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding Size, FallbackValue=0, TargetNullValue=0}" />
+                                                    <Span Text="KB" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </VerticalStackLayout>
+                                    <Border
+                                        Grid.Column="1"
+                                        Padding="8"
+                                        BackgroundColor="White"
+                                        StrokeShape="6">
+
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding BindingContext.DeleteFileAsyncCommand, Source={x:Reference CompleteSchedulePage}}" CommandParameter="{Binding .}" />
+                                        </Border.GestureRecognizers>
+
+                                        <Label
+                                            FontFamily="AppIcons"
+                                            Text="&#xe81e;"
+                                            TextColor="Red" />
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Border />
+
+                <Border
+                    Padding="10"
+                    BackgroundColor="#fffbeb"
+                    Stroke="OrangeRed"
+                    StrokeThickness="0.3"
+                    Style="{StaticResource MasterBorderStyle}">
+                    <VerticalStackLayout Spacing="6">
+                        <HorizontalStackLayout Spacing="10">
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="12"
+                                Text="&#xe839;"
+                                TextColor="DarkRed" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="12"
+                                Text="Importante"
+                                TextColor="DarkRed" />
+                        </HorizontalStackLayout>
+
+                        <Label
+                            FontSize="11"
+                            Text="Após finalizar o atendimento, o mesmo será marcado como realizado e o laudo será disponibilizado para o paciente"
+                            TextColor="DarkRed" />
+                        <Label
+                            FontSize="11"
+                            Text="Esta ação de finalizar o atendimento não pode ser desfeita, no entanto o laudo e os anexos poderão ser alterados por você a qualquer momento na aba 'HISTÓRICO'."
+                            TextColor="DarkRed" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border
+                    Padding="6"
+                    BackgroundColor="Green"
+                    Opacity="{Binding CanFinalize, Converter={StaticResource BoolToDoubleConverter}}"
+                    Style="{StaticResource MasterBorderStyle}">
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="FinalizeSchedule" />
+                    </Border.GestureRecognizers>
+
+                    <Label
+                        FontSize="12"
+                        HorizontalTextAlignment="Center"
+                        TextColor="White">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontFamily="AppIcons" Text="&#xe803;" />
+                                <Span FontFamily="Semibold" Text="   Finalizar e Gerar Laudo" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Border>
+</mopups:PopupPage>

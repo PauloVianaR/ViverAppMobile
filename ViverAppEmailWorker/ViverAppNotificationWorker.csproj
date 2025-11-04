@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-ViverAppNotificationWorker-7c90116e-a889-4129-aaca-b238dbfa6756</UserSecretsId>
+    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <DockerfileContext>..\ViverAppMobile</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Credentials\viverappmobilemaui-firebase-adminsdk-fbsvc-488e62cbb3.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Credentials\viverappmobilemaui-firebase-adminsdk-fbsvc-488e62cbb3.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FirebaseAdmin" Version="3.4.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.8" />
+    <PackageReference Include="System.Threading.Tasks.Dataflow" Version="9.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ViverApp.Shared\ViverApp.Shared.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,1095 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="ViverAppMobile.Views.Patient.PaymentView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:ViverAppMobile.Behaviors"
+    xmlns:controls="clr-namespace:ViverAppMobile.Controls"
+    xmlns:converter="clr-namespace:ViverAppMobile.Converters"
+    xmlns:sys="clr-namespace:System;assembly=netstandard"
+    xmlns:vm="clr-namespace:ViverAppMobile.ViewModels.Patient"
+    x:Name="PaymentPage"
+    BackgroundColor="{StaticResource PageBackground}">
+
+    <ContentView.BindingContext>
+        <vm:PatientPaymentViewModel />
+    </ContentView.BindingContext>
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converter:DecimalToBrlMoneyConverter x:Key="DecimalToBrlMoneyConverter" />
+            <converter:SByteToBoolConverter x:Key="SByteToBoolConverter" />
+            <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
+            <converter:SelectedValueToDoubleConverter x:Key="SelectedValueToDoubleConverter" />
+            <converter:SelectedValueToBoolConverter x:Key="SelectedValueToBoolConverter" />
+            <converter:SelectedValueToDoubleConverter
+                x:Key="SelectedValueToOpacityConverter"
+                SelectedValue="1"
+                UnselectedValue="0.7" />
+            <converter:DateTimeToStringConverter x:Key="DateTimeToStringConverter" CurrentFormat="dd/MM/yyyy" />
+            <converter:DateTimeToStringConverter x:Key="DateTimeWeekDayToStringConverter" CurrentFormat="dd/MM/yyyy 'às' HH:mm" />
+            <converter:SByteToStringConverter
+                x:Key="SByteToStringConverter"
+                TextForFalse="presencial"
+                TextForTrue="pelo App" />
+            <converter:SelectedValueToColorConverter
+                x:Key="SelectedValueToIconColorConverter"
+                SelectedColor="Gray"
+                UnselectedColor="Green" />
+            <converter:SelectedValueToColorConverter
+                x:Key="SelectedValueToColorConverter"
+                SelectedColor="White"
+                UnselectedColor="Transparent" />
+            <converter:InverseSelectedValueToColorConverter
+                x:Key="InverseSelectedValueToColorConverter"
+                SelectedColor="White"
+                UnselectedColor="Transparent" />
+            <converter:SelectedValueToColorConverter
+                x:Key="SelectedValueToBackgroundColorConverter"
+                SelectedColor="{StaticResource BackgroundBlue}"
+                UnselectedColor="White" />
+            <converter:SelectedValueToColorConverter
+                x:Key="SelectedValueToBorderColorConverter"
+                SelectedColor="{StaticResource BorderBlue}"
+                UnselectedColor="LightGray" />
+            <converter:SByteToStringConverter
+                x:Key="SbyteToStringOnlineTextConverter"
+                TextForFalse="Pague online ou presencialmente"
+                TextForTrue="Consulta online só pode ser paga pelo aplicativo" />
+            <converter:SByteToColorConverter
+                x:Key="SbyteToColorOnlineConverter"
+                SelectedColor="#b110fa"
+                UnselectedColor="CornflowerBlue" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <RefreshView Command="{Binding ReloadPageCommand}" IsRefreshing="{Binding IsRefresing}">
+        <ScrollView x:Name="MainScroll">
+            <VerticalStackLayout Padding="15" Spacing="15">
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        FontFamily="Semibold"
+                        FontSize="18"
+                        HorizontalOptions="Center"
+                        Text="Pagamentos"
+                        VerticalOptions="Center" />
+                    <Label
+                        FontFamily=""
+                        FontSize="14"
+                        HorizontalTextAlignment="Center"
+                        Text="Gerencie os pagamentos das suas consultas"
+                        TextColor="Gray" />
+                </VerticalStackLayout>
+
+                <!--#region TABS-->
+                <Border
+                    Padding="3"
+                    BackgroundColor="#DDDDDD"
+                    Stroke="LightGray"
+                    StrokeShape=" RoundRectangle 12">
+                    <FlexLayout
+                        Direction="Row"
+                        HorizontalOptions="Center"
+                        JustifyContent="SpaceAround">
+                        <Border
+                            BackgroundColor="{Binding ShowingPaymentSide, Converter={StaticResource SelectedValueToColorConverter}, ConverterParameter={StaticResource TrueParam}}"
+                            FlexLayout.Grow="1"
+                            HeightRequest="26"
+                            StrokeShape="RoundRectangle 18"
+                            StrokeThickness="0"
+                            VerticalOptions="Center">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ShowPaymentSideCommand}" />
+                            </Border.GestureRecognizers>
+
+                            <Label
+                                HorizontalOptions="Center"
+                                Text="Pagar"
+                                TextColor="Black"
+                                VerticalOptions="Center" />
+                        </Border>
+
+                        <Border
+                            BackgroundColor="{Binding ShowingPaymentSide, Converter={StaticResource InverseSelectedValueToColorConverter}, ConverterParameter={StaticResource TrueParam}}"
+                            FlexLayout.Grow="1"
+                            HeightRequest="26"
+                            StrokeShape="RoundRectangle 18"
+                            StrokeThickness="0"
+                            VerticalOptions="Center">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ShowHistoricSideCommand}" />
+                            </Border.GestureRecognizers>
+
+                            <Label
+                                HorizontalOptions="Center"
+                                Text="Histórico"
+                                TextColor="Black"
+                                VerticalOptions="Center" />
+                        </Border>
+                    </FlexLayout>
+                </Border>
+                <!--#endregion-->
+
+                <!--#region PAYMENT-->
+                <VerticalStackLayout
+                    Margin="0,0,0,20"
+                    IsVisible="{Binding ShowingPaymentSide}"
+                    Shadow="{StaticResource BottomShadow}"
+                    Spacing="15">
+                    <Border Padding="20,20,20,0" Style="{StaticResource MasterBorderStyle}">
+                        <StackLayout Spacing="10">
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span FontFamily="AppIcons" Text="&#xe801;" />
+                                        <Span FontFamily="Semibold" Text="  Consultas Pendentes" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label
+                                FontSize="12"
+                                Text="Selecione uma consulta para efetuar o pagamento"
+                                TextColor="Gray" />
+
+                            <StackLayout
+                                Margin="20,20,20,20"
+                                IsVisible="{Binding UserHasPendingPayments, Converter={StaticResource InverseBoolConverter}}"
+                                Spacing="15">
+                                <Label
+                                    FontFamily="AppIcons"
+                                    FontSize="35"
+                                    HorizontalTextAlignment="Center"
+                                    Text="&#xe801;"
+                                    TextColor="Gray" />
+                                <Label
+                                    FontFamily="Semibold"
+                                    HorizontalTextAlignment="Center"
+                                    Text="Nenhum atendimento pendente" />
+                                <Label
+                                    HorizontalTextAlignment="Center"
+                                    LineHeight="1.3"
+                                    Text="Você não possui atendimentos agendados que necessitem pagamento"
+                                    TextColor="Gray" />
+                                <Border
+                                    Padding="10"
+                                    BackgroundColor="{StaticResource BackgroundBlue}"
+                                    Stroke="{StaticResource BorderBlue}"
+                                    StrokeShape="6"
+                                    StrokeThickness="0.5">
+                                    <StackLayout Spacing="15">
+                                        <Label
+                                            FontFamily="Semibold"
+                                            FontSize="12"
+                                            HorizontalTextAlignment="Center"
+                                            Text="Que tal marcar um atendimento?"
+                                            TextColor="DarkBlue" />
+                                        <Label
+                                            FontSize="12"
+                                            HorizontalTextAlignment="Center"
+                                            LineHeight="1.3"
+                                            Text="Agende um atendimento oftamológico com nossos especialistas e cuide da sua saúde ocular"
+                                            TextColor="Blue" />
+                                        <Border
+                                            Padding="10,7,10,7"
+                                            BackgroundColor="#155dfc"
+                                            HorizontalOptions="Center"
+                                            Stroke="Transparent"
+                                            StrokeShape="6">
+
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding SwitchToSchedulePageCommand}" />
+                                            </Border.GestureRecognizers>
+
+                                            <HorizontalStackLayout Spacing="10">
+                                                <Label
+                                                    FontFamily="AppIcons"
+                                                    FontSize="12"
+                                                    Text="&#xf133;"
+                                                    TextColor="White"
+                                                    VerticalOptions="Center" />
+                                                <Label
+                                                    FontFamily="Semibold"
+                                                    FontSize="12"
+                                                    Text="Agendar Atendimento"
+                                                    TextColor="White" />
+                                            </HorizontalStackLayout>
+                                        </Border>
+                                    </StackLayout>
+                                </Border>
+                            </StackLayout>
+
+                            <CollectionView
+                                Margin="0,0,0,10"
+                                IsVisible="{Binding UserHasPendingPayments}"
+                                ItemSizingStrategy="MeasureAllItems"
+                                ItemsSource="{Binding PendingAppointments}">
+
+                                <CollectionView.ItemsLayout>
+                                    <LinearItemsLayout ItemSpacing="6" Orientation="Vertical" />
+                                </CollectionView.ItemsLayout>
+
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <FlexLayout Direction="Column">
+                                            <Border
+                                                Padding="10"
+                                                BackgroundColor="{Binding BackgroundColor}"
+                                                Stroke="{Binding BorderColor}"
+                                                StrokeShape="8">
+
+                                                <Border.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding BindingContext.SetSelectedScheduleIdCommand, Source={x:Reference PaymentPage}}" CommandParameter="{Binding Model.IdSchedule}" />
+                                                </Border.GestureRecognizers>
+
+                                                <Grid ColumnDefinitions="*,Auto">
+                                                    <VerticalStackLayout Grid.Column="0" Spacing="8">
+                                                        <HorizontalStackLayout Spacing="10">
+                                                            <Label
+                                                                FontFamily="Semibold"
+                                                                FontSize="12"
+                                                                Text="{Binding Model.ProfessionalDoctorName}"
+                                                                VerticalOptions="Center" />
+                                                            <Border
+                                                                Padding="5,2,5,2"
+                                                                BackgroundColor="{StaticResource LightPurple}"
+                                                                IsVisible="{Binding Model.IsOnline, Converter={StaticResource SByteToBoolConverter}}"
+                                                                Stroke="Transparent"
+                                                                StrokeShape="4">
+                                                                <Label FontSize="11" TextColor="Purple">
+                                                                    <Label.FormattedText>
+                                                                        <FormattedString>
+                                                                            <Span FontFamily="AppIcons" Text="&#xe802;" />
+                                                                            <Span FontFamily="Semibold" Text=" Online" />
+                                                                        </FormattedString>
+                                                                    </Label.FormattedText>
+                                                                </Label>
+                                                            </Border>
+                                                        </HorizontalStackLayout>
+                                                        <Grid ColumnDefinitions="2*,*" ColumnSpacing="10">
+                                                            <Label
+                                                                FontSize="12"
+                                                                LineBreakMode="WordWrap"
+                                                                Text="{Binding Model.AppointmentDate, Converter={StaticResource DateTimeWeekDayToStringConverter}}"
+                                                                TextColor="Gray" />
+                                                        </Grid>
+                                                        <Label
+                                                            FlexLayout.Grow="1"
+                                                            FontSize="12"
+                                                            Text="{Binding Model.AppointmentTitle}"
+                                                            TextColor="Gray" />
+                                                        <Label
+                                                            Margin="0,5,0,5"
+                                                            FlexLayout.Grow="1"
+                                                            FontSize="11"
+                                                            HorizontalOptions="Fill"
+                                                            LineBreakMode="WordWrap"
+                                                            Text="{Binding Model.IsOnline, Converter={StaticResource SbyteToStringOnlineTextConverter}}"
+                                                            TextColor="{Binding Model.IsOnline, Converter={StaticResource SbyteToColorOnlineConverter}}"
+                                                            VerticalOptions="Fill" />
+                                                    </VerticalStackLayout>
+                                                    <VerticalStackLayout
+                                                        Grid.Column="1"
+                                                        Spacing="4"
+                                                        VerticalOptions="Center">
+                                                        <Label FontFamily="Semibold" Text="{Binding Model.AppointmentPrice, Converter={StaticResource DecimalToBrlMoneyConverter}}" />
+                                                        <Border
+                                                            Padding="5,2,5,2"
+                                                            BackgroundColor="#fef9c2"
+                                                            Stroke="Orange"
+                                                            StrokeShape="6"
+                                                            StrokeThickness="0.5">
+                                                            <Label
+                                                                FontSize="11"
+                                                                HorizontalTextAlignment="Center"
+                                                                Text="Pendente"
+                                                                TextColor="DarkRed" />
+                                                        </Border>
+                                                    </VerticalStackLayout>
+                                                </Grid>
+                                            </Border>
+                                        </FlexLayout>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </StackLayout>
+                    </Border>
+
+                    <Border
+                        IsVisible="{Binding UserHasPendingPayments}"
+                        Shadow="{StaticResource BottomShadow}"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <StackLayout Spacing="20">
+                            <StackLayout Spacing="6">
+                                <Label>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontFamily="AppIcons" Text="&#xf155;" />
+                                            <Span
+                                                FontFamily="Semibold"
+                                                FontSize="13"
+                                                Text="  Como deseja pagar?" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label
+                                    FontSize="12"
+                                    Text="Escolha se pagará pelo aplicativo ou na hora da consulta"
+                                    TextColor="Gray" />
+                            </StackLayout>
+
+                            <StackLayout Margin="0,10" Spacing="12">
+                                <Border
+                                    Padding="10"
+                                    BackgroundColor="{StaticResource LightPurple}"
+                                    IsVisible="{Binding SelectedScheduleIsOnline}"
+                                    Stroke="Purple"
+                                    StrokeShape="6"
+                                    StrokeThickness="0.3">
+                                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                                        <Label
+                                            Grid.Column="0"
+                                            Padding="0,5"
+                                            FontFamily="AppIcons"
+                                            FontSize="10"
+                                            Text="&#xe821;"
+                                            TextColor="Purple"
+                                            VerticalOptions="Start" />
+                                        <StackLayout Grid.Column="1" Spacing="6">
+                                            <Label
+                                                FontFamily="Semibold"
+                                                FontSize="12"
+                                                Text="Consulta Online:"
+                                                TextColor="Purple" />
+                                            <Label
+                                                FontSize="11"
+                                                Text="Esta consulta só pode ser paga pelo aplicativo, pois será realizada virtualmente"
+                                                TextColor="#b110fa" />
+                                        </StackLayout>
+                                    </Grid>
+                                </Border>
+
+                                <Grid ColumnDefinitions="*,*" ColumnSpacing="20">
+                                    <Border
+                                        Grid.Column="0"
+                                        Padding="14"
+                                        BackgroundColor="{Binding IsPayingOnline, Converter={StaticResource SelectedValueToBackgroundColorConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                        Stroke="{Binding IsPayingOnline, Converter={StaticResource SelectedValueToBorderColorConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                        Style="{StaticResource MasterBorderStyle}">
+
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding TooglePayingOnlineCommand}" CommandParameter="{StaticResource TrueParam}" />
+                                        </Border.GestureRecognizers>
+
+                                        <StackLayout Spacing="12">
+                                            <Label
+                                                FontFamily="AppIcons"
+                                                FontSize="Medium"
+                                                HorizontalTextAlignment="Center"
+                                                Text="&#xe82a;"
+                                                TextColor="CornflowerBlue" />
+                                            <StackLayout Spacing="2">
+                                                <Label
+                                                    FontFamily="Semibold"
+                                                    FontSize="13"
+                                                    HorizontalTextAlignment="Center"
+                                                    Text="Pelo Aplicativo" />
+                                                <Label
+                                                    FontSize="12"
+                                                    HorizontalTextAlignment="Center"
+                                                    Text="Pague agora pelo app"
+                                                    TextColor="Gray" />
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </Border>
+                                    <Border
+                                        Grid.Column="1"
+                                        Padding="16"
+                                        BackgroundColor="{Binding IsPayingOnline, Converter={StaticResource SelectedValueToBackgroundColorConverter}, ConverterParameter={StaticResource FalseParam}}"
+                                        Opacity="{Binding SelectedScheduleIsOnline, Converter={StaticResource SelectedValueToDoubleConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                        Stroke="{Binding IsPayingOnline, Converter={StaticResource SelectedValueToBorderColorConverter}, ConverterParameter={StaticResource FalseParam}}"
+                                        Style="{StaticResource MasterBorderStyle}">
+
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding TooglePayingOnlineCommand}" CommandParameter="{StaticResource FalseParam}" />
+                                        </Border.GestureRecognizers>
+
+                                        <StackLayout Spacing="12">
+                                            <Label
+                                                FontFamily="AppIcons"
+                                                FontSize="Medium"
+                                                HorizontalTextAlignment="Center"
+                                                Text="&#xe800;"
+                                                TextColor="{Binding SelectedScheduleIsOnline, Converter={StaticResource SelectedValueToIconColorConverter}, ConverterParameter={StaticResource TrueParam}}" />
+                                            <StackLayout Spacing="2">
+                                                <Label
+                                                    FontFamily="Semibold"
+                                                    FontSize="13"
+                                                    HorizontalTextAlignment="Center"
+                                                    Text="Na Hora" />
+                                                <Label
+                                                    FontSize="12"
+                                                    HorizontalTextAlignment="Center"
+                                                    Text="Pague na clínica"
+                                                    TextColor="Gray" />
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </Border>
+                                </Grid>
+                                <Border
+                                    Margin="0,6,0,0"
+                                    Padding="10"
+                                    IsVisible="{Binding IsPayingOnline, Converter={StaticResource InverseBoolConverter}}"
+                                    Style="{StaticResource MasterBorderStyle}">
+                                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                        <Label
+                                            Grid.Column="0"
+                                            FontFamily="AppIcons"
+                                            Text="&#xf0d6;" />
+                                        <Label
+                                            Grid.Column="1"
+                                            FontSize="12"
+                                            Text="O pagamento deverá ser feito diretamente na recepção da clínica no dia da consulta."
+                                            TextColor="Gray" />
+                                    </Grid>
+                                </Border>
+                            </StackLayout>
+
+                        </StackLayout>
+                    </Border>
+
+                    <StackLayout
+                        IsVisible="{Binding UserHasPendingPayments}"
+                        Shadow="{StaticResource BottomShadow}"
+                        Spacing="10">
+                        <Border IsVisible="{Binding IsPayingOnline}" Style="{StaticResource MasterBorderStyle}">
+                            <StackLayout Spacing="20">
+                                <StackLayout Spacing="6">
+                                    <Label>
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span FontFamily="AppIcons" Text="&#xe805;" />
+                                                <Span
+                                                    FontFamily="Semibold"
+                                                    FontSize="13"
+                                                    Text="  Forma de Pagamento" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label FontSize="12" TextColor="Gray">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Escolha como pagar " />
+                                                <Span Text="pelo aplicativo" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </StackLayout>
+
+                                <Grid
+                                    ColumnDefinitions="*,*"
+                                    ColumnSpacing="20"
+                                    RowDefinitions="*,*"
+                                    RowSpacing="10">
+                                    <Border
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Padding="14"
+                                        BackgroundColor="{Binding SelectedPayMethod, Converter={StaticResource SelectedValueToBackgroundColorConverter}, ConverterParameter={StaticResource Index1}}"
+                                        Stroke="{Binding SelectedPayMethod, Converter={StaticResource SelectedValueToBorderColorConverter}, ConverterParameter={StaticResource Index1}}"
+                                        Style="{StaticResource MasterBorderStyle}">
+
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding SetSelectedPayMethodCommand}" CommandParameter="{StaticResource Index1}" />
+                                        </Border.GestureRecognizers>
+
+                                        <StackLayout Spacing="8">
+                                            <Label
+                                                FontFamily="AppIcons"
+                                                FontSize="Medium"
+                                                HorizontalTextAlignment="Center"
+                                                Text="&#xe805;"
+                                                TextColor="Black" />
+                                            <Label
+                                                FontSize="13"
+                                                HorizontalTextAlignment="Center"
+                                                Text="Cartão de Crédito"
+                                                TextColor="Black" />
+                                        </StackLayout>
+                                    </Border>
+                                    <Border
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Padding="16"
+                                        BackgroundColor="{Binding SelectedPayMethod, Converter={StaticResource SelectedValueToBackgroundColorConverter}, ConverterParameter={StaticResource Index2}}"
+                                        Stroke="{Binding SelectedPayMethod, Converter={StaticResource SelectedValueToBorderColorConverter}, ConverterParameter={StaticResource Index2}}"
+                                        Style="{StaticResource MasterBorderStyle}">
+
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding SetSelectedPayMethodCommand}" CommandParameter="{StaticResource Index2}" />
+                                        </Border.GestureRecognizers>
+
+                                        <StackLayout Spacing="8">
+                                            <Label
+                                                FontFamily="AppIcons"
+                                                FontSize="Medium"
+                                                HorizontalTextAlignment="Center"
+                                                Text="&#xe805;"
+                                                TextColor="Black" />
+                                            <Label
+                                                FontSize="13"
+                                                HorizontalTextAlignment="Center"
+                                                Text="Cartão de Débito"
+                                                TextColor="Black" />
+                                        </StackLayout>
+                                    </Border>
+                                    <Border
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Padding="14"
+                                        BackgroundColor="{Binding SelectedPayMethod, Converter={StaticResource SelectedValueToBackgroundColorConverter}, ConverterParameter={StaticResource Index3}}"
+                                        Stroke="{Binding SelectedPayMethod, Converter={StaticResource SelectedValueToBorderColorConverter}, ConverterParameter={StaticResource Index3}}"
+                                        Style="{StaticResource MasterBorderStyle}">
+
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding SetSelectedPayMethodCommand}" CommandParameter="{StaticResource Index3}" />
+                                        </Border.GestureRecognizers>
+
+                                        <StackLayout Spacing="8">
+                                            <Label
+                                                FontFamily="AppIcons"
+                                                FontSize="Medium"
+                                                HorizontalTextAlignment="Center"
+                                                Text="&#xe82b;"
+                                                TextColor="Black"
+                                                VerticalTextAlignment="End" />
+                                            <Label
+                                                FontSize="13"
+                                                HorizontalTextAlignment="Center"
+                                                Text="PIX"
+                                                TextColor="Black" />
+                                        </StackLayout>
+                                    </Border>
+                                    <Border
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Padding="16"
+                                        BackgroundColor="{Binding SelectedPayMethod, Converter={StaticResource SelectedValueToBackgroundColorConverter}, ConverterParameter={StaticResource Index5}}"
+                                        Stroke="{Binding SelectedPayMethod, Converter={StaticResource SelectedValueToBorderColorConverter}, ConverterParameter={StaticResource Index5}}"
+                                        Style="{StaticResource MasterBorderStyle}">
+
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding SetSelectedPayMethodCommand}" CommandParameter="{StaticResource Index5}" />
+                                        </Border.GestureRecognizers>
+
+                                        <FlexLayout AlignItems="Center" JustifyContent="Center">
+                                            <StackLayout Spacing="8">
+                                                <Label
+                                                    FontFamily="AppIcons"
+                                                    FontSize="Medium"
+                                                    HorizontalTextAlignment="Center"
+                                                    Text="&#xf0f6;"
+                                                    TextColor="Black" />
+                                                <Label
+                                                    FontSize="13"
+                                                    HorizontalTextAlignment="Center"
+                                                    Text="Boleto"
+                                                    TextColor="Black" />
+                                            </StackLayout>
+                                        </FlexLayout>
+                                    </Border>
+                                </Grid>
+
+                                <StackLayout Spacing="8">
+                                    <Border
+                                        Margin="0,6,0,0"
+                                        Padding="10"
+                                        Style="{StaticResource MasterBorderStyle}">
+                                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                            <Image
+                                                Grid.Column="0"
+                                                HorizontalOptions="Start"
+                                                MaximumHeightRequest="30"
+                                                Source="pagbankicon.png"
+                                                VerticalOptions="Center" />
+                                            <Label
+                                                Grid.Column="1"
+                                                FontSize="12"
+                                                Text="Seu pagamento será aberto em uma nova tela e processado pelo PagBank"
+                                                TextColor="Gray" />
+                                        </Grid>
+                                    </Border>
+                                </StackLayout>
+                            </StackLayout>
+                        </Border>
+                    </StackLayout>
+
+                    <Border
+                        Padding="14,8,14,8"
+                        BackgroundColor="Black"
+                        IsVisible="{Binding UserHasPendingPayments}"
+                        Opacity="{Binding CanPayOrConfirm, Converter={StaticResource SelectedValueToOpacityConverter}, ConverterParameter={StaticResource TrueParam}}"
+                        Stroke="Transparent"
+                        StrokeShape="6">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding PayOrConfirmCommand}" />
+                        </Border.GestureRecognizers>
+
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="13"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding PayButtonText}"
+                            TextColor="White" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <!--#endregion-->
+
+                <!--#region HISTORIC-->
+                <Border
+                    Padding="0,20,0,20"
+                    IsVisible="{Binding ShowingPaymentSide, Converter={StaticResource InverseBoolConverter}}"
+                    Shadow="{StaticResource BottomShadow}"
+                    Style="{StaticResource MasterBorderStyle}">
+                    <StackLayout Spacing="20">
+                        <!--#region HEADER-->
+                        <FlexLayout
+                            Padding="20,0,20,0"
+                            Direction="Row"
+                            JustifyContent="SpaceBetween">
+                            <Label VerticalOptions="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span FontFamily="AppIcons" Text="&#xf155;" />
+                                        <Span Text="  Pagamentos Realizados" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Border
+                                Padding="10,6,10,6"
+                                BackgroundColor="{Binding IsShowingFilters, Converter={StaticResource SelectedValueToBackgroundColorConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                Stroke="{Binding IsShowingFilters, Converter={StaticResource SelectedValueToBorderColorConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                StrokeShape="6"
+                                Style="{StaticResource MasterBorderStyle}">
+
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ToogleShowingFilterCommand}" />
+                                </Border.GestureRecognizers>
+
+                                <Label FontSize="12">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontFamily="AppIcons" Text="&#xe810;" />
+                                            <Span Text="    Filtros" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </Border>
+                        </FlexLayout>
+
+                        <StackLayout IsVisible="{Binding IsShowingFilters}" Spacing="6">
+                            <Border Margin="20,0,20,0" StrokeThickness="0.4" />
+                            <FlexLayout Margin="20,0,20,0" JustifyContent="SpaceBetween">
+                                <Label FontSize="13" TextColor="Gray">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding PaymentsHistoriCount}" />
+                                            <Span Text="  resultado(s)" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label FontSize="13" TextColor="Gray">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span
+                                                FontFamily="AppIcons"
+                                                FontSize="11"
+                                                Text="&#xe81e;" />
+                                            <Span Text="  Limpar" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ReloadPageCommand}" />
+                                    </Label.GestureRecognizers>
+
+                                </Label>
+                            </FlexLayout>
+                        </StackLayout>
+
+                        <!--#endregion-->
+
+                        <!--#region FILTERS-->
+                        <Border
+                            BackgroundColor="#f9fafb"
+                            IsVisible="{Binding IsShowingFilters}"
+                            StrokeThickness="0.7">
+                            <StackLayout>
+                                <Grid
+                                    ColumnDefinitions="*,*"
+                                    ColumnSpacing="20"
+                                    RowDefinitions="*,*,*"
+                                    RowSpacing="12">
+                                    <StackLayout
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Padding="15,4,0,0"
+                                        Spacing="6">
+                                        <Label
+                                            Margin="2,0,0,0"
+                                            FontSize="11"
+                                            Text="DATA INICIAL"
+                                            TextColor="Gray" />
+                                        <Border
+                                            Padding="12,4,12,4"
+                                            BackgroundColor="{StaticResource BackgroundGray}"
+                                            StrokeShape="8"
+                                            StrokeThickness="0.5">
+                                            <FlexLayout AlignItems="Center">
+                                                <controls:FullWidthDatePicker
+                                                    BackgroundColor="Transparent"
+                                                    Date="{Binding SelectedInitialDateFilter}"
+                                                    FlexLayout.Basis="0%"
+                                                    FlexLayout.Grow="1"
+                                                    FontSize="12"
+                                                    HorizontalOptions="Fill"
+                                                    MinimumWidthRequest="0"
+                                                    VerticalOptions="Center">
+                                                    <controls:FullWidthDatePicker.Margin>
+                                                        <OnPlatform x:TypeArguments="Thickness">
+                                                            <On Platform="Android" Value="0" />
+                                                            <On Platform="WinUI" Value="-6,0,-6,0" />
+                                                        </OnPlatform>
+                                                    </controls:FullWidthDatePicker.Margin>
+                                                </controls:FullWidthDatePicker>
+                                            </FlexLayout>
+                                        </Border>
+                                    </StackLayout>
+                                    <StackLayout
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Padding="0,4,15,0"
+                                        Spacing="6">
+                                        <Label
+                                            Margin="2,0,0,0"
+                                            FontSize="11"
+                                            Text="DATA FINAL"
+                                            TextColor="Gray" />
+                                        <Border
+                                            Padding="12,4,12,4"
+                                            BackgroundColor="{StaticResource BackgroundGray}"
+                                            StrokeShape="8"
+                                            StrokeThickness="0.5">
+                                            <FlexLayout AlignItems="Center">
+                                                <controls:FullWidthDatePicker
+                                                    BackgroundColor="Transparent"
+                                                    Date="{Binding SelectedFinalDateFilter}"
+                                                    FlexLayout.Basis="0%"
+                                                    FlexLayout.Grow="1"
+                                                    FontSize="12"
+                                                    HorizontalOptions="Fill"
+                                                    MaximumDate="{x:Static sys:DateTime.Today}"
+                                                    MinimumWidthRequest="0"
+                                                    VerticalOptions="Center">
+                                                    <controls:FullWidthDatePicker.Margin>
+                                                        <OnPlatform x:TypeArguments="Thickness">
+                                                            <On Platform="Android" Value="0" />
+                                                            <On Platform="WinUI" Value="-6,0,-6,0" />
+                                                        </OnPlatform>
+                                                    </controls:FullWidthDatePicker.Margin>
+                                                </controls:FullWidthDatePicker>
+                                            </FlexLayout>
+                                        </Border>
+                                    </StackLayout>
+                                    <StackLayout
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Padding="15,4,0,0"
+                                        Spacing="6">
+                                        <Label
+                                            Margin="2,0,0,0"
+                                            FontSize="11"
+                                            Text="VALOR MÍNIMO"
+                                            TextColor="Gray" />
+                                        <Border
+                                            Padding="12,2,0,0"
+                                            BackgroundColor="{StaticResource BackgroundGray}"
+                                            StrokeShape="8"
+                                            StrokeThickness="0.5">
+                                            <FlexLayout
+                                                AlignItems="Center"
+                                                BackgroundColor="Transparent"
+                                                Direction="Row"
+                                                JustifyContent="Start">
+                                                <Entry
+                                                    Margin="-6,0,-6,0"
+                                                    BackgroundColor="Transparent"
+                                                    FlexLayout.Grow="1"
+                                                    FontSize="12"
+                                                    Keyboard="Numeric"
+                                                    Placeholder="R$ 0,00"
+                                                    PlaceholderColor="DarkGray"
+                                                    Text="{Binding MinValueFilter}"
+                                                    TextColor="Black" />
+                                            </FlexLayout>
+                                        </Border>
+                                    </StackLayout>
+                                    <StackLayout
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Padding="0,4,15,0"
+                                        Spacing="6">
+                                        <Label
+                                            Margin="2,0,0,0"
+                                            FontSize="11"
+                                            Text="VALOR MÁXIMO"
+                                            TextColor="Gray" />
+                                        <Border
+                                            Padding="12,2,0,0"
+                                            BackgroundColor="{StaticResource BackgroundGray}"
+                                            StrokeShape="8"
+                                            StrokeThickness="0.5">
+                                            <FlexLayout
+                                                AlignItems="Center"
+                                                BackgroundColor="Transparent"
+                                                Direction="Row"
+                                                JustifyContent="Start">
+                                                <Entry
+                                                    Margin="-6,0,-6,0"
+                                                    BackgroundColor="Transparent"
+                                                    FlexLayout.Grow="1"
+                                                    FontSize="12"
+                                                    Keyboard="Numeric"
+                                                    Placeholder="R$ 999,99"
+                                                    PlaceholderColor="DarkGray"
+                                                    Text="{Binding MaxValueFilter}"
+                                                    TextColor="Black" />
+                                            </FlexLayout>
+                                        </Border>
+                                    </StackLayout>
+                                    <StackLayout
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        Padding="15,4,0,0"
+                                        Spacing="6">
+                                        <Label
+                                            Margin="2,0,0,0"
+                                            FontSize="11"
+                                            Text="FORMA DE PAGAMENTO"
+                                            TextColor="Gray" />
+                                        <Border
+                                            Margin="0,0,0,5"
+                                            Padding="0,-10"
+                                            BackgroundColor="{StaticResource BackgroundGray}"
+                                            StrokeShape="RoundRectangle 8"
+                                            StrokeThickness="0.5">
+                                            <Picker
+                                                FontFamily="AppIcons"
+                                                FontSize="12"
+                                                ItemsSource="{Binding PayMethodsPicker}"
+                                                SelectedIndex="{Binding SelectedPayMethodFilter}"
+                                                TextColor="Gray" />
+                                        </Border>
+                                    </StackLayout>
+                                    <StackLayout
+                                        Grid.Row="2"
+                                        Grid.Column="1"
+                                        Padding="0,4,15,0"
+                                        Spacing="6">
+                                        <Label
+                                            Margin="2,0,0,0"
+                                            FontSize="11"
+                                            Text="LOCAL DO PAGAMENTO"
+                                            TextColor="Gray" />
+                                        <Border
+                                            Padding="0,-10"
+                                            BackgroundColor="{StaticResource BackgroundGray}"
+                                            StrokeShape="RoundRectangle 8"
+                                            StrokeThickness="0.5">
+                                            <Picker
+                                                FontFamily="AppIcons"
+                                                FontSize="12"
+                                                ItemsSource="{Binding WherePaidFilter}"
+                                                SelectedIndex="{Binding SelectedWherePaidFilter}"
+                                                TextColor="Gray" />
+                                        </Border>
+                                    </StackLayout>
+                                </Grid>
+
+                                <FlexLayout
+                                    Margin="0,10"
+                                    Direction="Row"
+                                    JustifyContent="Center">
+                                    <Border
+                                        Padding="20,4,20,4"
+                                        BackgroundColor="{StaticResource BackgroundBlue}"
+                                        Stroke="{StaticResource BorderBlue}"
+                                        StrokeShape="RoundRectangle 8"
+                                        StrokeThickness="0.5">
+                                        <Label>
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="Buscar...   " />
+                                                    <Span FontFamily="AppIcons" Text="&#xe832;" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding FilterPaymentsHistoricCommand}" />
+                                        </Border.GestureRecognizers>
+                                    </Border>
+                                </FlexLayout>
+                            </StackLayout>
+                        </Border>
+
+                        <!--#endregion-->
+
+                        <CollectionView ItemsSource="{Binding PaymentsHistoric}">
+
+                            <CollectionView.EmptyView>
+                                <StackLayout
+                                    x:Name="EmptyViewHistoric"
+                                    Padding="20,10,20,10"
+                                    Spacing="10">
+                                    <Label
+                                        FontFamily="AppIcons"
+                                        FontSize="Large"
+                                        HorizontalTextAlignment="Center"
+                                        Text="&#xe810;"
+                                        TextColor="Gray" />
+                                    <Label
+                                        FontFamily="Semibold"
+                                        FontSize="12"
+                                        HorizontalTextAlignment="Center"
+                                        Text="Nenhum resultado encontrado" />
+                                    <StackLayout Spacing="1.6">
+                                        <Label
+                                            FontSize="12"
+                                            HorizontalTextAlignment="Center"
+                                            Text="Tente ajustar os filtros para encontrar"
+                                            TextColor="Gray" />
+                                        <Label
+                                            FontSize="12"
+                                            HorizontalTextAlignment="Center"
+                                            Text="pagamentos desejados"
+                                            TextColor="Gray" />
+                                    </StackLayout>
+                                    <Border
+                                        Margin="0,5"
+                                        Padding="8,4,8,4"
+                                        HorizontalOptions="Center"
+                                        StrokeShape="4"
+                                        StrokeThickness="0.7">
+                                        <Label
+                                            FontSize="12"
+                                            Text="Limpar Filtros"
+                                            VerticalTextAlignment="Center" />
+
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding ReloadPageCommand}" />
+                                        </Border.GestureRecognizers>
+                                    </Border>
+                                </StackLayout>
+                            </CollectionView.EmptyView>
+
+                            <CollectionView.Footer>
+                                <ActivityIndicator
+                                    x:Name="LoadingFooterHistoric"
+                                    HorizontalOptions="Center"
+                                    IsRunning="True"
+                                    IsVisible="{Binding HasMoreHistoric}"
+                                    VerticalOptions="End" />
+                            </CollectionView.Footer>
+
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout ItemSpacing="4" Orientation="Vertical" />
+                            </CollectionView.ItemsLayout>
+
+                            <CollectionView.Behaviors>
+                                <behaviors:InfiniteScrollBehavior
+                                    EmptyView="{x:Reference EmptyViewHistoric}"
+                                    FooterView="{x:Reference LoadingFooterHistoric}"
+                                    HasMoreItems="{Binding HasMoreHistoric}"
+                                    LoadMoreCommand="{Binding LoadMorePaymentHistoricCommand}"
+                                    TargetScrollView="{x:Reference MainScroll}" />
+                            </CollectionView.Behaviors>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackLayout>
+                                        <Border
+                                            Margin="20,0,20,0"
+                                            Padding="10"
+                                            Style="{StaticResource MasterBorderStyle}">
+                                            <Grid ColumnDefinitions="*,Auto">
+                                                <StackLayout Grid.Column="0" Spacing="8">
+                                                    <Label
+                                                        FontFamily="Semibold"
+                                                        FontSize="13"
+                                                        Text="{Binding ProfessionalDoctorName}" />
+                                                    <StackLayout Spacing="1">
+                                                        <Label
+                                                            FontSize="12"
+                                                            Text="{Binding ScheduleDate, Converter={StaticResource DateTimeToStringConverter}}"
+                                                            TextColor="Gray" />
+                                                        <Label
+                                                            FontSize="12"
+                                                            Text="{Binding AppointmentTitle}"
+                                                            TextColor="Gray" />
+                                                    </StackLayout>
+                                                    <Label FontSize="11" TextColor="Gray">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Pago em " />
+                                                                <Span Text="{Binding Paidday, Converter={StaticResource DateTimeToStringConverter}}" />
+                                                                <Span Text=" via " />
+                                                                <Span Text="{Binding PaymentDescription}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </StackLayout>
+                                                <StackLayout
+                                                    Grid.Column="1"
+                                                    Spacing="4"
+                                                    VerticalOptions="Center">
+                                                    <Label
+                                                        FontFamily="Semibold"
+                                                        HorizontalTextAlignment="Center"
+                                                        Text="{Binding Paidprice, Converter={StaticResource DecimalToBrlMoneyConverter}}" />
+                                                    <Border
+                                                        Padding="2,3,2,3"
+                                                        BackgroundColor="#dbfce7"
+                                                        Stroke="Transparent"
+                                                        StrokeShape="6"
+                                                        StrokeThickness="0.5">
+                                                        <Label
+                                                            FontSize="11"
+                                                            HorizontalTextAlignment="Center"
+                                                            TextColor="DarkGreen">
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span Text="Pago " />
+                                                                    <Span Text="{Binding Paidonline, Converter={StaticResource SByteToStringConverter}}" />
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>
+                                                    </Border>
+                                                </StackLayout>
+                                            </Grid>
+                                        </Border>
+                                    </StackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
+                </Border>
+
+                <!--#endregion-->
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentView>

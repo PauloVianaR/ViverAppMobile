@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mopups:PopupPage
+    x:Class="ViverAppMobile.Views.Popups.RateSchedulePopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converter="clr-namespace:ViverAppMobile.Converters"
+    xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+    BackgroundColor="#80000000">
+
+    <Border MaximumHeightRequest="370" Style="{StaticResource BorderPopupStyle}">
+
+        <Border.Resources>
+            <ResourceDictionary>
+                <converter:DateTimeToStringConverter x:Key="DateTimeToStringConverter" CurrentFormat="dddd, dd 'de' MMMM 'de' yyyy" />
+            </ResourceDictionary>
+        </Border.Resources>
+
+        <VerticalStackLayout Spacing="18">
+            <VerticalStackLayout Spacing="6">
+                <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
+                    <Label FontSize="16" TextColor="Black">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontFamily="AppIcons" Text="&#xe809;" />
+                                <Span FontFamily="Semibold" Text="   Avaliar " />
+                                <Span FontFamily="Semibold" Text="{Binding AppointmentTypeTitle}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label
+                        FontFamily="AppIcons"
+                        FontSize="12"
+                        Text="&#xe81e;"
+                        TextColor="Gray">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="BackButtonPressed" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </FlexLayout>
+                <Label
+                    FontSize="12"
+                    Text="Compartilhe sua experiência com outros pacientes"
+                    TextColor="Gray" />
+            </VerticalStackLayout>
+
+            <Border
+                Padding="10"
+                BackgroundColor="{StaticResource BackgroundGray}"
+                Stroke="Transparent"
+                StrokeShape="6">
+                <VerticalStackLayout Spacing="2">
+                    <Label FontSize="12">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontAttributes="Bold" Text="Médico:  " />
+                                <Span Text="{Binding UserSchedule.DoctorName}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label FontSize="12">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontAttributes="Bold" Text="Data:  " />
+                                <Span Text="{Binding UserSchedule.AppointmentDate, Converter={StaticResource DateTimeToStringConverter}}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label FontSize="12">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontAttributes="Bold" Text="Tipo:  " />
+                                <Span Text="{Binding UserSchedule.AppointmentTitle}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </VerticalStackLayout>
+            </Border>
+
+            <VerticalStackLayout Spacing="4">
+                <Label
+                    FontFamily="Semibold"
+                    FontSize="12"
+                    Text="Avaliação:" />
+                <HorizontalStackLayout Spacing="6">
+
+                    <HorizontalStackLayout.Resources>
+                        <Style x:Key="StarLabel" TargetType="Label">
+                            <Setter Property="FontFamily" Value="AppIcons" />
+                            <Setter Property="Text" Value="&#xe834;" />
+                            <Setter Property="TextColor" Value="Gray" />
+                            <Setter Property="FontSize" Value="28" />
+                        </Style>
+                    </HorizontalStackLayout.Resources>
+
+                    <Label x:Name="Star1" Style="{StaticResource StarLabel}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ChooseRateCommand}" CommandParameter="{StaticResource Index1}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label x:Name="Star2" Style="{StaticResource StarLabel}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ChooseRateCommand}" CommandParameter="{StaticResource Index2}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label x:Name="Star3" Style="{StaticResource StarLabel}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ChooseRateCommand}" CommandParameter="{StaticResource Index3}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label x:Name="Star4" Style="{StaticResource StarLabel}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ChooseRateCommand}" CommandParameter="{StaticResource Index4}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label x:Name="Star5" Style="{StaticResource StarLabel}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ChooseRateCommand}" CommandParameter="{StaticResource Index5}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Margin="0,5,0,0" Spacing="4">
+                <Label
+                    FontFamily="Semibold"
+                    FontSize="11"
+                    Text="Comentário (opcional):" />
+                <FlexLayout JustifyContent="Center">
+                    <Border
+                        FlexLayout.Grow="1"
+                        Stroke="Transparent"
+                        StrokeShape="8">
+                        <Editor
+                            x:Name="Feedback"
+                            BackgroundColor="{StaticResource BackgroundGray}"
+                            FontSize="12"
+                            Placeholder="Conte como foi sua experiência..."
+                            PlaceholderColor="Gray" />
+                    </Border>
+                </FlexLayout>
+            </VerticalStackLayout>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="6">
+                <Border
+                    Grid.Column="0"
+                    Padding="4"
+                    BackgroundColor="Black"
+                    Stroke="Transparent"
+                    StrokeShape="6">
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="YesButtonPressed" />
+                    </Border.GestureRecognizers>
+
+                    <Label
+                        FontFamily="Semibold"
+                        FontSize="12"
+                        HorizontalTextAlignment="Center"
+                        Text="Enviar Avaliação"
+                        TextColor="White" />
+                </Border>
+                <Border
+                    Grid.Column="1"
+                    Padding="4"
+                    BackgroundColor="White"
+                    Stroke="LightGray"
+                    StrokeShape="6">
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="BackButtonPressed" />
+                    </Border.GestureRecognizers>
+
+                    <Label
+                        FontFamily="Semibold"
+                        FontSize="12"
+                        HorizontalTextAlignment="Center"
+                        Text="Cancelar"
+                        TextColor="Black" />
+                </Border>
+            </Grid>
+        </VerticalStackLayout>
+    </Border>
+</mopups:PopupPage>

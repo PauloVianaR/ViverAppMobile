@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "419248748017",
+    "project_id": "viverappmobilemaui",
+    "storage_bucket": "viverappmobilemaui.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:419248748017:android:13d7d7fb8bb4e986194050",
+        "android_client_info": {
+          "package_name": "com.vivercompany.viverappmobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVwOLOMmoTYHcZP3X7utTio4Q1_VAdtV0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

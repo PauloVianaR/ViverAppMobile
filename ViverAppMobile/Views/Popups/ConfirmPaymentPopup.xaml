@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mopups:PopupPage
+    x:Class="ViverAppMobile.Views.Popups.ConfirmPaymentPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:ViverAppMobile.Controls"
+    xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    BackgroundColor="#80000000">
+    <Border
+        x:Name="MasterBorder"
+        HeightRequest="300"
+        MaximumHeightRequest="430"
+        Style="{StaticResource BorderPopupStyle}">
+        <VerticalStackLayout Spacing="12">
+            <VerticalStackLayout Spacing="8">
+                <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
+                    <Label FontSize="16">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontFamily="AppIcons" Text="&#xe805;" />
+                                <Span FontFamily="Semibold" Text="   Confirmar Pagamento" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label
+                        FontFamily="AppIcons"
+                        FontSize="12"
+                        Text="&#xe81e;"
+                        TextColor="Gray">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="BackButtonPressed" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </FlexLayout>
+                <Label
+                    x:Name="AppointmentInfoLabel"
+                    FontSize="12"
+                    LineHeight="1.5"
+                    TextColor="Gray" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Margin="0,10,0,0" Spacing="4">
+                <Label
+                    FontFamily="Semibold"
+                    FontSize="12"
+                    Text="Forma de Pagamento" />
+                <Border
+                    Padding="0,5,0,5"
+                    BackgroundColor="{StaticResource BackgroundGray}"
+                    Stroke="Transparent"
+                    StrokeShape="4">
+                    <FlexLayout AlignItems="Center" Direction="Row">
+                        <Picker
+                            x:Name="PayMethodPicker"
+                            FlexLayout.Grow="1"
+                            FontFamily="AppIcons"
+                            FontSize="12"
+                            SelectedIndexChanged="PayMethodPicker_SelectedIndexChanged" />
+                    </FlexLayout>
+                </Border>
+            </VerticalStackLayout>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="6">
+                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                    <Label
+                        FontFamily="Semibold"
+                        FontSize="12"
+                        Text="Data do Pagamento" />
+                    <Border
+                        Padding="12,4,12,4"
+                        BackgroundColor="{StaticResource BackgroundGray}"
+                        StrokeShape="8"
+                        StrokeThickness="0.5">
+                        <FlexLayout AlignItems="Center">
+                            <controls:FullWidthDatePicker
+                                x:Name="PayDatePicker"
+                                BackgroundColor="Transparent"
+                                FlexLayout.Basis="0%"
+                                FlexLayout.Grow="1"
+                                FontSize="12"
+                                HorizontalOptions="Fill"
+                                MinimumWidthRequest="0"
+                                VerticalOptions="Center">
+                                <controls:FullWidthDatePicker.Margin>
+                                    <OnPlatform x:TypeArguments="Thickness">
+                                        <On Platform="Android" Value="0" />
+                                        <On Platform="WinUI" Value="-6,0,-6,0" />
+                                    </OnPlatform>
+                                </controls:FullWidthDatePicker.Margin>
+                            </controls:FullWidthDatePicker>
+                        </FlexLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                    <Label
+                        FontFamily="Semibold"
+                        FontSize="12"
+                        Text="Hora do Pagamento" />
+                    <controls:CustomTimePicker
+                        x:Name="PayTimePicker"
+                        HeightRequest="26"
+                        WidthRequest="150" />
+                </VerticalStackLayout>
+            </Grid>
+
+            <VerticalStackLayout
+                x:Name="CardInfosLayout"
+                IsVisible="False"
+                Spacing="4">
+                <VerticalStackLayout Spacing="4">
+                    <Label
+                        FontFamily="Semibold"
+                        FontSize="12"
+                        Text="Últimos 4 dígitos do cartão" />
+                    <Border
+                        Padding="5"
+                        BackgroundColor="#f2f2f5"
+                        Stroke="Transparent"
+                        StrokeShape="RoundRectangle 8">
+                        <FlexLayout AlignItems="Center">
+                            <Entry
+                                x:Name="Last4CardDigitsEntry"
+                                Margin="-3,0,-5,0"
+                                BackgroundColor="Transparent"
+                                FlexLayout.Grow="1"
+                                Keyboard="Numeric"
+                                Placeholder="0000"
+                                PlaceholderColor="DarkGray"
+                                TextColor="Black">
+                                <Entry.Behaviors>
+                                    <toolkit:MaskedBehavior Mask="XXXX" />
+                                </Entry.Behaviors>
+                            </Entry>
+                        </FlexLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="4">
+                    <Label
+                        FontFamily="Semibold"
+                        FontSize="12"
+                        Text="Número de Autorização" />
+                    <Border
+                        Padding="5"
+                        BackgroundColor="#f2f2f5"
+                        Stroke="Transparent"
+                        StrokeShape="RoundRectangle 8">
+                        <FlexLayout AlignItems="Center">
+                            <Entry
+                                x:Name="CardAuthorizationEntry"
+                                Margin="-3,0,-5,0"
+                                BackgroundColor="Transparent"
+                                FlexLayout.Grow="1"
+                                Placeholder="123456"
+                                PlaceholderColor="DarkGray"
+                                TextColor="Black" />
+                        </FlexLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+            <Border
+                x:Name="ConfirmButton"
+                Margin="0,20,0,0"
+                Padding="10,6,10,6"
+                BackgroundColor="Green"
+                Opacity="0.5"
+                Style="{StaticResource MasterBorderStyle}"
+                VerticalOptions="End">
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="YesButtonPressed" />
+                </Border.GestureRecognizers>
+
+                <Label HorizontalTextAlignment="Center" TextColor="White">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span
+                                FontAttributes="Bold"
+                                FontFamily="AppIcons"
+                                Text="&#xe803;" />
+                            <Span FontAttributes="Bold" Text="    Confirmar Pagamento" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </Border>
+        </VerticalStackLayout>
+    </Border>
+</mopups:PopupPage>

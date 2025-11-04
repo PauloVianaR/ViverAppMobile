@@ -1,0 +1,836 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="ViverAppMobile.Views.Patient.PatientAgendaView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:ViverAppMobile.Behaviors"
+    xmlns:controls="clr-namespace:ViverAppMobile.Controls"
+    xmlns:converter="clr-namespace:ViverAppMobile.Converters"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:ViverAppMobile.ViewModels.Patient"
+    x:Name="PatientAgendaPage"
+    BackgroundColor="{StaticResource PageBackground}">
+
+    <ContentView.BindingContext>
+        <vm:PatientAgendaViewModel />
+    </ContentView.BindingContext>
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
+            <converter:AppointmentTypeToStringConverter x:Key="AppointmentTypeToStringConverter" />
+            <converter:AppointmentTypeToColorConverter x:Key="AppointmentTypeToColorConverter" />
+            <converter:ScheduleStatusToStringConverter x:Key="ScheduleStatusToStringConverter" />
+            <converter:ScheduleStatusToColorConverter x:Key="ScheduleStatusToColorConverter" />
+            <converter:ScheduleStatusToTextDecoration x:Key="ScheduleStatusToTextDecoration" />
+            <converter:SelectedValueToDoubleConverter x:Key="ScheduleStatusToOpacityConverter" />
+            <converter:DecimalToBrlMoneyConverter x:Key="DecimalToBrlMoneyConverter" />
+            <converter:SByteToBoolConverter x:Key="SByteToBoolConverter" />
+            <converter:InverseSbyteToBoolConverter x:Key="InverseSbyteToBoolConverter" />
+            <converter:DateTimeToStringConverter x:Key="DateTimeToStringConveter" CurrentFormat="dddd, dd 'de' MMMM 'de' yyyy" />
+            <converter:DateTimeToStringConverter x:Key="DateTimeWeekDayToStringConverter" CurrentFormat="dddd, dd 'de' MMMM 'de' yyyy 'às' HH:mm" />
+            <converter:SelectedValueToBoolConverter x:Key="ScheduleStatusToBoolConverter" />
+            <converter:SelectedValueToBoolConverter x:Key="InverseScheduleStatusToBoolConverter" Inverse="True" />
+            <converter:SByteToColorConverter x:Key="SByteToColorConverterBoxView" />
+            <converter:SByteToColorConverter
+                x:Key="SByteToBackgroundColorConverter"
+                SelectedColor="Purple"
+                UnselectedColor="White" />
+            <converter:SByteToColorConverter
+                x:Key="SByteToTextColorConverter"
+                SelectedColor="White"
+                UnselectedColor="Black" />
+            <converter:SelectedValueToColorConverter
+                x:Key="ValueToTabBackgroundColorConverter"
+                SelectedColor="White"
+                UnselectedColor="Transparent" />
+            <converter:SByteToStringConverter
+                x:Key="SByteToStringIconConverter"
+                TextForFalse="&#xe80c;"
+                TextForTrue="&#xe802;" />
+            <converter:SByteToStringConverter
+                x:Key="SByteToStringTextConverter"
+                TextForFalse="Como chegar"
+                TextForTrue="Entrar online" />
+            <converter:AppointmentTypeToStringConverter
+                x:Key="AppointmentTypeToICONConverter"
+                ConsultationText="&#xe811;"
+                ExaminationText="&#xe817;"
+                SurgeryText="&#xe806;" />
+        </ResourceDictionary>
+
+        <Style x:Key="LabelItemStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="TextColor" Value="Black" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+        <Style x:Key="BorderItemStyle" TargetType="Border">
+            <Setter Property="FlexLayout.Grow" Value="1" />
+            <Setter Property="HeightRequest" Value="26" />
+            <Setter Property="StrokeShape" Value="18" />
+            <Setter Property="StrokeThickness" Value="0" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+
+        <DataTemplate x:Key="ScheduleDataTemplate">
+            <Grid Padding="5,5,0,15" Opacity="{Binding Status, Converter={StaticResource ScheduleStatusToOpacityConverter}, ConverterParameter={StaticResource Index4}}">
+                <BoxView
+                    Margin="-4,0,0,0"
+                    CornerRadius="10"
+                    IsVisible="{Binding Status, Converter={StaticResource InverseScheduleStatusToBoolConverter}, ConverterParameter={StaticResource Index4}}"
+                    Opacity="0.8"
+                    Color="{Binding IsOnline, Converter={StaticResource SByteToColorConverterBoxView}}" />
+                <BoxView
+                    Margin="-6,0,0,0"
+                    CornerRadius="10"
+                    IsVisible="{Binding Status, Converter={StaticResource ScheduleStatusToBoolConverter}, ConverterParameter={StaticResource Index4}}"
+                    Opacity="0.3"
+                    Color="Red" />
+                <Border
+                    Padding="15"
+                    BackgroundColor="White"
+                    Stroke="LightGray"
+                    StrokeShape="10"
+                    StrokeThickness="0.5">
+                    <VerticalStackLayout Spacing="10">
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                            <Border
+                                Grid.Column="0"
+                                Margin="0,12,0,10"
+                                Padding="10,11.4,10,10"
+                                BackgroundColor="Red"
+                                IsVisible="{Binding Status, Converter={StaticResource ScheduleStatusToBoolConverter}, ConverterParameter={StaticResource Index4}}"
+                                Stroke="Transparent"
+                                StrokeShape="40">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontFamily="AppIcons"
+                                    FontSize="20"
+                                    HorizontalTextAlignment="Center"
+                                    Text="&#xe81e;"
+                                    TextColor="White"
+                                    VerticalTextAlignment="End" />
+                            </Border>
+                            <Border
+                                Grid.Column="0"
+                                Margin="0,10,0,10"
+                                Padding="10"
+                                BackgroundColor="{Binding AppointmentType, Converter={StaticResource AppointmentTypeToColorConverter}}"
+                                IsVisible="{Binding Status, Converter={StaticResource InverseScheduleStatusToBoolConverter}, ConverterParameter={StaticResource Index4}}"
+                                Stroke="Transparent"
+                                StrokeShape="40">
+                                <Label
+                                    FontFamily="AppIcons"
+                                    FontSize="20"
+                                    Text="{Binding AppointmentType, FallbackValue='N/A', TargetNullValue='N/A', Converter={StaticResource AppointmentTypeToICONConverter}}"
+                                    TextColor="White"
+                                    VerticalTextAlignment="Center" />
+                            </Border>
+                            <StackLayout Grid.Column="1" Spacing="6">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="14"
+                                    Text="{Binding ProfessionalDoctorName}"
+                                    TextDecorations="{Binding Status, Converter={StaticResource ScheduleStatusToTextDecoration}, ConverterParameter=4}" />
+                                <Label
+                                    FontSize="12"
+                                    Text="{Binding DoctorSpecialty, FallbackValue='N/A', TargetNullValue='N/A'}"
+                                    TextColor="Gray" />
+                                <Label
+                                    FontSize="12"
+                                    Text="{Binding AppointmentTitle, FallbackValue='N/A', TargetNullValue='N/A'}"
+                                    TextDecorations="{Binding Status, Converter={StaticResource ScheduleStatusToTextDecoration}, ConverterParameter=4}" />
+                            </StackLayout>
+                            <StackLayout Grid.Column="2" Spacing="6">
+                                <Border StrokeShape="4" StrokeThickness="0.5">
+                                    <Label
+                                        Padding="5,2,5,2"
+                                        FontSize="12"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding AppointmentType, FallbackValue='N/A', TargetNullValue='N/A', Converter={StaticResource AppointmentTypeToStringConverter}}"
+                                        VerticalTextAlignment="Center" />
+                                </Border>
+                                <Border
+                                    BackgroundColor="{Binding Status, Converter={StaticResource ScheduleStatusToColorConverter}, ConverterParameter={Binding AppointmentType}}"
+                                    Stroke="Transparent"
+                                    StrokeShape="4">
+                                    <Label
+                                        Padding="5,2,5,2"
+                                        FontSize="12"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding Status, FallbackValue='N/A', TargetNullValue='N/A', Converter={StaticResource ScheduleStatusToStringConverter}, ConverterParameter={Binding AppointmentType}}"
+                                        VerticalTextAlignment="Center" />
+                                </Border>
+                            </StackLayout>
+                        </Grid>
+
+                        <Border
+                            Padding="3,0,0,0"
+                            BackgroundColor="DarkOrange"
+                            IsVisible="{Binding Rescheduled, Converter={StaticResource SByteToBoolConverter}}"
+                            StrokeThickness="0">
+                            <Border
+                                Padding="10,18,18,18"
+                                BackgroundColor="#fff7ed"
+                                StrokeThickness="0">
+                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="6">
+                                    <Label
+                                        Grid.Column="0"
+                                        FontFamily="AppIcons"
+                                        Text="&#xe81c;"
+                                        TextColor="DarkOrange"
+                                        VerticalTextAlignment="Center" />
+                                    <StackLayout Grid.Column="1" Spacing="5">
+                                        <Label FontSize="12" TextColor="DarkRed">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span FontAttributes="Bold" Text="Atendimento " />
+                                                    <Span FontAttributes="Bold" Text="{Binding Source={StaticResource RescheduledStatus}, FallbackValue='N/A', TargetNullValue='N/A', Converter={StaticResource ScheduleStatusToStringConverter}}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label FontSize="10" TextColor="DarkRed">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="Data Original: " />
+                                                    <Span Text="{Binding OriginalDate, FallbackValue='N/A', TargetNullValue='N/A', Converter={StaticResource DateTimeToStringConveter}}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </StackLayout>
+                                    <Border
+                                        Grid.Column="2"
+                                        Padding="10,2,10,2"
+                                        BackgroundColor="#ffedd4"
+                                        HeightRequest="25"
+                                        Stroke="Transparent"
+                                        StrokeShape="8">
+                                        <Label
+                                            FontSize="11"
+                                            TextColor="DarkRed"
+                                            VerticalTextAlignment="Center">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span FontFamily="AppIcons" Text="&#xf0ec;" />
+                                                    <Span Text="  Reagendado" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </Border>
+
+                        <StackLayout IsVisible="{Binding Status, Converter={StaticResource ScheduleStatusToBoolConverter}, ConverterParameter={StaticResource Index2}}">
+                            <Border
+                                Padding="3,0,0,0"
+                                BackgroundColor="Red"
+                                IsVisible="{Binding PendingPayment, Converter={StaticResource SByteToBoolConverter}}"
+                                StrokeThickness="0">
+                                <Border
+                                    Padding="10,18,18,18"
+                                    BackgroundColor="#fef2f2"
+                                    StrokeThickness="0">
+                                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                                        <Label
+                                            Grid.Column="0"
+                                            FontFamily="AppIcons"
+                                            Text="&#xf155;"
+                                            TextColor="Red"
+                                            VerticalTextAlignment="Center" />
+                                        <StackLayout Grid.Column="1" Spacing="5">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="12"
+                                                Text="Pagamento pendente"
+                                                TextColor="DarkRed" />
+                                            <Label
+                                                FontSize="11"
+                                                Text="Consulta confirmada mas aguardando pagamento na recepção"
+                                                TextColor="DarkRed" />
+                                        </StackLayout>
+                                    </Grid>
+                                </Border>
+                            </Border>
+                        </StackLayout>
+
+                        <Border
+                            Padding="3,0,0,0"
+                            BackgroundColor="Pink"
+                            IsVisible="{Binding Status, Converter={StaticResource ScheduleStatusToBoolConverter}, ConverterParameter={StaticResource Index4}}"
+                            StrokeThickness="0">
+                            <Border
+                                Padding="10,18,18,18"
+                                BackgroundColor="#fff7ed"
+                                StrokeThickness="0">
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                                    <Label
+                                        Grid.Column="0"
+                                        FontFamily="AppIcons"
+                                        Text="&#xe81e;"
+                                        TextColor="Red"
+                                        VerticalTextAlignment="Center" />
+                                    <StackLayout Grid.Column="1" Spacing="5">
+                                        <Label FontSize="12" TextColor="DarkRed">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span FontAttributes="Bold" Text="{Binding AppointmentType, FallbackValue='N/A', TargetNullValue='N/A', Converter={StaticResource AppointmentTypeToStringConverter}}" />
+                                                    <Span FontAttributes="Bold" Text=" cancelado(a)" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label FontSize="10" TextColor="DarkRed">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="Motivo: " />
+                                                    <Span Text="{Binding FeedBack, FallbackValue='N/A', TargetNullValue='N/A'}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </StackLayout>
+                                </Grid>
+                            </Border>
+                        </Border>
+
+                        <Border
+                            Padding="15"
+                            BackgroundColor="#f9fafb"
+                            Stroke="Transparent"
+                            StrokeShape="8">
+                            <StackLayout Spacing="12">
+                                <Label FontSize="12" TextColor="Black">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontFamily="AppIcons" Text="&#xf133;" />
+                                            <Span Text="    " />
+                                            <Span Text="{Binding AppointmentDate, FallbackValue='N/A', TargetNullValue='N/A', Converter={StaticResource DateTimeWeekDayToStringConverter}}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label FontSize="12" TextColor="Black">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontFamily="AppIcons" Text="&#xe801;" />
+                                            <Span Text="    Duração estimada: " />
+                                            <Span Text="{Binding AverageTime, FallbackValue='N/A', TargetNullValue='N/A'}" />
+                                            <Span Text=" hrs" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
+                                    <Label
+                                        Grid.Column="0"
+                                        FontFamily="AppIcons"
+                                        FontSize="12"
+                                        IsVisible="{Binding IsOnline, Converter={StaticResource InverseSbyteToBoolConverter}}"
+                                        Text="&#xe800;"
+                                        TextColor="CornflowerBlue"
+                                        VerticalTextAlignment="Center" />
+                                    <Label
+                                        Grid.Column="0"
+                                        FontFamily="AppIcons"
+                                        FontSize="10"
+                                        HorizontalTextAlignment="Start"
+                                        IsVisible="{Binding IsOnline, Converter={StaticResource SByteToBoolConverter}}"
+                                        Text="&#xe802;"
+                                        TextColor="Purple"
+                                        VerticalTextAlignment="Center" />
+                                    <StackLayout
+                                        Grid.Column="1"
+                                        IsVisible="{Binding IsOnline, Converter={StaticResource InverseSbyteToBoolConverter}}"
+                                        Spacing="2">
+                                        <Label FontSize="12">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding ClinicFantasyName, FallbackValue='N/A', TargetNullValue='N/A'}" />
+                                                    <Span Text=" - " />
+                                                    <Span Text="{Binding ClinicComplement, FallbackValue='N/A', TargetNullValue='N/A'}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label FontSize="11" TextColor="Gray">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding ClinicAdress, FallbackValue='N/A', TargetNullValue='N/A'}" />
+                                                    <Span Text=", " />
+                                                    <Span Text="{Binding ClinicNumber, FallbackValue='N/A', TargetNullValue='N/A'}" />
+                                                    <Span Text=" - " />
+                                                    <Span Text="{Binding ClinicNeighborhood, FallbackValue='N/A', TargetNullValue='N/A'}" />
+                                                    <Span Text=", " />
+                                                    <Span Text="{Binding ClinicCity, FallbackValue='N/A', TargetNullValue='N/A'}" />
+                                                    <Span Text=" - " />
+                                                    <Span Text="{Binding ClinicState, FallbackValue='N/A', TargetNullValue='N/A'}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </StackLayout>
+                                    <Label
+                                        Grid.Column="1"
+                                        FontSize="12"
+                                        IsVisible="{Binding IsOnline, Converter={StaticResource SByteToBoolConverter}}"
+                                        Text="Consulta online"
+                                        TextColor="Purple" />
+                                </Grid>
+                                <Label FontSize="12" TextColor="Black">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontFamily="AppIcons" Text="&#xe804;" />
+                                            <Span Text="     " />
+                                            <Span Text="{Binding ClinicPhone, FallbackValue='N/A', TargetNullValue='N/A'}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label FontSize="12" TextColor="Black">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontFamily="AppIcons" Text="&#xe805;" />
+                                            <Span Text="     " />
+                                            <Span Text="{Binding AppointmentPrice, FallbackValue='N/A', TargetNullValue='N/A', Converter={StaticResource DecimalToBrlMoneyConverter}}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </StackLayout>
+                        </Border>
+
+                        <Grid Padding="5,5,0,5">
+                            <BoxView Margin="-3,0,0,0" Color="CornflowerBlue" />
+                            <Border
+                                Padding="12"
+                                Background="{StaticResource BackgroundBlue}"
+                                Stroke="Transparent">
+                                <Label FontSize="12" TextColor="MediumBlue">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontAttributes="Bold" Text="Observações: " />
+                                            <Span Text="{Binding Obs, FallbackValue='N/A', TargetNullValue='N/A'}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </Border>
+                        </Grid>
+
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            ColumnSpacing="10"
+                            IsVisible="{Binding Status, Converter={StaticResource InverseScheduleStatusToBoolConverter}, ConverterParameter={StaticResource Index4}}"
+                            RowDefinitions="30,30"
+                            RowSpacing="13">
+                            <Border
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                BackgroundColor="White"
+                                IsVisible="{Binding Status, Converter={StaticResource InverseScheduleStatusToBoolConverter}, ConverterParameter={StaticResource Index3}}"
+                                Stroke="#CCCCCC"
+                                StrokeShape="RoundRectangle 8">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.CallClinicCommand, Source={x:Reference PatientAgendaPage}}" CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                                <HorizontalStackLayout HorizontalOptions="Center" Spacing="4">
+                                    <Label
+                                        FontFamily="AppIcons"
+                                        FontSize="12"
+                                        HorizontalTextAlignment="Center"
+                                        Text="&#xe804;"
+                                        VerticalTextAlignment="Center" />
+                                    <Label
+                                        FontSize="12"
+                                        HorizontalTextAlignment="Center"
+                                        Text="Ligar"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+                            </Border>
+                            <Border
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                BackgroundColor="{Binding IsOnline, Converter={StaticResource SByteToBackgroundColorConverter}}"
+                                IsVisible="{Binding Status, Converter={StaticResource InverseScheduleStatusToBoolConverter}, ConverterParameter={StaticResource Index3}}"
+                                Stroke="#CCCCCC"
+                                StrokeShape="RoundRectangle 8">
+
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.HowToGetThereOrSwitchOnlinePageCommand, Source={x:Reference PatientAgendaPage}}" CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+
+                                <HorizontalStackLayout HorizontalOptions="Center" Spacing="4">
+                                    <Label
+                                        FontFamily="AppIcons"
+                                        FontSize="12"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding IsOnline, FallbackValue='N/A', TargetNullValue='N/A', Converter={StaticResource SByteToStringIconConverter}}"
+                                        TextColor="{Binding IsOnline, Converter={StaticResource SByteToTextColorConverter}}"
+                                        VerticalTextAlignment="Center" />
+                                    <Label
+                                        FontSize="12"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding IsOnline, FallbackValue='N/A', TargetNullValue='N/A', Converter={StaticResource SByteToStringTextConverter}}"
+                                        TextColor="{Binding IsOnline, Converter={StaticResource SByteToTextColorConverter}}"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+                            </Border>
+
+                            <Border
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                BackgroundColor="White"
+                                IsVisible="{Binding Status, Converter={StaticResource InverseScheduleStatusToBoolConverter}, ConverterParameter={StaticResource Index3}}"
+                                Stroke="#CCCCCC"
+                                StrokeShape="RoundRectangle 8">
+
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.RescheduleCommand, Source={x:Reference PatientAgendaPage}}" CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+
+                                <HorizontalStackLayout HorizontalOptions="Center" Spacing="4">
+                                    <Label
+                                        FontFamily="AppIcons"
+                                        FontSize="12"
+                                        HorizontalTextAlignment="Center"
+                                        Text="&#xe80b;"
+                                        TextColor="CornflowerBlue"
+                                        VerticalTextAlignment="Center" />
+                                    <Label
+                                        FontSize="12"
+                                        HorizontalTextAlignment="Center"
+                                        Text="Remarcar"
+                                        TextColor="CornflowerBlue"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+                            </Border>
+                            <Border
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                BackgroundColor="White"
+                                IsVisible="{Binding Status, Converter={StaticResource InverseScheduleStatusToBoolConverter}, ConverterParameter={StaticResource Index3}}"
+                                Stroke="#CCCCCC"
+                                StrokeShape="RoundRectangle 8">
+
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.CancelScheduleCommand, Source={x:Reference PatientAgendaPage}}" CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+
+                                <HorizontalStackLayout HorizontalOptions="Center" Spacing="4">
+                                    <Label
+                                        FontFamily="AppIcons"
+                                        FontSize="12"
+                                        HorizontalTextAlignment="Center"
+                                        Text="&#xe80a;"
+                                        TextColor="Red"
+                                        VerticalTextAlignment="Center" />
+                                    <Label
+                                        FontSize="12"
+                                        HorizontalTextAlignment="Center"
+                                        Text="Cancelar"
+                                        TextColor="Red"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+                            </Border>
+
+                            <Border
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                BackgroundColor="White"
+                                IsVisible="{Binding Status, Converter={StaticResource ScheduleStatusToBoolConverter}, ConverterParameter={StaticResource Index3}}"
+                                Stroke="CornflowerBlue"
+                                StrokeShape="RoundRectangle 8"
+                                StrokeThickness="0.8">
+
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.ShowMedicalReportCommand, Source={x:Reference PatientAgendaPage}}" CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+
+                                <HorizontalStackLayout HorizontalOptions="Center" Spacing="4">
+                                    <Label
+                                        FontFamily="AppIcons"
+                                        FontSize="12"
+                                        HorizontalTextAlignment="Center"
+                                        Text="&#xf0f6;"
+                                        TextColor="CornflowerBlue"
+                                        VerticalTextAlignment="Center" />
+                                    <Label
+                                        FontSize="12"
+                                        HorizontalTextAlignment="Center"
+                                        Text="Ver Laudo"
+                                        TextColor="CornflowerBlue"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+                            </Border>
+                            <Border
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                BackgroundColor="White"
+                                IsVisible="{Binding Status, Converter={StaticResource ScheduleStatusToBoolConverter}, ConverterParameter={StaticResource Index3}}"
+                                Stroke="#00a63e"
+                                StrokeShape="RoundRectangle 8"
+                                StrokeThickness="0.5">
+
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.ShowAttachmentsCommand, Source={x:Reference PatientAgendaPage}}" CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+
+                                <HorizontalStackLayout HorizontalOptions="Center" Spacing="4">
+                                    <Label
+                                        FontFamily="AppIcons"
+                                        FontSize="12"
+                                        HorizontalTextAlignment="Center"
+                                        Text="&#xe820;"
+                                        TextColor="#00a63e"
+                                        VerticalTextAlignment="Center" />
+                                    <Label
+                                        FontSize="12"
+                                        HorizontalTextAlignment="Center"
+                                        Text="Ver anexos"
+                                        TextColor="#00a63e"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+                            </Border>
+                        </Grid>
+
+                        <Border
+                            Padding="5"
+                            BackgroundColor="#00a63e"
+                            IsVisible="{Binding Status, Converter={StaticResource ScheduleStatusToBoolConverter}, ConverterParameter={StaticResource Index1}}"
+                            StrokeShape="8">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding BindingContext.SelectAppointmentToPayCommand, Source={x:Reference PatientAgendaPage}}" CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+
+                            <Label HorizontalTextAlignment="Center" TextColor="White">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span FontFamily="AppIcons" Text="&#xe805;" />
+                                        <Span Text="  Efetuar Pagamento" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Border>
+
+                        <Border
+                            Margin="0,10,0,0"
+                            Padding="5"
+                            BackgroundColor="White"
+                            IsVisible="{Binding Status, Converter={StaticResource ScheduleStatusToBoolConverter}, ConverterParameter={StaticResource Index3}}"
+                            Stroke="Gold"
+                            StrokeShape="8">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding BindingContext.RateAppointmentCommand, Source={x:Reference PatientAgendaPage}}" CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+
+                            <Label HorizontalTextAlignment="Center" TextColor="Orange">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span FontFamily="AppIcons" Text="&#xe809;" />
+                                        <Span Text="  Avaliação do Atendimento" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Border>
+
+                        <StackLayout Margin="0,10" IsVisible="{Binding Status, Converter={StaticResource ScheduleStatusToBoolConverter}, ConverterParameter={StaticResource Index4}}">
+                            <Label
+                                FontSize="13"
+                                HorizontalTextAlignment="Center"
+                                Text="Esta consulta foi cancelada e não pode ser reagendada" />
+                            <Label
+                                FontSize="11"
+                                HorizontalTextAlignment="Center"
+                                Text="Para agendar uma nova consulta use a aba 'Agendar'"
+                                TextColor="Gray" />
+                        </StackLayout>
+
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+        </DataTemplate>
+    </ContentView.Resources>
+
+    <RefreshView Command="{Binding ReloadPageCommand}" IsRefreshing="{Binding IsReloading}">
+        <ScrollView x:Name="MainScroll">
+            <VerticalStackLayout Padding="15" Spacing="15">
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        FontFamily="Semibold"
+                        FontSize="18"
+                        HorizontalOptions="Center"
+                        Text="Minha Agenda"
+                        VerticalOptions="Center" />
+                    <Label
+                        FontFamily=""
+                        FontSize="14"
+                        HorizontalTextAlignment="Center"
+                        Text="Gerencia suas consultas, exames e cirurgias"
+                        TextColor="Gray" />
+                </VerticalStackLayout>
+
+                <Border
+                    Padding="10"
+                    BackgroundColor="White"
+                    StrokeShape="8">
+                    <toolkit:Expander x:Name="FilterExpander" ExpandedChanged="FilterExpander_ExpandedChanged">
+                        <toolkit:Expander.Header>
+                            <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
+                                <Label FontSize="12">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontFamily="AppIcons" Text="&#xe810;" />
+                                            <Span Text="  Filtros" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label
+                                    x:Name="FiltersIconLabelExpand"
+                                    ClassId="IconLabelExpand"
+                                    FontFamily="AppIcons"
+                                    FontSize="12"
+                                    Text="&#xe80e;"
+                                    TextColor="Black" />
+                            </FlexLayout>
+                        </toolkit:Expander.Header>
+
+                        <toolkit:Expander.Content>
+                            <StackLayout Margin="0,15,0,0" Spacing="10">
+                                <Border
+                                    Padding="0,-6"
+                                    BackgroundColor="{StaticResource BackgroundGray}"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 8">
+                                    <SearchBar
+                                        FontSize="13"
+                                        Placeholder="Buscar por médico ou tipo de consulta...."
+                                        PlaceholderColor="Gray"
+                                        SearchCommand="{Binding SearchScheduleByFilterCommand}"
+                                        Text="{Binding FilterString}" />
+                                </Border>
+                                <Border
+                                    Padding="0,-8"
+                                    BackgroundColor="{StaticResource BackgroundGray}"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 8">
+                                    <Picker
+                                        FontSize="12"
+                                        ItemsSource="{Binding StatusNames}"
+                                        SelectedItem="{Binding SelectedStatusFilter}"
+                                        TextColor="Gray" />
+                                </Border>
+                            </StackLayout>
+                        </toolkit:Expander.Content>
+                    </toolkit:Expander>
+                </Border>
+
+                <Border
+                    Padding="2"
+                    BackgroundColor="#DDDDDD"
+                    Stroke="LightGray"
+                    StrokeShape=" RoundRectangle 12">
+                    <FlexLayout
+                        Direction="Row"
+                        HorizontalOptions="Center"
+                        JustifyContent="SpaceAround">
+                        <Border BackgroundColor="{Binding IsShowingHistoric, Converter={StaticResource ValueToTabBackgroundColorConverter}, ConverterParameter={StaticResource FalseParam}}" Style="{StaticResource BorderItemStyle}">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ToggleShowHistoricCommand}" CommandParameter="{StaticResource FalseParam}" />
+                            </Border.GestureRecognizers>
+
+                            <Label Style="{StaticResource LabelItemStyle}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span FontFamily="AppIcons" Text="&#xe801;" />
+                                        <Span Text="  Próximas (" />
+                                        <Span Text="{Binding NextAppointmentsCount}" />
+                                        <Span Text=")" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Border>
+
+                        <Border BackgroundColor="{Binding IsShowingHistoric, Converter={StaticResource ValueToTabBackgroundColorConverter}, ConverterParameter={StaticResource TrueParam}}" Style="{StaticResource BorderItemStyle}">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ToggleShowHistoricCommand}" CommandParameter="{StaticResource TrueParam}" />
+                            </Border.GestureRecognizers>
+
+                            <Label Style="{StaticResource LabelItemStyle}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span FontFamily="AppIcons" Text="&#xe80d;" />
+                                        <Span Text="  Histórico (" />
+                                        <Span Text="{Binding HistoricAppointmentsCount}" />
+                                        <Span Text=")" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Border>
+                    </FlexLayout>
+                </Border>
+
+                <CollectionView
+                    IsVisible="{Binding IsShowingHistoric, Converter={StaticResource InverseBoolConverter}}"
+                    ItemTemplate="{StaticResource ScheduleDataTemplate}"
+                    ItemsSource="{Binding Schedules}">
+
+                    <CollectionView.Footer>
+                        <ActivityIndicator
+                            x:Name="LoadingFooterSchedule"
+                            HorizontalOptions="Center"
+                            IsRunning="True"
+                            IsVisible="{Binding HasMoreSchedule}"
+                            VerticalOptions="End" />
+                    </CollectionView.Footer>
+
+                    <CollectionView.EmptyView>
+                        <ContentView
+                            x:Name="EmptyBorderSchedule"
+                            BindingContext="Nenhum atendimento encontrado. Tente ajustar os filtros de busca"
+                            ControlTemplate="{StaticResource EmptyStateTemplate}" />
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.Behaviors>
+                        <behaviors:InfiniteScrollBehavior
+                            EmptyView="{x:Reference EmptyBorderSchedule}"
+                            FooterView="{x:Reference LoadingFooterSchedule}"
+                            HasMoreItems="{Binding HasMoreSchedule}"
+                            LoadMoreCommand="{Binding LoadMoreScheduleCommand}"
+                            TargetScrollView="{x:Reference MainScroll}" />
+                    </CollectionView.Behaviors>
+                </CollectionView>
+
+                <Grid IsVisible="{Binding IsShowingHistoric}">
+                    <controls:SkeletonView IsVisible="{Binding IsLoadingHistoric}" />
+                    <CollectionView
+                        IsVisible="{Binding IsLoadingHistoric, Converter={StaticResource InverseBoolConverter}}"
+                        ItemTemplate="{StaticResource ScheduleDataTemplate}"
+                        ItemsSource="{Binding Historic}">
+
+                        <CollectionView.Footer>
+                            <ActivityIndicator
+                                x:Name="LoadingFooterHistoric"
+                                HorizontalOptions="Center"
+                                IsRunning="True"
+                                IsVisible="{Binding HasMoreHistoric}"
+                                VerticalOptions="End" />
+                        </CollectionView.Footer>
+
+                        <CollectionView.EmptyView>
+                            <ContentView
+                                x:Name="EmptyBorderHistoric"
+                                BindingContext="Nenhum atendimento encontrado. Tente ajustar os filtros de busca"
+                                ControlTemplate="{StaticResource EmptyStateTemplate}" />
+                        </CollectionView.EmptyView>
+
+                        <CollectionView.Behaviors>
+                            <behaviors:InfiniteScrollBehavior
+                                EmptyView="{x:Reference EmptyBorderHistoric}"
+                                FooterView="{x:Reference LoadingFooterHistoric}"
+                                HasMoreItems="{Binding HasMoreHistoric}"
+                                LoadMoreCommand="{Binding LoadMoreHistoricCommand}"
+                                TargetScrollView="{x:Reference MainScroll}" />
+                        </CollectionView.Behaviors>
+                    </CollectionView>
+                </Grid>
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentView>

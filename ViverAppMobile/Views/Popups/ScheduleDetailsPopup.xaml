@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mopups:PopupPage
+    x:Class="ViverAppMobile.Views.Popups.ScheduleDetailsPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converter="clr-namespace:ViverAppMobile.Converters"
+    xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+    BackgroundColor="#80000000">
+    <Border MaximumHeightRequest="720" Style="{StaticResource BorderPopupStyle}">
+        <Border.Resources>
+            <ResourceDictionary>
+                <converter:AppointmentTypeToStringConverter x:Key="AppointmentTypeToStringConverter" />
+                <converter:InverseSbyteToBoolConverter x:Key="InverseSbyteToBoolConverter" />
+                <converter:DateTimeToStringConverter x:Key="DateTimeToHoursStringConverter" CurrentFormat="HH:mm" />
+                <converter:DateTimeToStringConverter x:Key="DateTimeToDateStringConverter" CurrentFormat="dd/MM/yyyy" />
+                <converter:DateTimeToStringConverter x:Key="DateTimeToFullDateStringConverter" CurrentFormat="dddd ',' dd 'de' MMMM 'de' yyyy 'às' HH:mm" />
+                <converter:DateOnlyToStringConverter x:Key="DateOnlyToStringConverter" CurrentFormat="age" />
+                <converter:SByteToBoolConverter x:Key="SByteToBoolConverter" />
+                <converter:SByteToStringConverter
+                    x:Key="SByteToStringConverter"
+                    TextForFalse="Presencial"
+                    TextForTrue="Online" />
+            </ResourceDictionary>
+        </Border.Resources>
+
+        <ScrollView>
+            <Grid RowDefinitions="*,Auto">
+                <VerticalStackLayout Grid.Row="0" Spacing="24">
+                    <VerticalStackLayout Spacing="8">
+                        <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
+                            <Label FontSize="16" TextColor="Black">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span
+                                            FontFamily="AppIcons"
+                                            FontSize="20"
+                                            Text="&#xf0f6;"
+                                            TextColor="MediumBlue" />
+                                        <Span FontFamily="Semibold" Text="  Detalhes do Atendimento" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="12"
+                                Text="&#xe81e;"
+                                TextColor="Gray">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="BackButtonPressed" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </FlexLayout>
+                        <Label
+                            FontSize="12"
+                            HorizontalTextAlignment="Center"
+                            Text="Visualize todas as informações detalhadas sobre este atendimento médico"
+                            TextColor="Gray" />
+                    </VerticalStackLayout>
+
+                    <FlexLayout
+                        Margin="0,8,0,0"
+                        AlignItems="Center"
+                        JustifyContent="SpaceBetween">
+                        <VerticalStackLayout Spacing="4">
+                            <Label
+                                FontFamily="Semibold"
+                                FontSize="13"
+                                Text="{Binding UserSchedule.UserName}" />
+                            <Border
+                                Padding="6,2,6,2"
+                                StrokeShape="6"
+                                StrokeThickness="0.7"
+                                Style="{StaticResource MasterBorderStyle}">
+                                <Label
+                                    FontSize="11"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding UserSchedule.PatientBirthDate, Converter={StaticResource DateOnlyToStringConverter}}" />
+                            </Border>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Spacing="4">
+                            <Label
+                                FontSize="12"
+                                HorizontalTextAlignment="End"
+                                TextColor="Black">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span FontFamily="AppIcons" Text="&#xe801;" />
+                                        <Span Text="  " />
+                                        <Span Text="{Binding UserSchedule.AppointmentDate, Converter={StaticResource DateTimeToHoursStringConverter}}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label
+                                FontSize="12"
+                                HorizontalTextAlignment="End"
+                                TextColor="Gray">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span FontFamily="AppIcons" Text="&#xf133;" />
+                                        <Span Text="  " />
+                                        <Span Text="{Binding UserSchedule.AppointmentDate, Converter={StaticResource DateTimeToDateStringConverter}}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </VerticalStackLayout>
+                    </FlexLayout>
+
+                    <Border StrokeThickness="0.5" />
+
+                    <VerticalStackLayout Spacing="10">
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="6">
+                            <Border
+                                Grid.Column="0"
+                                Padding="10,6,10,6"
+                                BackgroundColor="#dbeafe"
+                                Stroke="Transparent"
+                                StrokeShape="40">
+                                <Label
+                                    FontFamily="AppIcons"
+                                    FontSize="13"
+                                    Text="&#xe811;"
+                                    TextColor="Blue"
+                                    VerticalTextAlignment="Center" />
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <Label
+                                    FontSize="12"
+                                    Text="Tipo de Atendimento"
+                                    TextColor="Gray" />
+                                <Label
+                                    FontFamily="Semibold"
+                                    FontSize="12"
+                                    Text="{Binding UserSchedule.AppointmentType, Converter={StaticResource AppointmentTypeToStringConverter}}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="6">
+                            <Border
+                                Grid.Column="0"
+                                Padding="10,6,10,6"
+                                BackgroundColor="#f3e8ff"
+                                Stroke="Transparent"
+                                StrokeShape="40">
+                                <Label
+                                    FontFamily="AppIcons"
+                                    FontSize="14"
+                                    Text="&#xe801;"
+                                    TextColor="Purple"
+                                    VerticalTextAlignment="Center" />
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <Label
+                                    FontSize="12"
+                                    Text="Descrição"
+                                    TextColor="Gray" />
+                                <Label
+                                    FontFamily="Semibold"
+                                    FontSize="12"
+                                    Text="{Binding UserSchedule.AppointmentTitle}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="6">
+                            <Border
+                                Grid.Column="0"
+                                Padding="10,6,10,6"
+                                BackgroundColor="#e0e7ff"
+                                Stroke="Transparent"
+                                StrokeShape="40">
+                                <Label
+                                    FontFamily="AppIcons"
+                                    FontSize="14"
+                                    Text="&#xf133;"
+                                    TextColor="Indigo"
+                                    VerticalTextAlignment="Center" />
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <Label
+                                    FontSize="12"
+                                    Text="Data do Agendamento"
+                                    TextColor="Gray" />
+                                <Label
+                                    FontFamily="Semibold"
+                                    FontSize="12"
+                                    Text="{Binding UserSchedule.AppointmentDate, Converter={StaticResource DateTimeToFullDateStringConverter}}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="6">
+                            <Border
+                                Grid.Column="0"
+                                Padding="10,6,10,6"
+                                BackgroundColor="#dbd7fe"
+                                Stroke="Transparent"
+                                StrokeShape="40">
+                                <Label
+                                    FontFamily="AppIcons"
+                                    FontSize="14"
+                                    Text="&#xf0f7;"
+                                    TextColor="DarkBlue"
+                                    VerticalTextAlignment="Center" />
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <Label
+                                    FontSize="12"
+                                    Text="Modalidade"
+                                    TextColor="Gray" />
+                                <Label
+                                    FontFamily="Semibold"
+                                    FontSize="12"
+                                    Text="{Binding UserSchedule.IsOnline, Converter={StaticResource SByteToStringConverter}}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                        <Grid
+                            ColumnDefinitions="Auto,*"
+                            ColumnSpacing="6"
+                            IsVisible="{Binding UserSchedule.IsOnline, Converter={StaticResource InverseSbyteToBoolConverter}}">
+                            <Border
+                                Grid.Column="0"
+                                Padding="8,12,8,12"
+                                BackgroundColor="LightCyan"
+                                Stroke="Transparent"
+                                StrokeShape="40"
+                                VerticalOptions="Center">
+                                <Label
+                                    FontFamily="AppIcons"
+                                    FontSize="14"
+                                    Text="&#xe807;"
+                                    TextColor="MediumBlue"
+                                    VerticalTextAlignment="Center" />
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <Label
+                                    FontSize="12"
+                                    Text="Local do Atendimento"
+                                    TextColor="Gray" />
+                                <Label FontSize="12">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding UserSchedule.ClinicFantasyName, FallbackValue='N/A', TargetNullValue='N/A'}" />
+                                            <Span Text=" - " />
+                                            <Span Text="{Binding UserSchedule.ClinicComplement}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label FontSize="11" TextColor="Gray">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding UserSchedule.ClinicAdress, FallbackValue='N/A', TargetNullValue='N/A'}" />
+                                            <Span Text=", " />
+                                            <Span Text="{Binding UserSchedule.ClinicNumber, FallbackValue='N/A', TargetNullValue='N/A'}" />
+                                            <Span Text=" - " />
+                                            <Span Text="{Binding UserSchedule.ClinicNeighborhood, FallbackValue='N/A', TargetNullValue='N/A'}" />
+                                            <Span Text=", " />
+                                            <Span Text="{Binding UserSchedule.ClinicCity, FallbackValue='N/A', TargetNullValue='N/A'}" />
+                                            <Span Text=" - " />
+                                            <Span Text="{Binding UserSchedule.ClinicState, FallbackValue='N/A', TargetNullValue='N/A'}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
+
+                    <Border StrokeThickness="0.5" />
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label
+                            FontSize="12"
+                            Text="Observações do Paciente:"
+                            TextColor="Gray" />
+                        <Border
+                            Padding="10"
+                            BackgroundColor="{StaticResource BackgroundGray}"
+                            Style="{StaticResource MasterBorderStyle}">
+                            <Label
+                                FontSize="12"
+                                MinimumHeightRequest="50"
+                                Text="{Binding UserSchedule.Obs}" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <Border StrokeThickness="0.5" />
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="6">
+                        <Border
+                            Grid.Column="0"
+                            Padding="10,6,10,6"
+                            BackgroundColor="{StaticResource BackgroundGray}"
+                            Stroke="Transparent"
+                            StrokeShape="40">
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="13"
+                                Text="&#xe811;"
+                                TextColor="Black"
+                                VerticalTextAlignment="Center" />
+                        </Border>
+                        <VerticalStackLayout Grid.Column="1" Spacing="2">
+                            <Label
+                                FontSize="12"
+                                Text="Contato"
+                                TextColor="Gray" />
+                            <Label
+                                FontFamily="Semibold"
+                                FontSize="12"
+                                Text="{Binding UserSchedule.UserPhone}" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+
+                <Border
+                    Grid.Row="1"
+                    Padding="6"
+                    StrokeThickness="0.7"
+                    Style="{StaticResource MasterBorderStyle}">
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="BackButtonPressed" />
+                    </Border.GestureRecognizers>
+
+                    <Label
+                        FontSize="13"
+                        HorizontalTextAlignment="Center"
+                        Text="Fechar" />
+                </Border>
+            </Grid>
+        </ScrollView>
+    </Border>
+</mopups:PopupPage>

@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="ViverAppMobile.Views.Admin.AdminNotificationView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behavior="clr-namespace:ViverAppMobile.Behaviors"
+    xmlns:converter="clr-namespace:ViverAppMobile.Converters"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:ViverAppMobile.ViewModels.Admin"
+    x:Name="AdminNotificationPage"
+    BackgroundColor="{StaticResource PageBackground}">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converter:TimeAgoConverter x:Key="TimeAgoConverter" />
+            <converter:IntToColorConverter
+                x:Key="IntToColorConverter"
+                ColorFor0="LightGray"
+                ColorFor1="Red"
+                ColorFor2="Orange"
+                ColorFor3="{StaticResource OffBlack}" />
+            <converter:IntToColorConverter
+                x:Key="IntToBackgroundColorConverter"
+                ColorFor0="White"
+                ColorFor1="#f5c4c4"
+                ColorFor2="#fcd0a7"
+                ColorFor3="#ebebeb" />
+            <converter:IntToStringConverter
+                x:Key="IntToStringConverter"
+                TextFor0="Lida"
+                TextFor1="Prioridade Alta"
+                TextFor2="Prioridade Média"
+                TextFor3="Prioridade Baixa" />
+            <converter:IntToStringConverter
+                x:Key="IntToIconStringConverter"
+                TextFor1="&#xe82f;"
+                TextFor2="&#xe812;"
+                TextFor3="&#xe805;"
+                TextFor4="&#xf133;"
+                TextFor5="&#xe81e;" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ContentView.BindingContext>
+        <vm:AdminNotificationViewModel />
+    </ContentView.BindingContext>
+
+    <RefreshView Command="{Binding ReloadPageCommand}" IsRefreshing="{Binding IsReloading}">
+        <ScrollView>
+            <VerticalStackLayout Padding="15" Spacing="24">
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="4">
+                    <VerticalStackLayout Spacing="2">
+                        <HorizontalStackLayout Spacing="6">
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="22"
+                                Text="&#xe823;" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="22"
+                                Text="Notificações" />
+                        </HorizontalStackLayout>
+                        <Label
+                            FontSize="13"
+                            Text="Centro de notificações e alertas do sistema"
+                            TextColor="Gray" />
+                    </VerticalStackLayout>
+                    <Border
+                        Grid.Column="1"
+                        Padding="8,6,8,6"
+                        BackgroundColor="White"
+                        StrokeShape="RoundRectangle 8"
+                        VerticalOptions="Center">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ReadAllCommand}" />
+                        </Border.GestureRecognizers>
+
+                        <HorizontalStackLayout Spacing="6">
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="12"
+                                Text="&#xe803;" />
+                            <Label FontSize="12" Text="Já li todas" />
+                        </HorizontalStackLayout>
+                    </Border>
+                </Grid>
+
+                <Grid
+                    ColumnDefinitions="*,*"
+                    ColumnSpacing="10"
+                    RowDefinitions="*,*"
+                    RowSpacing="10">
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout HorizontalOptions="Center" Spacing="6">
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="Large"
+                                HorizontalTextAlignment="Center"
+                                Text="&#xe805;"
+                                TextColor="DarkOrange" />
+                            <Label HorizontalTextAlignment="Center" Text="Inadimplências" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding Defaults}" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout HorizontalOptions="Center" Spacing="6">
+                            <Label
+                                Margin="0,6,0,0"
+                                FontFamily="AppIcons"
+                                FontSize="26"
+                                HorizontalTextAlignment="Center"
+                                Text="&#xe823;"
+                                TextColor="DarkRed" />
+                            <Label HorizontalTextAlignment="Center" Text="Não Lidas" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding Notread}" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout HorizontalOptions="Center" Spacing="6">
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="Large"
+                                HorizontalTextAlignment="Center"
+                                Text="&#xe839;"
+                                TextColor="Red" />
+                            <Label HorizontalTextAlignment="Center" Text="Alta Prioridade" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding Highseverity}" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout HorizontalOptions="Center" Spacing="6">
+                            <HorizontalStackLayout Margin="10,0,0,0" HorizontalOptions="Center">
+                                <Label
+                                    FontFamily="AppIcons"
+                                    FontSize="Large"
+                                    HorizontalTextAlignment="Center"
+                                    Text="&#xe812;"
+                                    TextColor="Green" />
+                                <Label
+                                    FontFamily="AppIcons"
+                                    FontSize="16"
+                                    HorizontalTextAlignment="Center"
+                                    Text="&#xe803;"
+                                    TextColor="Green"
+                                    VerticalTextAlignment="Center" />
+                            </HorizontalStackLayout>
+                            <Label HorizontalTextAlignment="Center" Text="Aprovações" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding Approvals}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <Border
+                    Padding="10"
+                    BackgroundColor="#f9fafb"
+                    StrokeShape="8">
+                    <toolkit:Expander x:Name="FilterExpander" ExpandedChanged="Expander_ExpandedChanged">
+                        <toolkit:Expander.Header>
+                            <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
+                                <Label FontSize="12">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontFamily="AppIcons" Text="&#xe810;" />
+                                            <Span Text="  Filtros" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label
+                                    x:Name="FiltersIconLabelExpand"
+                                    ClassId="IconLabelExpand"
+                                    FontFamily="AppIcons"
+                                    FontSize="12"
+                                    Text="&#xe80e;"
+                                    TextColor="Black" />
+                            </FlexLayout>
+                        </toolkit:Expander.Header>
+
+                        <toolkit:Expander.Content>
+                            <StackLayout Margin="0,20,0,0" Spacing="10">
+                                <Border
+                                    Padding="0,-6"
+                                    BackgroundColor="{StaticResource BackgroundGray}"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 8">
+                                    <Picker
+                                        FontFamily="AppIcons"
+                                        FontSize="12"
+                                        ItemsSource="{Binding NotificationsRead}"
+                                        SelectedItem="{Binding SelectedNotificationReadFilter}"
+                                        TextColor="Gray" />
+                                </Border>
+                                <Border
+                                    Padding="0,-8"
+                                    BackgroundColor="{StaticResource BackgroundGray}"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 8">
+                                    <Picker
+                                        FontFamily="AppIcons"
+                                        FontSize="12"
+                                        ItemsSource="{Binding NotificationTypes}"
+                                        SelectedItem="{Binding SelectedNotificationTypeFilter}"
+                                        TextColor="Gray" />
+                                </Border>
+                            </StackLayout>
+                        </toolkit:Expander.Content>
+                    </toolkit:Expander>
+                </Border>
+
+                <Border Shadow="{StaticResource BottomShadow}" Style="{StaticResource MasterBorderStyle}">
+                    <VerticalStackLayout Spacing="18">
+                        <Label
+                            FontFamily="Semibold"
+                            FontSize="13"
+                            Text="Todas as Notificações" />
+
+                        <CollectionView ItemsSource="{Binding Notifications}">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout ItemSpacing="6" Orientation="Vertical" />
+                            </CollectionView.ItemsLayout>
+
+                            <CollectionView.EmptyView>
+                                <ContentView BindingContext="Sem notificações no momento" ControlTemplate="{StaticResource EmptyStateTemplate}" />
+                            </CollectionView.EmptyView>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border
+                                        Padding="10"
+                                        BackgroundColor="{Binding Severity, Converter={StaticResource IntToBackgroundColorConverter}}"
+                                        Stroke="{Binding Severity, Converter={StaticResource IntToColorConverter}}"
+                                        Style="{StaticResource MasterBorderStyle}">
+
+                                        <Border.Behaviors>
+                                            <behavior:CollectionViewDismissBehavior ItemDismissedCommand="{Binding BindingContext.ReadNotificationCommand, Source={x:Reference AdminNotificationPage}}" ItemsSource="{Binding Source={x:Reference AdminNotificationPage}, Path=BindingContext.Notifications}" />
+                                        </Border.Behaviors>
+
+                                        <VerticalStackLayout Spacing="10">
+                                            <FlexLayout JustifyContent="SpaceBetween">
+                                                <Border
+                                                    Padding="8,4,8,4"
+                                                    BackgroundColor="{Binding Severity, Converter={StaticResource IntToColorConverter}}"
+                                                    HorizontalOptions="Start"
+                                                    Stroke="Transparent"
+                                                    StrokeShape="6">
+                                                    <Label
+                                                        FontSize="11"
+                                                        Text="{Binding Severity, Converter={StaticResource IntToStringConverter}}"
+                                                        TextColor="White" />
+                                                </Border>
+                                                <Label
+                                                    FontFamily="AppIcons"
+                                                    FontSize="12"
+                                                    Text="&#xe81e;"
+                                                    TextColor="Red"
+                                                    VerticalTextAlignment="Center">
+
+                                                    <Label.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.ReadNotificationRemoveCollectionCommand, Source={x:Reference AdminNotificationPage}}" CommandParameter="{Binding .}" />
+                                                    </Label.GestureRecognizers>
+                                                </Label>
+                                            </FlexLayout>
+                                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="6">
+                                                <Border
+                                                    Padding="10"
+                                                    BackgroundColor="#dbeafe"
+                                                    Stroke="Transparent"
+                                                    StrokeShape="40"
+                                                    VerticalOptions="Start">
+                                                    <Label
+                                                        FontFamily="AppIcons"
+                                                        FontSize="12"
+                                                        Text="{Binding Notificationtype, Converter={StaticResource IntToIconStringConverter}}"
+                                                        TextColor="{Binding Severity, Converter={StaticResource IntToColorConverter}}" />
+                                                </Border>
+                                                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                                    <Label
+                                                        FontFamily="Semibold"
+                                                        FontSize="12"
+                                                        Text="{Binding Title}" />
+                                                    <Label
+                                                        FontSize="12"
+                                                        LineHeight="1.5"
+                                                        Text="{Binding Description}"
+                                                        TextColor="Black" />
+                                                    <Label
+                                                        Padding="0,0,0,15"
+                                                        FontSize="12"
+                                                        TextColor="Black">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xe801;" />
+                                                                <Span Text="  " />
+                                                                <Span Text="{Binding Createdat, Converter={StaticResource TimeAgoConverter}}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </VerticalStackLayout>
+                                            </Grid>
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentView>

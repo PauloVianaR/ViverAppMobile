@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="ViverAppMobile.Views.Manager.ManagerProfileView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:ViverAppMobile.Controls"
+    xmlns:converter="clr-namespace:ViverAppMobile.Converters"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:ViverAppMobile.ViewModels.Manager"
+    x:Name="ManagerProfilePage"
+    BackgroundColor="{StaticResource PageBackground}">
+
+    <ContentView.BindingContext>
+        <vm:ManagerProfileViewModel />
+    </ContentView.BindingContext>
+
+    <ContentView.Resources>
+        <converter:FormValidationValueConverter x:Key="FormValidationValueConverter" />
+    </ContentView.Resources>
+
+    <RefreshView Command="{Binding ReloadPageCommand}" IsRefreshing="{Binding IsReloading}">
+        <ScrollView>
+            <VerticalStackLayout Padding="15" Spacing="20">
+                <VerticalStackLayout Spacing="6">
+                    <Label
+                        FontFamily="Semibold"
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        Text="Meu Perfil Gerencial" />
+                    <Label
+                        FontSize="13"
+                        HorizontalTextAlignment="Center"
+                        Text="Atualizar seus dados pessoais"
+                        TextColor="Gray" />
+                </VerticalStackLayout>
+
+                <!--#region DATA-->
+                <VerticalStackLayout Spacing="20">
+                    <Border Shadow="{StaticResource BottomShadow}" Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout Spacing="10">
+                            <VerticalStackLayout Spacing="4">
+                                <Label FontSize="13">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontFamily="AppIcons" Text="&#xe812;" />
+                                            <Span Text="   Informações Pessoais" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label
+                                    FontSize="12"
+                                    Text="Atualize seus dados"
+                                    TextColor="Gray" />
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Padding="0,10,0,0">
+                                <HorizontalStackLayout Spacing="6">
+                                    <Label
+                                        FontSize="12"
+                                        Text="Nome Completo"
+                                        TextColor="Black" />
+                                    <Label
+                                        FontSize="16"
+                                        IsVisible="{Binding FullName, Converter={StaticResource FormValidationValueConverter}, ConverterParameter=NotEmpty}"
+                                        Text="*"
+                                        TextColor="Red"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+                                <Border
+                                    Padding="5"
+                                    BackgroundColor="#f2f2f5"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 8">
+                                    <FlexLayout
+                                        AlignItems="Center"
+                                        BackgroundColor="Transparent"
+                                        Direction="Row"
+                                        JustifyContent="Start">
+                                        <Label
+                                            Padding="8"
+                                            FontFamily="AppIcons"
+                                            Text="&#xe812;" />
+                                        <Entry
+                                            Margin="0,0,-5,0"
+                                            BackgroundColor="Transparent"
+                                            FlexLayout.Grow="1"
+                                            Placeholder="João Silva"
+                                            PlaceholderColor="DarkGray"
+                                            Text="{Binding FullName}"
+                                            TextColor="Black" />
+                                    </FlexLayout>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <HorizontalStackLayout Spacing="6">
+                                    <Label
+                                        FontSize="12"
+                                        Text="Email"
+                                        TextColor="Black" />
+                                    <Label
+                                        FontSize="16"
+                                        IsVisible="{Binding Email, Converter={StaticResource FormValidationValueConverter}, ConverterParameter=Email}"
+                                        Text="*"
+                                        TextColor="Red"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+                                <Border
+                                    Padding="5"
+                                    BackgroundColor="#f2f2f5"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 8">
+                                    <FlexLayout
+                                        AlignItems="Center"
+                                        BackgroundColor="Transparent"
+                                        Direction="Row"
+                                        JustifyContent="Start">
+                                        <Label
+                                            Padding="8"
+                                            FontFamily="AppIcons"
+                                            Text="&#xe82c;" />
+                                        <Entry
+                                            Margin="0,0,-5,0"
+                                            BackgroundColor="Transparent"
+                                            FlexLayout.Grow="1"
+                                            Keyboard="Email"
+                                            Placeholder="seu@email.com"
+                                            PlaceholderColor="DarkGray"
+                                            Text="{Binding Email}"
+                                            TextColor="Black" />
+                                    </FlexLayout>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <HorizontalStackLayout Spacing="6">
+                                    <Label
+                                        FontSize="12"
+                                        Text="CPF"
+                                        TextColor="Black" />
+                                    <Label
+                                        FontSize="16"
+                                        IsVisible="{Binding Cpf, Converter={StaticResource FormValidationValueConverter}, ConverterParameter=CPF}"
+                                        Text="*"
+                                        TextColor="Red"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+                                <Border
+                                    Padding="5"
+                                    BackgroundColor="#f2f2f5"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 8">
+                                    <FlexLayout
+                                        AlignItems="Center"
+                                        BackgroundColor="Transparent"
+                                        Direction="Row"
+                                        JustifyContent="Start">
+                                        <Label
+                                            Padding="8"
+                                            FontFamily="AppIcons"
+                                            Text="&#xe805;" />
+                                        <Entry
+                                            Margin="0,0,-5,0"
+                                            BackgroundColor="Transparent"
+                                            FlexLayout.Grow="1"
+                                            Keyboard="Numeric"
+                                            Placeholder="000.000.000-00"
+                                            PlaceholderColor="DarkGray"
+                                            Text="{Binding Cpf}"
+                                            TextColor="Black">
+                                            <Entry.Behaviors>
+                                                <toolkit:MaskedBehavior Mask="XXX.XXX.XXX-XX" />
+                                            </Entry.Behaviors>
+                                        </Entry>
+                                    </FlexLayout>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <HorizontalStackLayout Spacing="6">
+                                    <Label
+                                        FontSize="12"
+                                        Text="Telefone"
+                                        TextColor="Black" />
+                                    <Label
+                                        FontSize="16"
+                                        IsVisible="{Binding Phone, Converter={StaticResource FormValidationValueConverter}, ConverterParameter=Phone}"
+                                        Text="*"
+                                        TextColor="Red"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+                                <Border
+                                    Padding="5"
+                                    BackgroundColor="#f2f2f5"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 8">
+                                    <FlexLayout
+                                        AlignItems="Center"
+                                        BackgroundColor="Transparent"
+                                        Direction="Row"
+                                        JustifyContent="Start">
+                                        <Label
+                                            Padding="8"
+                                            FontFamily="AppIcons"
+                                            Text="&#xe804;" />
+                                        <Entry
+                                            Margin="0,0,-5,0"
+                                            BackgroundColor="Transparent"
+                                            FlexLayout.Grow="1"
+                                            Keyboard="Telephone"
+                                            Placeholder="(11) 99999-9999"
+                                            PlaceholderColor="DarkGray"
+                                            Text="{Binding Phone}"
+                                            TextColor="Black">
+                                            <Entry.Behaviors>
+                                                <toolkit:MaskedBehavior Mask="(XX) XXXXX-XXXX" />
+                                            </Entry.Behaviors>
+                                        </Entry>
+                                    </FlexLayout>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <Border />
+
+                            <VerticalStackLayout Spacing="6">
+                                <Label
+                                    Margin="0,5,0,0"
+                                    FontSize="12"
+                                    VerticalTextAlignment="Center">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontFamily="AppIcons" Text="&#xe81f;" />
+                                            <Span FontFamily="Semibold" Text="  Configurações" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+
+                                <Border Style="{StaticResource MasterBorderStyle}">
+                                    <Grid Margin="0,-20" ColumnDefinitions="*,Auto">
+                                        <Label
+                                            Grid.Column="0"
+                                            FontSize="12"
+                                            Text="Receber notificações no email"
+                                            VerticalTextAlignment="Center" />
+                                        <CheckBox
+                                            Grid.Column="1"
+                                            IsChecked="{Binding NotifyEmail}"
+                                            VerticalOptions="Start"
+                                            Color="Orange" />
+                                    </Grid>
+                                </Border>
+                                <Border Style="{StaticResource MasterBorderStyle}">
+                                    <Grid Margin="0,-20" ColumnDefinitions="*,Auto">
+                                        <Label
+                                            Grid.Column="0"
+                                            FontSize="12"
+                                            Text="Receber notificações push"
+                                            VerticalTextAlignment="Center" />
+                                        <CheckBox
+                                            Grid.Column="1"
+                                            IsChecked="{Binding NotifyPush}"
+                                            VerticalOptions="Start"
+                                            Color="Orange" />
+                                    </Grid>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <Border
+                                Margin="0,10,0,0"
+                                Padding="5"
+                                BackgroundColor="Black"
+                                Stroke="Transparent"
+                                StrokeShape="6">
+
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SaveChangesCommand}" />
+                                </Border.GestureRecognizers>
+
+                                <Label
+                                    FontSize="13"
+                                    HorizontalTextAlignment="Center"
+                                    TextColor="White">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontFamily="AppIcons" Text="&#xe83d;" />
+                                            <Span FontFamily="Semibold" Text="   Salvar" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </Border>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border
+                        Margin="0,0,0,40"
+                        BackgroundColor="White"
+                        Shadow="{StaticResource BottomShadow}"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <StackLayout Spacing="14">
+                            <StackLayout Spacing="8">
+                                <Label FontSize="13">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontFamily="AppIcons" Text="&#xe82e;" />
+                                            <Span FontFamily="Semibold" Text="   Segurança" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label
+                                    FontSize="12"
+                                    Text="Gerencia as configurações de segurança da sua conta"
+                                    TextColor="Gray" />
+                            </StackLayout>
+
+                            <Border
+                                Margin="0,8,0,0"
+                                Padding="10"
+                                BackgroundColor="White"
+                                Style="{StaticResource MasterBorderStyle}">
+                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+                                    <Border
+                                        Grid.Column="0"
+                                        Padding="8"
+                                        BackgroundColor="{StaticResource BackgroundBlue}"
+                                        Stroke="Transparent"
+                                        StrokeShape="40"
+                                        VerticalOptions="Center">
+                                        <Label
+                                            FontFamily="AppIcons"
+                                            FontSize="20"
+                                            Text="&#xe82d;"
+                                            TextColor="CornflowerBlue"
+                                            VerticalTextAlignment="Center" />
+                                    </Border>
+                                    <StackLayout Grid.Column="1" Spacing="2">
+                                        <Label
+                                            FontFamily="Semibold"
+                                            FontSize="12"
+                                            Text="Senha da Conta" />
+                                        <Label FontSize="12" TextColor="Gray">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="Ultima alteração há mais de " />
+                                                    <Span Text="30" />
+                                                    <Span Text=" dias" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </StackLayout>
+                                    <Border
+                                        Grid.Column="2"
+                                        Padding="8,5,8,5"
+                                        BackgroundColor="White"
+                                        Stroke="LightGray"
+                                        StrokeShape="6"
+                                        StrokeThickness="0.7"
+                                        VerticalOptions="Center">
+
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding ChangePasswordCommand}" />
+                                        </Border.GestureRecognizers>
+
+                                        <Label FontSize="12" Text="Alterar Senha" />
+                                    </Border>
+                                </Grid>
+                            </Border>
+
+                            <Border
+                                Padding="10"
+                                BackgroundColor="{StaticResource BackgroundBlue}"
+                                Stroke="Transparent"
+                                StrokeShape="6">
+                                <StackLayout Spacing="4">
+                                    <Label FontSize="12">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span
+                                                    FontFamily="AppIcons"
+                                                    Text="&#xe82f;"
+                                                    TextColor="CornflowerBlue" />
+                                                <Span
+                                                    FontFamily="Semibold"
+                                                    Text="   Dicas de segurança:"
+                                                    TextColor="DarkBlue" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <HorizontalStackLayout Margin="12,5,0,0" Spacing="10">
+                                        <Label
+                                            FontFamily="AppIcons"
+                                            FontSize="6"
+                                            Text="&#xf111;"
+                                            TextColor="DarkBlue"
+                                            VerticalTextAlignment="Center" />
+                                        <Label
+                                            FontSize="12"
+                                            Text="Use pelo menos 8 caracteres"
+                                            TextColor="DarkBlue" />
+                                    </HorizontalStackLayout>
+                                    <HorizontalStackLayout Margin="12,0,0,0" Spacing="10">
+                                        <Label
+                                            FontFamily="AppIcons"
+                                            FontSize="6"
+                                            Text="&#xf111;"
+                                            TextColor="DarkBlue"
+                                            VerticalTextAlignment="Center" />
+                                        <Label
+                                            FontSize="12"
+                                            Text="Combine letras, números e símbolos"
+                                            TextColor="DarkBlue" />
+                                    </HorizontalStackLayout>
+                                    <HorizontalStackLayout Margin="12,0,0,0" Spacing="10">
+                                        <Label
+                                            FontFamily="AppIcons"
+                                            FontSize="6"
+                                            Text="&#xf111;"
+                                            TextColor="DarkBlue"
+                                            VerticalTextAlignment="Center" />
+                                        <Label
+                                            FontSize="12"
+                                            Text="Evite informações pessoais"
+                                            TextColor="DarkBlue" />
+                                    </HorizontalStackLayout>
+                                    <HorizontalStackLayout Margin="12,0,0,0" Spacing="10">
+                                        <Label
+                                            FontFamily="AppIcons"
+                                            FontSize="6"
+                                            Text="&#xf111;"
+                                            TextColor="DarkBlue"
+                                            VerticalTextAlignment="Center" />
+                                        <Label
+                                            FontSize="12"
+                                            Text="Altere sua senha regularmente"
+                                            TextColor="DarkBlue" />
+                                    </HorizontalStackLayout>
+                                </StackLayout>
+                            </Border>
+                        </StackLayout>
+                    </Border>
+                </VerticalStackLayout>
+                <!--#endregion-->
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentView>

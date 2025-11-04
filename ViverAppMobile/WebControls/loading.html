@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Carregando...</title>
+    <style>
+        :root {
+            --bg: #0f0f1a;
+            --card: #12121a;
+            --accent: #6c63ff;
+            --accent-2: #00bfa5;
+            --text: #e6e6ee;
+            --muted: #9aa0b4;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(180deg, var(--bg) 0%, #090912 100%);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .wrap {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 18px;
+            padding: 24px;
+            box-sizing: border-box;
+        }
+
+        .card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 14px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            padding: 28px 34px;
+            border-radius: 14px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+            backdrop-filter: blur(6px);
+            width: min(420px, 92%);
+            text-align: center;
+        }
+
+        .spinner {
+            width: 92px;
+            height: 92px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            position: relative;
+        }
+
+            .spinner::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                border-radius: 50%;
+                background: conic-gradient(var(--accent) 0deg, var(--accent-2) 120deg, transparent 240deg);
+                -webkit-mask: radial-gradient(circle, transparent 58%, black 60%);
+                mask: radial-gradient(circle, transparent 58%, black 60%);
+                animation: spin 1.05s linear infinite;
+                box-shadow: 0 6px 20px rgba(108,99,255,0.12), inset 0 -6px 18px rgba(0,0,0,0.2);
+            }
+
+            .spinner .dot {
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                background: linear-gradient(180deg, var(--accent) 0%, var(--accent-2) 100%);
+                box-shadow: 0 6px 18px rgba(108,99,255,0.25);
+                transform: translateY(-30px);
+                opacity: 0.95;
+            }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .title {
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            color: var(--muted);
+            line-height: 1.35;
+            align-items: center;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div id="card" class="card" role="status" aria-live="polite" aria-busy="true">
+            <div class="spinner" aria-hidden="true"><div class="dot"></div></div>
+            <div class="title">Carregando a vídeo-chamada</div>
+            <div class="subtitle">Aguarde — estamos preparando a conexão segura entre você e o outro lado.</div>
+        </div>
+
+        <div id="fallback" class="subtitle" style="display:none;">
+            Se a tela ficar parada por muito tempo, verifique permissões de câmera/microfone e sua conexão de rede.
+        </div>
+    </div>
+
+    <script>
+        function stopSpinner() {
+          const c = document.getElementById('card');
+          if (c) c.classList.add('hidden');
+          const f = document.getElementById('fallback');
+          if (f) f.style.display = 'block';
+        }
+
+        setTimeout(() => {
+          const f = document.getElementById('fallback');
+          if (f && !document.getElementById('card').classList.contains('hidden')) {
+            f.style.display = 'block';
+          }
+        }, 12000);
+    </script>
+</body>
+</html>

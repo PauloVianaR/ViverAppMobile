@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pagamento Concluído | Viver App</title>
+    <style>
+        :root {
+            --bg: #f4f7fb;
+            --card: #ffffff;
+            --accent: #4CAF50;
+            --text: #1f1f2e;
+            --muted: #7a7a8c;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .card {
+            text-align: center;
+            background: var(--card);
+            border-radius: 18px;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
+            padding: 40px 36px;
+            width: min(400px, 90%);
+            animation: fadeIn 0.7s ease-in-out;
+        }
+
+        .checkmark {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: var(--accent);
+            margin: 0 auto 20px;
+            position: relative;
+            animation: pop 0.4s ease-out forwards;
+        }
+
+            .checkmark svg {
+                width: 38px;
+                height: 38px;
+                stroke: white;
+                stroke-width: 4;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                fill: none;
+                animation: draw 0.6s ease-out forwards;
+            }
+
+        .title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.4;
+            margin-bottom: 24px;
+        }
+
+        .loader {
+            width: 42px;
+            height: 42px;
+            border: 4px solid #c8e6c9;
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            margin: 0 auto;
+            animation: spin 0.9s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pop {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes draw {
+            from {
+                stroke-dasharray: 0 100;
+            }
+
+            to {
+                stroke-dasharray: 100 0;
+            }
+        }
+
+        footer {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 28px;
+        }
+    </style>
+</head>
+    <body>
+        <div class="card">
+            <div class="checkmark">
+                <svg viewBox="0 0 52 52">
+                    <path d="M14 27 l10 10 l15 -15" />
+                </svg>
+            </div>
+            <div class="title">Pagamento Concluído!</div>
+            <div class="subtitle">
+                Obrigado por usar o <strong>Viver App</strong> 💚<br />
+                Você será redirecionado automaticamente em instantes.
+            </div>
+            <div class="loader"></div>
+            <footer>Redirecionando com segurança para o aplicativo...</footer>
+        </div>
+
+        <script>
+        setTimeout(() => {
+          window.location.href = "viverapp://pagamentosucesso";
+        }, 2500);
+        </script>
+    </body>
+</html>

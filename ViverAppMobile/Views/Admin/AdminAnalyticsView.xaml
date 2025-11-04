@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="ViverAppMobile.Views.Admin.AdminAnalyticsView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converter="clr-namespace:ViverAppMobile.Converters"
+    xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:ViverAppMobile.ViewModels.Admin"
+    BackgroundColor="{StaticResource PageBackground}">
+
+    <ContentView.BindingContext>
+        <vm:AdminAnalyticsViewModel />
+    </ContentView.BindingContext>
+
+    <ContentView.Resources>
+        <Style x:Key="LabelItemStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="TextColor" Value="Black" />
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="FontFamily" Value="Semibold" />
+        </Style>
+        <Style x:Key="BorderItemStyle" TargetType="Border">
+            <Setter Property="FlexLayout.Grow" Value="1" />
+            <Setter Property="HeightRequest" Value="26" />
+            <Setter Property="StrokeShape" Value="18" />
+            <Setter Property="StrokeThickness" Value="0" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+        <Style x:Key="CartesianChartStyle" TargetType="lvc:CartesianChart">
+            <Setter Property="Padding" Value="10,0,10,0" />
+            <Setter Property="HeightRequest" Value="350" />
+            <Setter Property="WidthRequest" Value="380" />
+            <Setter Property="LegendPosition" Value="Bottom" />
+            <Setter Property="LegendTextSize" Value="12" />
+        </Style>
+        <Style x:Key="PieChartStyle" TargetType="lvc:PieChart">
+            <Setter Property="HeightRequest" Value="350" />
+            <Setter Property="WidthRequest" Value="380" />
+            <Setter Property="LegendPosition" Value="Bottom" />
+            <Setter Property="LegendTextSize" Value="12" />
+            <Setter Property="MaxAngle" Value="360" />
+        </Style>
+
+        <converter:SignalToStringConverter x:Key="SignalToStringConverter" />
+        <converter:SignalToColorConverter x:Key="SignalToColorConverter" />
+        <converter:DecimalToBrlMoneyConverter x:Key="DecimalToBrlMoneyConverter" />
+        <converter:SelectedValueToBoolConverter x:Key="SelectedValueToBoolConverter" />
+        <converter:SelectedValueToColorConverter
+            x:Key="SelectedValueToColorConverter"
+            SelectedColor="White"
+            UnselectedColor="Transparent" />
+    </ContentView.Resources>
+
+    <RefreshView>
+        <ScrollView>
+            <VerticalStackLayout Padding="15" Spacing="20">
+                <!--#region Header-->
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="4">
+                    <VerticalStackLayout Spacing="2">
+                        <HorizontalStackLayout Spacing="2">
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="22"
+                                Text="&#xe838;" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="22"
+                                Text="Analytics Dashboard" />
+                        </HorizontalStackLayout>
+                        <Label
+                            FontSize="13"
+                            Text="Análise Avançada de performance e métricas"
+                            TextColor="Gray" />
+                    </VerticalStackLayout>
+                    <Border
+                        Grid.Column="1"
+                        Padding="0,-8"
+                        BackgroundColor="{StaticResource BackgroundGray}"
+                        Stroke="Transparent"
+                        StrokeShape="RoundRectangle 8"
+                        VerticalOptions="Center">
+                        <Picker
+                            FontSize="12"
+                            ItemsSource="{Binding TimeFilter}"
+                            SelectedItem="{Binding SelectedTimeFilter}"
+                            TextColor="Gray" />
+                    </Border>
+                </Grid>
+
+                <Grid
+                    ColumnDefinitions="*,*"
+                    ColumnSpacing="12"
+                    RowDefinitions="*,*"
+                    RowSpacing="12">
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Padding="15,20,15,20"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout Spacing="4">
+                            <FlexLayout JustifyContent="SpaceBetween">
+                                <Label
+                                    FontFamily="AppIcons"
+                                    FontSize="18"
+                                    Text="&#xe805;"
+                                    TextColor="Green" />
+                                <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
+                                    <Label
+                                        FontFamily="AppIcons"
+                                        FontSize="8"
+                                        Text="{Binding RevenuePercent, Converter={StaticResource SignalToStringConverter}}"
+                                        TextColor="{Binding RevenuePercent, Converter={StaticResource SignalToColorConverter}}"
+                                        VerticalTextAlignment="Center" />
+                                    <Label FontSize="12" TextColor="{Binding RevenuePercent, Converter={StaticResource SignalToColorConverter}}">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding RevenuePercent}" />
+                                                <Span Text="%" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </HorizontalStackLayout>
+                            </FlexLayout>
+                            <Label
+                                FontFamily="Semibold"
+                                FontSize="13"
+                                Text="Receita"
+                                TextColor="Gray" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                Text="{Binding Revenue, Converter={StaticResource DecimalToBrlMoneyConverter}}"
+                                TextColor="Black" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Padding="15,20,15,20"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout Spacing="4">
+                            <FlexLayout JustifyContent="SpaceBetween">
+                                <Label
+                                    FontFamily="AppIcons"
+                                    FontSize="18"
+                                    Text="&#xf133;"
+                                    TextColor="Blue" />
+                                <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
+                                    <Label
+                                        FontFamily="AppIcons"
+                                        FontSize="8"
+                                        Text="{Binding AppointmentsPercent, Converter={StaticResource SignalToStringConverter}}"
+                                        TextColor="{Binding AppointmentsPercent, Converter={StaticResource SignalToColorConverter}}"
+                                        VerticalTextAlignment="Center" />
+                                    <Label FontSize="12" TextColor="{Binding AppointmentsPercent, Converter={StaticResource SignalToColorConverter}}">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding AppointmentsPercent}" />
+                                                <Span Text="%" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </HorizontalStackLayout>
+                            </FlexLayout>
+                            <Label
+                                FontFamily="Semibold"
+                                FontSize="13"
+                                Text="Consultas"
+                                TextColor="Gray" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                Text="{Binding AppointmentsCount}"
+                                TextColor="Black" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Padding="15,20,15,20"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout Spacing="4">
+                            <FlexLayout JustifyContent="SpaceBetween">
+                                <Label
+                                    FontFamily="AppIcons"
+                                    FontSize="10"
+                                    Text="&#xe83b;"
+                                    TextColor="Purple" />
+                                <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
+                                    <Label
+                                        FontFamily="AppIcons"
+                                        FontSize="8"
+                                        Text="{Binding AveragePricePercent, Converter={StaticResource SignalToStringConverter}}"
+                                        TextColor="{Binding AveragePricePercent, Converter={StaticResource SignalToColorConverter}}"
+                                        VerticalTextAlignment="Center" />
+                                    <Label FontSize="12" TextColor="{Binding AveragePricePercent, Converter={StaticResource SignalToColorConverter}}">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding AveragePricePercent}" />
+                                                <Span Text="%" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </HorizontalStackLayout>
+                            </FlexLayout>
+                            <Label
+                                FontFamily="Semibold"
+                                FontSize="13"
+                                Text="Valor Médio"
+                                TextColor="Gray" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                Text="{Binding AveragePrice, Converter={StaticResource DecimalToBrlMoneyConverter}}"
+                                TextColor="Black" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Padding="15,20,15,20"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout Spacing="4">
+                            <FlexLayout JustifyContent="SpaceBetween">
+                                <Label
+                                    FontFamily="AppIcons"
+                                    FontSize="18"
+                                    Text="&#xe834;"
+                                    TextColor="Gold" />
+                                <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
+                                    <Label
+                                        FontFamily="AppIcons"
+                                        FontSize="8"
+                                        Text="{Binding SatisfactionPercent, Converter={StaticResource SignalToStringConverter}}"
+                                        TextColor="{Binding SatisfactionPercent, Converter={StaticResource SignalToColorConverter}}"
+                                        VerticalTextAlignment="Center" />
+                                    <Label FontSize="12" TextColor="{Binding SatisfactionPercent, Converter={StaticResource SignalToColorConverter}}">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding SatisfactionPercent}" />
+                                                <Span Text="%" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </HorizontalStackLayout>
+                            </FlexLayout>
+                            <Label
+                                FontFamily="Semibold"
+                                FontSize="13"
+                                Text="Satisfação"
+                                TextColor="Gray" />
+                            <Label FontSize="16" TextColor="Black">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span FontAttributes="Bold" Text="{Binding SatisfactionString}" />
+                                        <Span FontAttributes="Bold" Text="/5.0" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+                <!--#endregion-->
+
+                <!--#region  TABS-->
+                <Border
+                    Padding="2"
+                    BackgroundColor="#DDDDDD"
+                    Stroke="LightGray"
+                    StrokeShape=" RoundRectangle 12">
+                    <FlexLayout
+                        Direction="Row"
+                        HorizontalOptions="Center"
+                        JustifyContent="SpaceEvenly">
+                        <Border BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToColorConverter}, ConverterParameter={StaticResource Index0}}" Style="{StaticResource BorderItemStyle}">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ToogleSelectedTabCommand}" CommandParameter="{StaticResource Index0}" />
+                            </Border.GestureRecognizers>
+
+                            <Label Style="{StaticResource LabelItemStyle}" Text="Receitas" />
+                        </Border>
+                        <Border BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToColorConverter}, ConverterParameter={StaticResource Index1}}" Style="{StaticResource BorderItemStyle}">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ToogleSelectedTabCommand}" CommandParameter="{StaticResource Index1}" />
+                            </Border.GestureRecognizers>
+
+                            <Label Style="{StaticResource LabelItemStyle}" Text="Pagamentos" />
+                        </Border>
+                        <Border BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToColorConverter}, ConverterParameter={StaticResource Index2}}" Style="{StaticResource BorderItemStyle}">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ToogleSelectedTabCommand}" CommandParameter="{StaticResource Index2}" />
+                            </Border.GestureRecognizers>
+
+                            <Label Style="{StaticResource LabelItemStyle}" Text="Serviços" />
+                        </Border>
+                        <Border BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToColorConverter}, ConverterParameter={StaticResource Index3}}" Style="{StaticResource BorderItemStyle}">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ToogleSelectedTabCommand}" CommandParameter="{StaticResource Index3}" />
+                            </Border.GestureRecognizers>
+
+                            <Label Style="{StaticResource LabelItemStyle}" Text="Performance" />
+                        </Border>
+                    </FlexLayout>
+                </Border>
+                <!--#endregion-->
+
+                <!--#region Revenue-->
+                <VerticalStackLayout
+                    IsVisible="{Binding SelectedTab, Converter={StaticResource SelectedValueToBoolConverter}, ConverterParameter={StaticResource Index0}}"
+                    Shadow="{StaticResource BottomShadow}"
+                    Spacing="15">
+                    <Border
+                        Padding="0"
+                        Shadow="{StaticResource BottomShadow}"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout Padding="10" Spacing="15">
+                            <VerticalStackLayout Padding="10" Spacing="6">
+                                <Label
+                                    FontFamily="Semibold"
+                                    FontSize="13"
+                                    Text="Evolução da Receita" />
+                                <Label
+                                    FontSize="13"
+                                    Text="Receita mensal por categoria"
+                                    TextColor="Gray" />
+                            </VerticalStackLayout>
+
+                            <lvc:CartesianChart
+                                Series="{Binding RevenueByUserTypeChart.Series}"
+                                Style="{StaticResource CartesianChartStyle}"
+                                XAxes="{Binding RevenueVsAppointmentChart.XAxes}"
+                                YAxes="{Binding RevenueByUserTypeChart.YAxes}" />
+
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border Padding="0" Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout Padding="10" Spacing="15">
+                            <VerticalStackLayout Padding="10" Spacing="6">
+                                <Label
+                                    FontFamily="Semibold"
+                                    FontSize="13"
+                                    Text="Receita vs Consultas" />
+                                <Label
+                                    FontSize="13"
+                                    Text="Correlação entre volume e receita"
+                                    TextColor="Gray" />
+                            </VerticalStackLayout>
+
+                            <lvc:CartesianChart
+                                Padding="0"
+                                Series="{Binding RevenueVsAppointmentChart.Series}"
+                                Style="{StaticResource CartesianChartStyle}"
+                                XAxes="{Binding RevenueVsAppointmentChart.XAxes}"
+                                YAxes="{Binding RevenueVsAppointmentChart.YAxes}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+                <!--#endregion-->
+
+                <!--#region Payments-->
+                <VerticalStackLayout
+                    IsVisible="{Binding SelectedTab, Converter={StaticResource SelectedValueToBoolConverter}, ConverterParameter={StaticResource Index1}}"
+                    Shadow="{StaticResource BottomShadow}"
+                    Spacing="15">
+                    <Border
+                        Padding="0"
+                        Shadow="{StaticResource BottomShadow}"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout Padding="10" Spacing="15">
+                            <VerticalStackLayout Padding="10" Spacing="6">
+                                <Label
+                                    FontFamily="Semibold"
+                                    FontSize="13"
+                                    Text="Pagamentos por Tipo" />
+                                <Label
+                                    FontSize="13"
+                                    Text="Evolução mensal por forma de pagamento"
+                                    TextColor="Gray" />
+                            </VerticalStackLayout>
+
+                            <lvc:CartesianChart
+                                Padding="0"
+                                Series="{Binding PaymentsByTypeChart.Series}"
+                                Style="{StaticResource CartesianChartStyle}"
+                                XAxes="{Binding PaymentsByTypeChart.XAxes}"
+                                YAxes="{Binding PaymentsByTypeChart.YAxes}" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border Padding="0" Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout Padding="10" Spacing="15">
+                            <VerticalStackLayout Padding="10" Spacing="6">
+                                <Label
+                                    FontFamily="Semibold"
+                                    FontSize="13"
+                                    Text="Distribuição por Tipo de Pagamento" />
+                                <Label
+                                    FontSize="13"
+                                    Text="Proporção atual de cada forma de pagamento"
+                                    TextColor="Gray" />
+                            </VerticalStackLayout>
+
+                            <lvc:PieChart Series="{Binding PaymentsDistributionChart.Series}" Style="{StaticResource PieChartStyle}" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border Padding="0" Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout Padding="10" Spacing="15">
+                            <VerticalStackLayout Padding="10" Spacing="6">
+                                <Label
+                                    FontFamily="Semibold"
+                                    FontSize="13"
+                                    Text="Tendência pagamentos Online vs Presencial" />
+                                <Label
+                                    FontSize="13"
+                                    Text="Evolução da preferência de pagamentos online e na clínica"
+                                    TextColor="Gray" />
+                            </VerticalStackLayout>
+
+                            <lvc:CartesianChart
+                                Series="{Binding WherePaidTrendEvolutionChart.Series}"
+                                Style="{StaticResource CartesianChartStyle}"
+                                XAxes="{Binding WherePaidTrendEvolutionChart.XAxes}"
+                                YAxes="{Binding WherePaidTrendEvolutionChart.YAxes}" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border Padding="0" Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout Padding="10" Spacing="15">
+                            <VerticalStackLayout Padding="10" Spacing="6">
+                                <Label
+                                    FontFamily="Semibold"
+                                    FontSize="13"
+                                    Text="Online vs Presencial" />
+                                <Label
+                                    FontSize="13"
+                                    Text="Distribuição de pagamentos online e na clínica"
+                                    TextColor="Gray" />
+                            </VerticalStackLayout>
+
+                            <lvc:PieChart Series="{Binding WherePaidDistributionChart.Series}" Style="{StaticResource PieChartStyle}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+                <!--#endregion-->
+
+                <!--#region Appointments-->
+                <VerticalStackLayout
+                    IsVisible="{Binding SelectedTab, Converter={StaticResource SelectedValueToBoolConverter}, ConverterParameter={StaticResource Index2}}"
+                    Shadow="{StaticResource BottomShadow}"
+                    Spacing="15">
+                    <Border
+                        Padding="0"
+                        Shadow="{StaticResource BottomShadow}"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout Padding="10" Spacing="15">
+                            <VerticalStackLayout Padding="10" Spacing="6">
+                                <Label
+                                    FontFamily="Semibold"
+                                    FontSize="13"
+                                    Text="Distribuição de Serviços" />
+                                <Label
+                                    FontSize="13"
+                                    Text="Agendamentos realizados por tipo de serviço"
+                                    TextColor="Gray" />
+                            </VerticalStackLayout>
+
+                            <lvc:PieChart Series="{Binding AppointmentDistributionChart.Series}" Style="{StaticResource PieChartStyle}" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border
+                        Padding="0"
+                        Shadow="{StaticResource BottomShadow}"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout Padding="10" Spacing="15">
+                            <VerticalStackLayout Padding="10" Spacing="6">
+                                <Label
+                                    FontFamily="Semibold"
+                                    FontSize="13"
+                                    Text="Distribuição de Tipos de Atendimento" />
+                                <Label
+                                    FontSize="13"
+                                    Text="Atendimentos realizados por tipo base"
+                                    TextColor="Gray" />
+                            </VerticalStackLayout>
+
+                            <lvc:PieChart Series="{Binding AppointmentTypeDistributionChart.Series}" Style="{StaticResource PieChartStyle}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+                <!--#endregion-->
+
+                <!--#region Performance-->
+                <Border
+                    Padding="0"
+                    IsVisible="{Binding SelectedTab, Converter={StaticResource SelectedValueToBoolConverter}, ConverterParameter={StaticResource Index3}}"
+                    Shadow="{StaticResource BottomShadow}"
+                    Style="{StaticResource MasterBorderStyle}">
+                    <VerticalStackLayout Padding="10" Spacing="15">
+                        <VerticalStackLayout Padding="10" Spacing="6">
+                            <Label
+                                FontFamily="Semibold"
+                                FontSize="13"
+                                Text="Performance dos Médicos" />
+                            <Label
+                                FontSize="13"
+                                Text="Análise de produtividade e eficiência"
+                                TextColor="Gray" />
+                        </VerticalStackLayout>
+
+                        <lvc:CartesianChart
+                            Padding="0"
+                            Series="{Binding DoctorPerformanceChart.Series}"
+                            Style="{StaticResource CartesianChartStyle}"
+                            XAxes="{Binding DoctorPerformanceChart.XAxes}"
+                            YAxes="{Binding DoctorPerformanceChart.YAxes}" />
+                    </VerticalStackLayout>
+                </Border>
+                <!--#endregion-->
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentView>

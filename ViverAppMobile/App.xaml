@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Application
+    x:Class="ViverAppMobile.App"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:ViverAppMobile"
+    NavigationPage.HasNavigationBar="False">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Color x:Key="BackgroundBlue">#F0F6FF</Color>
+            <Color x:Key="BorderBlue">#66a3ff</Color>
+            <Color x:Key="BackgroundGray">#f2f2f5</Color>
+            <Color x:Key="LightPurple">#f3e8ff</Color>
+            <Color x:Key="BackgroundGreen">#f0fdf4</Color>
+            <Color x:Key="PageBackground">#f7f9fa</Color>
+            <x:Boolean x:Key="TrueParam">True</x:Boolean>
+            <x:Boolean x:Key="FalseParam">False</x:Boolean>
+            <x:Int32 x:Key="RescheduledStatus">5</x:Int32>
+            <x:Int32 x:Key="Index1">1</x:Int32>
+            <x:Int32 x:Key="Index2">2</x:Int32>
+            <x:Int32 x:Key="Index3">3</x:Int32>
+            <x:Int32 x:Key="Index4">4</x:Int32>
+            <x:Int32 x:Key="Index5">5</x:Int32>
+            <x:Int32 x:Key="Index6">6</x:Int32>
+            <x:Int32 x:Key="Index7">7</x:Int32>
+            <x:Int32 x:Key="Index8">8</x:Int32>
+            <x:Int32 x:Key="Index9">9</x:Int32>
+            <x:Int32 x:Key="Index0">0</x:Int32>
+
+            <Shadow
+                x:Key="BottomShadow"
+                Brush="Black"
+                Opacity="0.3"
+                Radius="4"
+                Offset="0,5" />
+            <Style x:Key="BorderPopupStyle" TargetType="Border">
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="StrokeShape" Value="8" />
+                <Setter Property="MaximumWidthRequest" Value="350" />
+                <Setter Property="Padding" Value="15" />
+                <Setter Property="MaximumHeightRequest" Value="350" />
+            </Style>
+            <Style x:Key="MasterBorderStyle" TargetType="Border">
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="StrokeThickness" Value="0.5" />
+                <Setter Property="StrokeShape" Value="8" />
+                <Setter Property="Padding" Value="15" />
+            </Style>
+
+            <ControlTemplate x:Key="EmptyStateTemplate">
+                <Border
+                    Padding="15"
+                    BackgroundColor="White"
+                    StrokeShape="8">
+                    <StackLayout Padding="10" Spacing="6">
+                        <Label
+                            Padding="10"
+                            FontFamily="AppIcons"
+                            FontSize="60"
+                            HorizontalTextAlignment="Center"
+                            Text="&#xe801;"
+                            TextColor="Gray"
+                            VerticalTextAlignment="Center" />
+                        <Label
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center"
+                            Text="{TemplateBinding BindingContext}" />
+                    </StackLayout>
+                </Border>
+            </ControlTemplate>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

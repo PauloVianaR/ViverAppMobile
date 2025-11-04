@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mopups:PopupPage
+    x:Class="ViverAppMobile.Views.Popups.LoadingPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+    BackgroundColor="#80000000"
+    CloseWhenBackgroundIsClicked="False">
+
+    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+        <ActivityIndicator
+            HeightRequest="100"
+            IsRunning="True"
+            WidthRequest="100"
+            Color="White" />
+        <Label
+            FontSize="16"
+            HorizontalOptions="Center"
+            Text="Carregando..."
+            TextColor="White" />
+    </VerticalStackLayout>
+</mopups:PopupPage>

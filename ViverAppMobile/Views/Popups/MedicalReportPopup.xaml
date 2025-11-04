@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mopups:PopupPage
+    x:Class="ViverAppMobile.Views.Popups.MedicalReportPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converter="clr-namespace:ViverAppMobile.Converters"
+    xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+    BackgroundColor="#80000000">
+    <Border MaximumHeightRequest="600" Style="{StaticResource BorderPopupStyle}">
+
+        <Border.Resources>
+            <ResourceDictionary>
+                <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
+                <converter:BoolToStringConverter
+                    x:Key="BoolToICONStringConverter"
+                    TextForFalse="&#xf02e;"
+                    TextForTrue="&#xe83d;" />
+                <converter:BoolToStringConverter
+                    x:Key="BoolToStringConverter"
+                    TextForFalse="Baixar Laudo (PDF)"
+                    TextForTrue="Salvar Laudo" />
+            </ResourceDictionary>
+        </Border.Resources>
+
+        <VerticalStackLayout Spacing="16">
+            <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
+                <Label FontSize="16" TextColor="Black">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontFamily="AppIcons" Text="&#xf0f6;" />
+                            <Span FontFamily="Semibold" Text="   Relatório - " />
+                            <Span FontFamily="Semibold" Text="{Binding UserSchedule.AppointmentTitle}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label
+                    FontFamily="AppIcons"
+                    FontSize="12"
+                    Text="&#xe81e;"
+                    TextColor="Gray">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="BackButtonPressed" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </FlexLayout>
+
+            <Border
+                Padding="8"
+                BackgroundColor="{StaticResource BackgroundGray}"
+                HeightRequest="480"
+                Stroke="Transparent"
+                StrokeShape="6">
+                <ScrollView>
+                    <Editor
+                        FontSize="12"
+                        IsReadOnly="{Binding CanEdit, Converter={StaticResource InverseBoolConverter}}"
+                        Text="{Binding UserSchedule.MedicalReport}" />
+                </ScrollView>
+            </Border>
+
+            <Border Padding="6" StrokeShape="6">
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="DownloadOrSaveMedicalReport" />
+                </Border.GestureRecognizers>
+
+                <Label HorizontalTextAlignment="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontFamily="AppIcons" Text="{Binding CanEdit, Converter={StaticResource BoolToICONStringConverter}}" />
+                            <Span
+                                FontFamily="Semibold"
+                                FontSize="12"
+                                Text="  " />
+                            <Span
+                                FontFamily="Semibold"
+                                FontSize="12"
+                                Text="{Binding CanEdit, Converter={StaticResource BoolToStringConverter}}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </Border>
+        </VerticalStackLayout>
+    </Border>
+</mopups:PopupPage>

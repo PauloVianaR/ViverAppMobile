@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<FlyoutPage
+    x:Class="ViverAppMobile.Views.Patient.PatientMainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:ViverAppMobile.Views.Patient"
+    xmlns:vm="clr-namespace:ViverAppMobile.ViewModels.Patient"
+    BackgroundColor="White"
+    FlowDirection="LeftToRight"
+    FlyoutLayoutBehavior="Popover">
+
+    <FlyoutPage.BindingContext>
+        <vm:PatientFlyoutViewModel />
+    </FlyoutPage.BindingContext>
+
+    <FlyoutPage.Flyout>
+        <ContentPage Title="MENU">
+
+            <ContentPage.Resources>
+                <Style x:Key="MasterBorderItem" TargetType="Border">
+                    <Setter Property="Padding" Value="10" />
+                    <Setter Property="BackgroundColor" Value="White" />
+                    <Setter Property="StrokeShape" Value="10" />
+                    <Setter Property="StrokeThickness" Value="0.5" />
+                    <Setter Property="VerticalOptions" Value="Center" />
+                </Style>
+            </ContentPage.Resources>
+
+            <StackLayout
+                Padding="0"
+                BackgroundColor="White"
+                Spacing="15">
+                <StackLayout Padding="10" Spacing="5">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        HorizontalOptions="Start"
+                        Text="Ações Rápidas" />
+                    <Label
+                        FontSize="14"
+                        Text="Acesso rapidamente as principais funcionalidades"
+                        TextColor="Gray" />
+                </StackLayout>
+                <Border
+                    BackgroundColor="#fefce8"
+                    IsVisible="{Binding IsNotUserPremium}"
+                    Stroke="Orange"
+                    Style="{StaticResource MasterBorderItem}">
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ShowPremiumPlansCommand}" />
+                    </Border.GestureRecognizers>
+
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <Border
+                            Grid.Column="0"
+                            Padding="10"
+                            BackgroundColor="#f0b100"
+                            HeightRequest="40"
+                            StrokeShape="90">
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="AppIcons"
+                                Text="&#xe80f;"
+                                TextColor="White" />
+                        </Border>
+                        <StackLayout Grid.Column="1" Padding="10">
+                            <Label
+                                FontAttributes="Bold"
+                                Text="Tornar-se Premium"
+                                VerticalTextAlignment="Center" />
+                            <Label FontSize="11" Text="Acesso prioritário e descontos especiais" />
+                        </StackLayout>
+                        <Label
+                            Grid.Column="2"
+                            FontFamily="AppIcons"
+                            FontSize="12"
+                            Text="&#xe813;"
+                            TextColor="Gray"
+                            VerticalTextAlignment="Center" />
+                    </Grid>
+                </Border>
+
+                <Border Style="{StaticResource MasterBorderItem}">
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ShowScheduleViewCommand}" />
+                    </Border.GestureRecognizers>
+
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <Border
+                            Grid.Column="0"
+                            Padding="10"
+                            BackgroundColor="#2b7fff"
+                            HeightRequest="40"
+                            StrokeShape="90">
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="18"
+                                Text="&#xe80e;"
+                                TextColor="White" />
+                        </Border>
+                        <StackLayout Grid.Column="1" Padding="10">
+                            <Label
+                                FontAttributes="Bold"
+                                Text="Agendar nova consulta"
+                                VerticalTextAlignment="Center" />
+                            <Label FontSize="11" Text="Marque sua próxima consulta" />
+                        </StackLayout>
+                        <Label
+                            Grid.Column="2"
+                            FontFamily="AppIcons"
+                            FontSize="12"
+                            Text="&#xe813;"
+                            TextColor="Gray"
+                            VerticalTextAlignment="Center" />
+                    </Grid>
+                </Border>
+
+                <Border Style="{StaticResource MasterBorderItem}">
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ShowAgendaViewCommand}" />
+                    </Border.GestureRecognizers>
+
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <Border
+                            Grid.Column="0"
+                            Padding="10"
+                            BackgroundColor="LimeGreen"
+                            HeightRequest="40"
+                            StrokeShape="90">
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="18"
+                                Text="&#xe80d;"
+                                TextColor="White" />
+                        </Border>
+                        <StackLayout Grid.Column="1" Padding="10">
+                            <Label
+                                FontAttributes="Bold"
+                                Text="Ver todas as consultas"
+                                VerticalTextAlignment="Center" />
+                            <Label FontSize="11" Text="Histórico completo" />
+                        </StackLayout>
+                        <Label
+                            Grid.Column="2"
+                            FontFamily="AppIcons"
+                            FontSize="12"
+                            Text="&#xe813;"
+                            TextColor="Gray"
+                            VerticalTextAlignment="Center" />
+                    </Grid>
+                </Border>
+
+                <Border Style="{StaticResource MasterBorderItem}">
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ShowPaymentViewCommand}" />
+                    </Border.GestureRecognizers>
+
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <Border
+                            Grid.Column="0"
+                            Padding="10"
+                            BackgroundColor="MediumPurple"
+                            HeightRequest="40"
+                            StrokeShape="90">
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="18"
+                                Text="&#xe805;"
+                                TextColor="White" />
+                        </Border>
+                        <StackLayout Grid.Column="1" Padding="10">
+                            <Label
+                                FontAttributes="Bold"
+                                Text="Pagamentos"
+                                VerticalTextAlignment="Center" />
+                            <Label FontSize="11" Text="Gerencie seus pagamentos" />
+                        </StackLayout>
+                        <Label
+                            Grid.Column="2"
+                            FontFamily="AppIcons"
+                            FontSize="12"
+                            Text="&#xe813;"
+                            TextColor="Gray"
+                            VerticalTextAlignment="Center" />
+                    </Grid>
+                </Border>
+
+                <Border Style="{StaticResource MasterBorderItem}">
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ShowProfileViewCommand}" />
+                    </Border.GestureRecognizers>
+
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <Border
+                            Grid.Column="0"
+                            Padding="10"
+                            BackgroundColor="OrangeRed"
+                            HeightRequest="40"
+                            StrokeShape="90">
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="18"
+                                Text="&#xe812;"
+                                TextColor="White" />
+                        </Border>
+                        <StackLayout Grid.Column="1" Padding="10">
+                            <Label
+                                FontAttributes="Bold"
+                                Text="Meu Perfil"
+                                VerticalTextAlignment="Center" />
+                            <Label FontSize="11" Text="Dados pessoais e preferências" />
+                        </StackLayout>
+                        <Label
+                            Grid.Column="2"
+                            FontFamily="AppIcons"
+                            FontSize="12"
+                            Text="&#xe813;"
+                            TextColor="Gray"
+                            VerticalTextAlignment="Center" />
+                    </Grid>
+                </Border>
+            </StackLayout>
+        </ContentPage>
+    </FlyoutPage.Flyout>
+
+    <FlyoutPage.Detail>
+        <NavigationPage>
+            <x:Arguments>
+                <views:PatientTabbedPage />
+            </x:Arguments>
+        </NavigationPage>
+    </FlyoutPage.Detail>
+</FlyoutPage>

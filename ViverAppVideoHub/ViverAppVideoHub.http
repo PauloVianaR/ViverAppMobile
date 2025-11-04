@@ -1,0 +1,6 @@
+@ViverAppVideoHub_HostAddress = http://localhost:5279
+
+GET {{ViverAppVideoHub_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

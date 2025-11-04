@@ -1,0 +1,1475 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="ViverAppMobile.Views.Doctor.DoctorProfileView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:ViverAppMobile.Controls"
+    xmlns:converter="clr-namespace:ViverAppMobile.Converters"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:ViverAppMobile.ViewModels.Doctor"
+    x:Name="DoctorProfilePage"
+    BackgroundColor="{StaticResource PageBackground}">
+
+    <ContentView.BindingContext>
+        <vm:DoctorProfileViewModel />
+    </ContentView.BindingContext>
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converter:IntToDayOfWeekConverter x:Key="IntToDayOfWeekConverter" />
+            <converter:SelectedValueToBoolConverter x:Key="SelectedValueToBoolConverter" />
+            <converter:FormValidationValueConverter x:Key="FormValidationValueConverter" />
+            <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
+            <converter:SelectedValueToColorConverter
+                x:Key="SelectedValueToTabColorConverter"
+                SelectedColor="White"
+                UnselectedColor="Transparent" />
+            <converter:SelectedValueToStringConverter
+                x:Key="SelectedValueToStringAppointmentStatusConverter"
+                TextForFalse="Inativo"
+                TextForTrue="Ativo" />
+            <converter:SelectedValueToColorConverter
+                x:Key="SelectedValueToBackgroundColorAppointmentStatusConverter"
+                SelectedColor="Black"
+                UnselectedColor="LightGray" />
+            <converter:SelectedValueToColorConverter
+                x:Key="SelectedValueToTextColorAppointmentStatusConverter"
+                SelectedColor="White"
+                UnselectedColor="Black" />
+            <converter:SelectedValueToStringConverter
+                x:Key="SelectedValueToStringAvailabilityDayOfWeekClinicConverter"
+                TextForFalse="Indisponível"
+                TextForTrue="Disponível" />
+
+            <DataTemplate x:Key="AppointmentSpecialtiesDataTemplateCollection">
+                <Border Padding="0,4,8,4" StrokeShape="6">
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <CheckBox
+                            Grid.Column="0"
+                            Margin="10,0,0,0"
+                            CheckedChanged="CheckBox_CheckedChanged"
+                            IsChecked="{Binding IsActive}"
+                            IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
+                            VerticalOptions="Start"
+                            Color="Black" />
+
+                        <VerticalStackLayout
+                            Grid.Column="1"
+                            Spacing="3"
+                            VerticalOptions="Center">
+                            <Label
+                                FontFamily="Semibold"
+                                FontSize="12"
+                                Text="{Binding Model.Title}" />
+                            <Label
+                                FontSize="11"
+                                LineBreakMode="TailTruncation"
+                                LineHeight="1.3"
+                                MaxLines="3"
+                                Text="{Binding Model.Description}"
+                                TextColor="Gray" />
+                        </VerticalStackLayout>
+
+                        <ActivityIndicator
+                            Grid.Column="2"
+                            IsRunning="{Binding IsBusy}"
+                            IsVisible="{Binding IsBusy}"
+                            Color="Blue" />
+                    </Grid>
+                </Border>
+            </DataTemplate>
+            <DataTemplate x:Key="AvailabilitesDoctorDataTemplateCollection">
+                <Border Padding="10" Style="{StaticResource MasterBorderStyle}">
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="4">
+                        <VerticalStackLayout Grid.Column="0">
+                            <Label
+                                FontFamily="Semibold"
+                                FontSize="13"
+                                Text="{Binding Model.Daytype, Converter={StaticResource IntToDayOfWeekConverter}}"
+                                VerticalTextAlignment="Center" />
+                            <HorizontalStackLayout
+                                Grid.Column="1"
+                                IsVisible="{Binding IsActive}"
+                                Spacing="2"
+                                VerticalOptions="End">
+                                <controls:CustomTimePicker Time="{Binding Model.Starttime}" WidthRequest="67" />
+                                <Label
+                                    FontFamily="Semibold"
+                                    FontSize="13"
+                                    Text="às"
+                                    VerticalTextAlignment="Center" />
+                                <controls:CustomTimePicker Time="{Binding Model.Endtime}" WidthRequest="67" />
+                            </HorizontalStackLayout>
+                            <Label
+                                Margin="0,10,0,0"
+                                FontSize="12"
+                                IsVisible="{Binding IsActive, Converter={StaticResource InverseBoolConverter}}"
+                                Text="[Não atende neste dia]"
+                                TextColor="Gray"
+                                VerticalTextAlignment="End" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1">
+                            <Border
+                                Padding="8,2,8,2"
+                                BackgroundColor="{Binding IsActive, Converter={StaticResource SelectedValueToBackgroundColorAppointmentStatusConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                HorizontalOptions="End"
+                                IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
+                                Stroke="Transparent"
+                                StrokeShape="4">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="10"
+                                    Text="{Binding IsActive, Converter={StaticResource SelectedValueToStringAvailabilityDayOfWeekClinicConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                    TextColor="{Binding IsActive, Converter={StaticResource SelectedValueToTextColorAppointmentStatusConverter}, ConverterParameter={StaticResource TrueParam}}" />
+                            </Border>
+                            <ActivityIndicator
+                                HeightRequest="50"
+                                HorizontalOptions="End"
+                                IsRunning="{Binding IsBusy}"
+                                IsVisible="{Binding IsBusy}"
+                                WidthRequest="50" />
+                            <Switch
+                                FlowDirection="RightToLeft"
+                                IsToggled="{Binding IsActive}"
+                                IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
+                                OnColor="LightSeaGreen"
+                                ThumbColor="Black"
+                                Toggled="Switch_Toggled" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <RefreshView Command="{Binding ReloadPageCommand}" IsRefreshing="{Binding IsReloading}">
+        <ScrollView>
+            <VerticalStackLayout Padding="15" Spacing="20">
+                <VerticalStackLayout Spacing="6">
+                    <Label
+                        FontFamily="Semibold"
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        Text="Meu Perfil Médico" />
+                    <Label
+                        FontSize="13"
+                        HorizontalTextAlignment="Center"
+                        Text="Atualizar seus dados pessoais e profissionais"
+                        TextColor="Gray" />
+                </VerticalStackLayout>
+
+                <!--#region TABS-->
+                <Border
+                    Padding="2"
+                    BackgroundColor="LightGray"
+                    Stroke="Transparent"
+                    StrokeShape="8">
+                    <Grid ColumnDefinitions="*,*,*">
+                        <Border
+                            Grid.Column="0"
+                            Padding="2"
+                            BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToTabColorConverter}, ConverterParameter=0}"
+                            Stroke="Transparent"
+                            StrokeShape="8">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectTabCommand}" CommandParameter="0" />
+                            </Border.GestureRecognizers>
+
+                            <Label
+                                FontFamily="Semibold"
+                                FontSize="12"
+                                HorizontalTextAlignment="Center"
+                                Text="Dados" />
+                        </Border>
+                        <Border
+                            Grid.Column="1"
+                            Padding="2"
+                            BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToTabColorConverter}, ConverterParameter=1}"
+                            Stroke="Transparent"
+                            StrokeShape="8">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectTabCommand}" CommandParameter="1" />
+                            </Border.GestureRecognizers>
+
+                            <Label
+                                FontFamily="Semibold"
+                                FontSize="12"
+                                HorizontalTextAlignment="Center"
+                                Text="Especialidades" />
+                        </Border>
+                        <Border
+                            Grid.Column="2"
+                            Padding="2"
+                            BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToTabColorConverter}, ConverterParameter=2}"
+                            Stroke="Transparent"
+                            StrokeShape="8">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectTabCommand}" CommandParameter="2" />
+                            </Border.GestureRecognizers>
+
+                            <Label
+                                FontFamily="Semibold"
+                                FontSize="12"
+                                HorizontalTextAlignment="Center"
+                                Text="Disponibilidade" />
+                        </Border>
+                    </Grid>
+                </Border>
+                <!--#endregion-->
+
+                <!--#region DATA-->
+                <VerticalStackLayout IsVisible="{Binding SelectedTab, Converter={StaticResource SelectedValueToBoolConverter}, ConverterParameter=0}" Spacing="20">
+                    <Border Shadow="{StaticResource BottomShadow}" Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout Spacing="10">
+                            <VerticalStackLayout Spacing="4">
+                                <Label FontSize="13">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontFamily="AppIcons" Text="&#xe812;" />
+                                            <Span Text="   Informações Pessoais" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label
+                                    FontSize="12"
+                                    Text="Atualize seus dados pessoais e profissionais"
+                                    TextColor="Gray" />
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Padding="0,10,0,0">
+                                <HorizontalStackLayout Spacing="6">
+                                    <Label
+                                        FontSize="12"
+                                        Text="Nome Completo"
+                                        TextColor="Black" />
+                                    <Label
+                                        FontSize="16"
+                                        IsVisible="{Binding FullName, Converter={StaticResource FormValidationValueConverter}, ConverterParameter=NotEmpty}"
+                                        Text="*"
+                                        TextColor="Red"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+                                <Border
+                                    Padding="5"
+                                    BackgroundColor="#f2f2f5"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 8">
+                                    <FlexLayout
+                                        AlignItems="Center"
+                                        BackgroundColor="Transparent"
+                                        Direction="Row"
+                                        JustifyContent="Start">
+                                        <Label
+                                            Padding="8"
+                                            FontFamily="AppIcons"
+                                            Text="&#xe812;" />
+                                        <Entry
+                                            Margin="0,0,-5,0"
+                                            BackgroundColor="Transparent"
+                                            FlexLayout.Grow="1"
+                                            Placeholder="João Silva"
+                                            PlaceholderColor="DarkGray"
+                                            Text="{Binding FullName}"
+                                            TextColor="Black" />
+                                    </FlexLayout>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <HorizontalStackLayout Spacing="6">
+                                    <Label
+                                        FontSize="12"
+                                        Text="Email"
+                                        TextColor="Black" />
+                                    <Label
+                                        FontSize="16"
+                                        IsVisible="{Binding Email, Converter={StaticResource FormValidationValueConverter}, ConverterParameter=Email}"
+                                        Text="*"
+                                        TextColor="Red"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+                                <Border
+                                    Padding="5"
+                                    BackgroundColor="#f2f2f5"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 8">
+                                    <FlexLayout
+                                        AlignItems="Center"
+                                        BackgroundColor="Transparent"
+                                        Direction="Row"
+                                        JustifyContent="Start">
+                                        <Label
+                                            Padding="8"
+                                            FontFamily="AppIcons"
+                                            Text="&#xe82c;" />
+                                        <Entry
+                                            Margin="0,0,-5,0"
+                                            BackgroundColor="Transparent"
+                                            FlexLayout.Grow="1"
+                                            Keyboard="Email"
+                                            Placeholder="seu@email.com"
+                                            PlaceholderColor="DarkGray"
+                                            Text="{Binding Email}"
+                                            TextColor="Black" />
+                                    </FlexLayout>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <HorizontalStackLayout Spacing="6">
+                                    <Label
+                                        FontSize="12"
+                                        Text="CPF"
+                                        TextColor="Black" />
+                                    <Label
+                                        FontSize="16"
+                                        IsVisible="{Binding Cpf, Converter={StaticResource FormValidationValueConverter}, ConverterParameter=CPF}"
+                                        Text="*"
+                                        TextColor="Red"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+                                <Border
+                                    Padding="5"
+                                    BackgroundColor="#f2f2f5"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 8">
+                                    <FlexLayout
+                                        AlignItems="Center"
+                                        BackgroundColor="Transparent"
+                                        Direction="Row"
+                                        JustifyContent="Start">
+                                        <Label
+                                            Padding="8"
+                                            FontFamily="AppIcons"
+                                            Text="&#xe805;" />
+                                        <Entry
+                                            Margin="0,0,-5,0"
+                                            BackgroundColor="Transparent"
+                                            FlexLayout.Grow="1"
+                                            Keyboard="Numeric"
+                                            Placeholder="000.000.000-00"
+                                            PlaceholderColor="DarkGray"
+                                            Text="{Binding Cpf}"
+                                            TextColor="Black">
+                                            <Entry.Behaviors>
+                                                <toolkit:MaskedBehavior Mask="XXX.XXX.XXX-XX" />
+                                            </Entry.Behaviors>
+                                        </Entry>
+                                    </FlexLayout>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <HorizontalStackLayout Spacing="6">
+                                    <Label
+                                        FontSize="12"
+                                        Text="Telefone"
+                                        TextColor="Black" />
+                                    <Label
+                                        FontSize="16"
+                                        IsVisible="{Binding Phone, Converter={StaticResource FormValidationValueConverter}, ConverterParameter=Phone}"
+                                        Text="*"
+                                        TextColor="Red"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+                                <Border
+                                    Padding="5"
+                                    BackgroundColor="#f2f2f5"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 8">
+                                    <FlexLayout
+                                        AlignItems="Center"
+                                        BackgroundColor="Transparent"
+                                        Direction="Row"
+                                        JustifyContent="Start">
+                                        <Label
+                                            Padding="8"
+                                            FontFamily="AppIcons"
+                                            Text="&#xe804;" />
+                                        <Entry
+                                            Margin="0,0,-5,0"
+                                            BackgroundColor="Transparent"
+                                            FlexLayout.Grow="1"
+                                            Keyboard="Telephone"
+                                            Placeholder="(11) 99999-9999"
+                                            PlaceholderColor="DarkGray"
+                                            Text="{Binding Phone}"
+                                            TextColor="Black">
+                                            <Entry.Behaviors>
+                                                <toolkit:MaskedBehavior Mask="(XX) XXXXX-XXXX" />
+                                            </Entry.Behaviors>
+                                        </Entry>
+                                    </FlexLayout>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <Border />
+                            <Label
+                                Margin="0,5,0,0"
+                                FontSize="12"
+                                VerticalTextAlignment="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span FontFamily="AppIcons" Text="&#xe811;" />
+                                        <Span FontFamily="Semibold" Text="  Informações Profissionais" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <VerticalStackLayout Margin="0,10,0,0">
+                                <HorizontalStackLayout Spacing="6">
+                                    <Label
+                                        FontSize="12"
+                                        Text="CRM"
+                                        TextColor="Black" />
+                                    <Label
+                                        FontSize="16"
+                                        IsVisible="{Binding Crm, Converter={StaticResource FormValidationValueConverter}, ConverterParameter=CRM}"
+                                        Text="*"
+                                        TextColor="Red"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+                                <Border
+                                    Padding="5"
+                                    BackgroundColor="#f2f2f5"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 8">
+                                    <FlexLayout
+                                        AlignItems="Center"
+                                        BackgroundColor="Transparent"
+                                        Direction="Row"
+                                        JustifyContent="Start">
+                                        <Label
+                                            Padding="8"
+                                            FontFamily="AppIcons"
+                                            Text="&#xe805;" />
+                                        <Entry
+                                            Margin="0,0,-5,0"
+                                            BackgroundColor="Transparent"
+                                            FlexLayout.Grow="1"
+                                            Placeholder="123456"
+                                            PlaceholderColor="DarkGray"
+                                            Text="{Binding Crm}"
+                                            TextColor="Black" />
+                                    </FlexLayout>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                                <VerticalStackLayout Grid.Column="0">
+                                    <Label
+                                        FontSize="12"
+                                        Text="Título Profissional"
+                                        TextColor="Black" />
+                                    <Border
+                                        Margin="0,0,0,0"
+                                        Padding="0,-5"
+                                        BackgroundColor="#f2f2f5"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 8">
+                                        <Picker
+                                            BackgroundColor="#f2f2f5"
+                                            FontSize="12"
+                                            ItemsSource="{Binding DoctorTitles}"
+                                            SelectedItem="{Binding SelectedTitle}"
+                                            TextColor="Black" />
+                                    </Border>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="1">
+                                    <Label
+                                        FontSize="12"
+                                        Text="Especialidade Principal"
+                                        TextColor="Black" />
+                                    <Border
+                                        Margin="0,0,0,0"
+                                        Padding="0,-5"
+                                        BackgroundColor="#f2f2f5"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 8">
+                                        <Picker
+                                            BackgroundColor="#f2f2f5"
+                                            FontSize="12"
+                                            ItemsSource="{Binding Specialties}"
+                                            SelectedItem="{Binding SelectedMainSpecialty}"
+                                            TextColor="Black" />
+                                    </Border>
+                                </VerticalStackLayout>
+                            </Grid>
+
+                            <VerticalStackLayout>
+                                <HorizontalStackLayout Spacing="6">
+                                    <Label
+                                        FontSize="12"
+                                        Text="Tempo de Experiência (anos)"
+                                        TextColor="Black" />
+                                    <Label
+                                        FontSize="16"
+                                        IsVisible="{Binding MedicalExperience, Converter={StaticResource FormValidationValueConverter}, ConverterParameter=Number}"
+                                        Text="*"
+                                        TextColor="Red"
+                                        VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+                                <Border
+                                    Padding="5"
+                                    BackgroundColor="#f2f2f5"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 8">
+                                    <FlexLayout
+                                        AlignItems="Center"
+                                        BackgroundColor="Transparent"
+                                        Direction="Row"
+                                        JustifyContent="Start">
+                                        <Label
+                                            Padding="8"
+                                            FontFamily="AppIcons"
+                                            Text="&#xe812;" />
+                                        <Entry
+                                            Margin="0,0,-5,0"
+                                            BackgroundColor="Transparent"
+                                            FlexLayout.Grow="1"
+                                            Keyboard="Numeric"
+                                            Placeholder="10"
+                                            PlaceholderColor="DarkGray"
+                                            Text="{Binding MedicalExperience}"
+                                            TextColor="Black" />
+                                    </FlexLayout>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <Border />
+
+                            <VerticalStackLayout Spacing="6">
+                                <Label
+                                    Margin="0,5,0,0"
+                                    FontSize="12"
+                                    VerticalTextAlignment="Center">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontFamily="AppIcons" Text="&#xe81f;" />
+                                            <Span FontFamily="Semibold" Text="  Configurações" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+
+                                <Border Style="{StaticResource MasterBorderStyle}">
+                                    <Grid Margin="0,-20" ColumnDefinitions="*,Auto">
+                                        <Label
+                                            Grid.Column="0"
+                                            FontSize="12"
+                                            Text="Receber notificações no email"
+                                            VerticalTextAlignment="Center" />
+                                        <CheckBox
+                                            Grid.Column="1"
+                                            IsChecked="{Binding NotifyEmail}"
+                                            VerticalOptions="Start"
+                                            Color="DarkGreen" />
+                                    </Grid>
+                                </Border>
+                                <Border Style="{StaticResource MasterBorderStyle}">
+                                    <Grid Margin="0,-20" ColumnDefinitions="*,Auto">
+                                        <Label
+                                            Grid.Column="0"
+                                            FontSize="12"
+                                            Text="Receber notificações push"
+                                            VerticalTextAlignment="Center" />
+                                        <CheckBox
+                                            Grid.Column="1"
+                                            IsChecked="{Binding NotifyPush}"
+                                            VerticalOptions="Start"
+                                            Color="DarkGreen" />
+                                    </Grid>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <Border
+                                Margin="0,10,0,0"
+                                Padding="5"
+                                BackgroundColor="Black"
+                                Stroke="Transparent"
+                                StrokeShape="6">
+
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SaveDoctorChangesCommand}" />
+                                </Border.GestureRecognizers>
+
+                                <Label
+                                    FontSize="13"
+                                    HorizontalTextAlignment="Center"
+                                    TextColor="White">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontFamily="AppIcons" Text="&#xe83d;" />
+                                            <Span FontFamily="Semibold" Text="   Salvar" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </Border>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border
+                        Margin="0,0,0,40"
+                        BackgroundColor="White"
+                        Shadow="{StaticResource BottomShadow}"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <StackLayout Spacing="14">
+                            <StackLayout Spacing="8">
+                                <Label FontSize="13">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontFamily="AppIcons" Text="&#xe82e;" />
+                                            <Span FontFamily="Semibold" Text="   Segurança" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label
+                                    FontSize="12"
+                                    Text="Gerencia as configurações de segurança da sua conta"
+                                    TextColor="Gray" />
+                            </StackLayout>
+
+                            <Border
+                                Margin="0,8,0,0"
+                                Padding="10"
+                                BackgroundColor="White"
+                                Style="{StaticResource MasterBorderStyle}">
+                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+                                    <Border
+                                        Grid.Column="0"
+                                        Padding="8"
+                                        BackgroundColor="{StaticResource BackgroundBlue}"
+                                        Stroke="Transparent"
+                                        StrokeShape="40"
+                                        VerticalOptions="Center">
+                                        <Label
+                                            FontFamily="AppIcons"
+                                            FontSize="20"
+                                            Text="&#xe82d;"
+                                            TextColor="CornflowerBlue"
+                                            VerticalTextAlignment="Center" />
+                                    </Border>
+                                    <StackLayout Grid.Column="1" Spacing="2">
+                                        <Label
+                                            FontFamily="Semibold"
+                                            FontSize="12"
+                                            Text="Senha da Conta" />
+                                        <Label FontSize="12" TextColor="Gray">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="Ultima alteração há mais de " />
+                                                    <Span Text="30" />
+                                                    <Span Text=" dias" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </StackLayout>
+                                    <Border
+                                        Grid.Column="2"
+                                        Padding="8,5,8,5"
+                                        BackgroundColor="White"
+                                        Stroke="LightGray"
+                                        StrokeShape="6"
+                                        StrokeThickness="0.7"
+                                        VerticalOptions="Center">
+
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding ChangePasswordCommand}" />
+                                        </Border.GestureRecognizers>
+
+                                        <Label FontSize="12" Text="Alterar Senha" />
+                                    </Border>
+                                </Grid>
+                            </Border>
+
+                            <Border
+                                Padding="10"
+                                BackgroundColor="{StaticResource BackgroundBlue}"
+                                Stroke="Transparent"
+                                StrokeShape="6">
+                                <StackLayout Spacing="4">
+                                    <Label FontSize="12">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span
+                                                    FontFamily="AppIcons"
+                                                    Text="&#xe82f;"
+                                                    TextColor="CornflowerBlue" />
+                                                <Span
+                                                    FontFamily="Semibold"
+                                                    Text="   Dicas de segurança:"
+                                                    TextColor="DarkBlue" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <HorizontalStackLayout Margin="12,5,0,0" Spacing="10">
+                                        <Label
+                                            FontFamily="AppIcons"
+                                            FontSize="6"
+                                            Text="&#xf111;"
+                                            TextColor="DarkBlue"
+                                            VerticalTextAlignment="Center" />
+                                        <Label
+                                            FontSize="12"
+                                            Text="Use pelo menos 8 caracteres"
+                                            TextColor="DarkBlue" />
+                                    </HorizontalStackLayout>
+                                    <HorizontalStackLayout Margin="12,0,0,0" Spacing="10">
+                                        <Label
+                                            FontFamily="AppIcons"
+                                            FontSize="6"
+                                            Text="&#xf111;"
+                                            TextColor="DarkBlue"
+                                            VerticalTextAlignment="Center" />
+                                        <Label
+                                            FontSize="12"
+                                            Text="Combine letras, números e símbolos"
+                                            TextColor="DarkBlue" />
+                                    </HorizontalStackLayout>
+                                    <HorizontalStackLayout Margin="12,0,0,0" Spacing="10">
+                                        <Label
+                                            FontFamily="AppIcons"
+                                            FontSize="6"
+                                            Text="&#xf111;"
+                                            TextColor="DarkBlue"
+                                            VerticalTextAlignment="Center" />
+                                        <Label
+                                            FontSize="12"
+                                            Text="Evite informações pessoais"
+                                            TextColor="DarkBlue" />
+                                    </HorizontalStackLayout>
+                                    <HorizontalStackLayout Margin="12,0,0,0" Spacing="10">
+                                        <Label
+                                            FontFamily="AppIcons"
+                                            FontSize="6"
+                                            Text="&#xf111;"
+                                            TextColor="DarkBlue"
+                                            VerticalTextAlignment="Center" />
+                                        <Label
+                                            FontSize="12"
+                                            Text="Altere sua senha regularmente"
+                                            TextColor="DarkBlue" />
+                                    </HorizontalStackLayout>
+                                </StackLayout>
+                            </Border>
+                        </StackLayout>
+                    </Border>
+                </VerticalStackLayout>
+                <!--#endregion-->
+
+                <!--#region SPECIALTIES-->
+                <VerticalStackLayout IsVisible="{Binding SelectedTab, Converter={StaticResource SelectedValueToBoolConverter}, ConverterParameter=1}" Spacing="20">
+                    <Border Shadow="{StaticResource BottomShadow}" Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout Spacing="10">
+                            <VerticalStackLayout Spacing="8">
+                                <Label FontSize="13">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontFamily="AppIcons" Text="&#xe811;" />
+                                            <Span Text="   Especialidades Oftamológicas" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label
+                                    FontSize="12"
+                                    LineHeight="1.5"
+                                    Text="Selecione os tipos de consultas, exames e cirurgias que você realiza. Isso ajudará os pacientes a encontrar exatamente o que precisam"
+                                    TextColor="Gray" />
+                            </VerticalStackLayout>
+
+                            <Border
+                                Padding="10"
+                                BackgroundColor="{StaticResource BackgroundBlue}"
+                                Stroke="Transparent"
+                                Style="{StaticResource MasterBorderStyle}">
+                                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                                    <VerticalStackLayout Grid.Column="0" Spacing="6">
+                                        <HorizontalStackLayout Margin="5,0,0,0" Spacing="6">
+                                            <Label
+                                                FontFamily="AppIcons"
+                                                FontSize="12"
+                                                Text="&#xe811;"
+                                                TextColor="LimeGreen"
+                                                VerticalTextAlignment="Center" />
+                                            <Label
+                                                FontFamily="Semibold"
+                                                FontSize="12"
+                                                Text="Consultas" />
+                                        </HorizontalStackLayout>
+                                        <Border
+                                            Padding="2"
+                                            BackgroundColor="#dbfce7"
+                                            Stroke="Transparent"
+                                            StrokeShape="4">
+                                            <Label
+                                                FontSize="11"
+                                                HorizontalTextAlignment="Center"
+                                                TextColor="DarkGreen">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding ConsultationsSelectedCount}" />
+                                                        <Span Text=" selecionada(s)" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                        </Border>
+                                    </VerticalStackLayout>
+
+                                    <VerticalStackLayout Grid.Column="1" Spacing="6">
+                                        <HorizontalStackLayout HorizontalOptions="Center" Spacing="6">
+                                            <Label
+                                                FontFamily="AppIcons"
+                                                FontSize="12"
+                                                Text="&#xe817;"
+                                                TextColor="Blue"
+                                                VerticalTextAlignment="Center" />
+                                            <Label
+                                                FontFamily="Semibold"
+                                                FontSize="12"
+                                                Text="Exames" />
+                                        </HorizontalStackLayout>
+                                        <Border
+                                            Padding="2"
+                                            BackgroundColor="#dbeafe"
+                                            Stroke="Transparent"
+                                            StrokeShape="4">
+                                            <Label
+                                                FontSize="11"
+                                                HorizontalTextAlignment="Center"
+                                                TextColor="Blue">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding ExaminationsSelectedCount}" />
+                                                        <Span Text=" selecionado(s)" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                        </Border>
+                                    </VerticalStackLayout>
+
+                                    <VerticalStackLayout Grid.Column="2" Spacing="6">
+                                        <HorizontalStackLayout HorizontalOptions="Center" Spacing="6">
+                                            <Label
+                                                FontFamily="AppIcons"
+                                                FontSize="13"
+                                                Text="&#xe806;"
+                                                TextColor="Red"
+                                                VerticalTextAlignment="Center" />
+                                            <Label
+                                                FontFamily="Semibold"
+                                                FontSize="12"
+                                                Text="Cirurgias" />
+                                        </HorizontalStackLayout>
+                                        <Border
+                                            Padding="2"
+                                            BackgroundColor="#ffe2e2"
+                                            Stroke="Transparent"
+                                            StrokeShape="4">
+                                            <Label
+                                                FontSize="11"
+                                                HorizontalTextAlignment="Center"
+                                                TextColor="Red">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding SurgeriesSelectedCount}" />
+                                                        <Span Text=" selecionado(s)" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                        </Border>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border Shadow="{StaticResource BottomShadow}" Style="{StaticResource MasterBorderStyle}">
+                        <toolkit:Expander x:Name="ConsultationExpander" ExpandedChanged="Expander_ExpandedChanged">
+                            <toolkit:Expander.Header>
+                                <FlexLayout JustifyContent="SpaceBetween">
+                                    <VerticalStackLayout Spacing="8">
+                                        <Label TextColor="LimeGreen">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span FontFamily="AppIcons" Text="&#xe811;" />
+                                                    <Span Text="  Consultas" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label
+                                            FontSize="12"
+                                            Text="Selecione os serviços de consultas que você oferece"
+                                            TextColor="Gray" />
+                                    </VerticalStackLayout>
+                                    <Label
+                                        x:Name="ConsultationIconLabelExpand"
+                                        ClassId="IconLabelExpand"
+                                        FontFamily="AppIcons"
+                                        FontSize="12"
+                                        Text="&#xe80e;"
+                                        TextColor="Black"
+                                        VerticalTextAlignment="Center" />
+                                </FlexLayout>
+                            </toolkit:Expander.Header>
+
+                            <toolkit:Expander.Content>
+                                <VerticalStackLayout Margin="0,10,0,0" Spacing="15">
+                                    <Border
+                                        Padding="3"
+                                        BackgroundColor="#f2f2f5"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 8">
+                                        <FlexLayout
+                                            AlignItems="Center"
+                                            BackgroundColor="Transparent"
+                                            Direction="Row"
+                                            JustifyContent="Start">
+                                            <Label
+                                                Padding="8"
+                                                FontFamily="AppIcons"
+                                                Text="&#xe831;" />
+                                            <Entry
+                                                Margin="0,0,-5,0"
+                                                BackgroundColor="Transparent"
+                                                FlexLayout.Grow="1"
+                                                Placeholder="Buscar consultas..."
+                                                PlaceholderColor="DarkGray"
+                                                Text="{Binding ConsultationFilterString}"
+                                                TextColor="Black" />
+                                        </FlexLayout>
+                                    </Border>
+
+                                    <CollectionView ItemTemplate="{StaticResource AppointmentSpecialtiesDataTemplateCollection}" ItemsSource="{Binding Consultations}">
+                                        <CollectionView.ItemsLayout>
+                                            <LinearItemsLayout ItemSpacing="6" Orientation="Vertical" />
+                                        </CollectionView.ItemsLayout>
+
+                                        <CollectionView.EmptyView>
+                                            <ContentView BindingContext="Ops... Não foi encontrada nenhuma consulta cadastrada. Tente limpar o filtro de busca ou contate o adminsitrador para realizar este cadastro." ControlTemplate="{StaticResource EmptyStateTemplate}" />
+                                        </CollectionView.EmptyView>
+                                    </CollectionView>
+                                </VerticalStackLayout>
+                            </toolkit:Expander.Content>
+                        </toolkit:Expander>
+                    </Border>
+
+                    <Border Shadow="{StaticResource BottomShadow}" Style="{StaticResource MasterBorderStyle}">
+                        <toolkit:Expander x:Name="ExaminationExpander" ExpandedChanged="Expander_ExpandedChanged">
+                            <toolkit:Expander.Header>
+                                <FlexLayout JustifyContent="SpaceBetween">
+                                    <VerticalStackLayout Spacing="8">
+                                        <Label TextColor="Blue">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span FontFamily="AppIcons" Text="&#xe817;" />
+                                                    <Span Text="  Exames" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label
+                                            FontSize="12"
+                                            Text="Selecione os serviços de exames que você oferece"
+                                            TextColor="Gray" />
+                                    </VerticalStackLayout>
+                                    <Label
+                                        x:Name="ExaminationIconLabelExpand"
+                                        ClassId="IconLabelExpand"
+                                        FontFamily="AppIcons"
+                                        FontSize="12"
+                                        Text="&#xe80e;"
+                                        TextColor="Black"
+                                        VerticalTextAlignment="Center" />
+                                </FlexLayout>
+                            </toolkit:Expander.Header>
+
+                            <toolkit:Expander.Content>
+                                <VerticalStackLayout Margin="0,10,0,0" Spacing="15">
+                                    <Border
+                                        Padding="3"
+                                        BackgroundColor="#f2f2f5"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 8">
+                                        <FlexLayout
+                                            AlignItems="Center"
+                                            BackgroundColor="Transparent"
+                                            Direction="Row"
+                                            JustifyContent="Start">
+                                            <Label
+                                                Padding="8"
+                                                FontFamily="AppIcons"
+                                                Text="&#xe831;" />
+                                            <Entry
+                                                Margin="0,0,-5,0"
+                                                BackgroundColor="Transparent"
+                                                FlexLayout.Grow="1"
+                                                Placeholder="Buscar exames..."
+                                                PlaceholderColor="DarkGray"
+                                                Text="{Binding ExaminationFilterString}"
+                                                TextColor="Black" />
+                                        </FlexLayout>
+                                    </Border>
+
+                                    <CollectionView ItemTemplate="{StaticResource AppointmentSpecialtiesDataTemplateCollection}" ItemsSource="{Binding Examinations}">
+                                        <CollectionView.ItemsLayout>
+                                            <LinearItemsLayout ItemSpacing="6" Orientation="Vertical" />
+                                        </CollectionView.ItemsLayout>
+
+                                        <CollectionView.EmptyView>
+                                            <ContentView BindingContext="Ops... Não foi encontrado nenhum exame cadastrado. Tente limpar o filtro de busca ou contate o adminsitrador para realizar este cadastro." ControlTemplate="{StaticResource EmptyStateTemplate}" />
+                                        </CollectionView.EmptyView>
+                                    </CollectionView>
+                                </VerticalStackLayout>
+                            </toolkit:Expander.Content>
+                        </toolkit:Expander>
+                    </Border>
+
+                    <Border
+                        Margin="0,0,0,10"
+                        Shadow="{StaticResource BottomShadow}"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <toolkit:Expander x:Name="SurgeryExpander" ExpandedChanged="Expander_ExpandedChanged">
+                            <toolkit:Expander.Header>
+                                <FlexLayout JustifyContent="SpaceBetween">
+                                    <VerticalStackLayout Spacing="8">
+                                        <Label TextColor="Red">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span FontFamily="AppIcons" Text="&#xe811;" />
+                                                    <Span Text="  Cirurgias" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label
+                                            FontSize="12"
+                                            Text="Selecione os serviços de cirurgias que você oferece"
+                                            TextColor="Gray" />
+                                    </VerticalStackLayout>
+                                    <Label
+                                        x:Name="SurgeryIconLabelExpand"
+                                        ClassId="IconLabelExpand"
+                                        FontFamily="AppIcons"
+                                        FontSize="12"
+                                        Text="&#xe80e;"
+                                        TextColor="Black"
+                                        VerticalTextAlignment="Center" />
+                                </FlexLayout>
+                            </toolkit:Expander.Header>
+
+                            <toolkit:Expander.Content>
+                                <VerticalStackLayout Margin="0,10,0,0" Spacing="15">
+                                    <Border
+                                        Padding="3"
+                                        BackgroundColor="#f2f2f5"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 8">
+                                        <FlexLayout
+                                            AlignItems="Center"
+                                            BackgroundColor="Transparent"
+                                            Direction="Row"
+                                            JustifyContent="Start">
+                                            <Label
+                                                Padding="8"
+                                                FontFamily="AppIcons"
+                                                Text="&#xe831;" />
+                                            <Entry
+                                                Margin="0,0,-5,0"
+                                                BackgroundColor="Transparent"
+                                                FlexLayout.Grow="1"
+                                                Placeholder="Buscar cirurgias..."
+                                                PlaceholderColor="DarkGray"
+                                                Text="{Binding SurgeryFilterString}"
+                                                TextColor="Black" />
+                                        </FlexLayout>
+                                    </Border>
+
+                                    <CollectionView ItemTemplate="{StaticResource AppointmentSpecialtiesDataTemplateCollection}" ItemsSource="{Binding Surgeries}">
+                                        <CollectionView.ItemsLayout>
+                                            <LinearItemsLayout ItemSpacing="6" Orientation="Vertical" />
+                                        </CollectionView.ItemsLayout>
+
+                                        <CollectionView.EmptyView>
+                                            <ContentView BindingContext="Ops... Não foi encontrada nenhuma cirurgia cadastrada. Tente limpar o filtro de busca ou contate o adminsitrador para realizar este cadastro." ControlTemplate="{StaticResource EmptyStateTemplate}" />
+                                        </CollectionView.EmptyView>
+                                    </CollectionView>
+                                </VerticalStackLayout>
+                            </toolkit:Expander.Content>
+                        </toolkit:Expander>
+                    </Border>
+                </VerticalStackLayout>
+                <!--#endregion-->
+
+                <!--#region AVAILABILITIES-->
+                <VerticalStackLayout IsVisible="{Binding SelectedTab, Converter={StaticResource SelectedValueToBoolConverter}, ConverterParameter=2}" Spacing="20">
+                    <Border Shadow="{StaticResource BottomShadow}" Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout Spacing="10">
+                            <VerticalStackLayout Spacing="8">
+                                <Label FontSize="13">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontFamily="AppIcons" Text="&#xe81f;" />
+                                            <Span Text="  Configurações de Atendimento" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label
+                                    FontSize="12"
+                                    LineHeight="1.5"
+                                    Text="Configure como você deseja atender seus pacientes"
+                                    TextColor="Gray" />
+                            </VerticalStackLayout>
+
+                            <Border Padding="10" Style="{StaticResource MasterBorderStyle}">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="6">
+                                    <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                        <HorizontalStackLayout Spacing="6">
+                                            <Label
+                                                Margin="0,1,0,0"
+                                                FontFamily="AppIcons"
+                                                FontSize="8"
+                                                Text="&#xe821;"
+                                                TextColor="Purple"
+                                                VerticalTextAlignment="Center" />
+                                            <Label
+                                                FontFamily="Semibold"
+                                                FontSize="12"
+                                                Text="Consultas Online"
+                                                VerticalTextAlignment="Center" />
+                                        </HorizontalStackLayout>
+
+                                        <Label
+                                            FontSize="12"
+                                            LineHeight="1.3"
+                                            Text="Permitir que pacientes agendem consultas por videochamada com você."
+                                            TextColor="Gray" />
+                                    </VerticalStackLayout>
+
+
+                                    <ActivityIndicator
+                                        Grid.Column="1"
+                                        IsRunning="{Binding Docprop.IsBusy}"
+                                        IsVisible="{Binding Docprop.IsBusy}" />
+
+                                    <VerticalStackLayout
+                                        Grid.Column="1"
+                                        IsVisible="{Binding Docprop.IsBusy, Converter={StaticResource InverseBoolConverter}}"
+                                        Spacing="4">
+                                        <Border
+                                            Padding="8,2,8,2"
+                                            BackgroundColor="{Binding Docprop.IsActive, Converter={StaticResource SelectedValueToBackgroundColorAppointmentStatusConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                            HorizontalOptions="End"
+                                            IsVisible="{Binding Docprop.IsBusy, Converter={StaticResource InverseBoolConverter}}"
+                                            Stroke="Transparent"
+                                            StrokeShape="4">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="10"
+                                                Text="{Binding Docprop.IsActive, Converter={StaticResource SelectedValueToStringAppointmentStatusConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                                TextColor="{Binding Docprop.IsActive, Converter={StaticResource SelectedValueToTextColorAppointmentStatusConverter}, ConverterParameter={StaticResource TrueParam}}" />
+                                        </Border>
+                                        <controls:CustomSwitch
+                                            FlowDirection="RightToLeft"
+                                            IsToggled="{Binding Docprop.IsActive}"
+                                            IsVisible="{Binding Docprop.IsBusy, Converter={StaticResource InverseBoolConverter}}"
+                                            OffColor="White"
+                                            OnColor="LightSeaGreen"
+                                            SwitchHeight="23"
+                                            SwitchWidth="43"
+                                            ThumbColor="Black"
+                                            ThumbSize="12"
+                                            Toggled="CustomSwitch_Toggled" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
+
+                            <Border
+                                Padding="10"
+                                Background="{StaticResource BackgroundGray}"
+                                HorizontalOptions="End"
+                                IsVisible="{Binding Docprop.IsActive}"
+                                Stroke="Transparent"
+                                Style="{StaticResource MasterBorderStyle}">
+                                <VerticalStackLayout Spacing="6">
+                                    <Label
+                                        FontFamily="Semibold"
+                                        FontSize="12"
+                                        Text="Máximo de consultas online por dia" />
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="15">
+                                        <Border
+                                            Padding="10,6,10,6"
+                                            BackgroundColor="LightGray"
+                                            Style="{StaticResource MasterBorderStyle}">
+                                            <Label
+                                                FontSize="16"
+                                                Text="{Binding MaxOnlineDayConsultationValue.Model}"
+                                                TextColor="Green" />
+                                        </Border>
+                                        <ActivityIndicator
+                                            Grid.Column="1"
+                                            IsRunning="{Binding MaxOnlineDayConsultationValue.IsBusy}"
+                                            IsVisible="{Binding MaxOnlineDayConsultationValue.IsBusy}" />
+                                        <Stepper
+                                            Grid.Column="1"
+                                            BackgroundColor="CornflowerBlue"
+                                            Increment="1"
+                                            IsVisible="{Binding MaxOnlineDayConsultationValue.IsBusy, Converter={StaticResource InverseBoolConverter}}"
+                                            Maximum="100"
+                                            Minimum="1"
+                                            Value="{Binding MaxOnlineDayConsultationValue.Model, Mode=TwoWay}" />
+                                        <Border
+                                            Grid.Column="2"
+                                            Padding="10,4,10,4"
+                                            BackgroundColor="Black"
+                                            IsVisible="{Binding MaxOnlineDayConsultationValue.IsActive, Converter={StaticResource InverseBoolConverter}}"
+                                            Style="{StaticResource MasterBorderStyle}">
+
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding SaveMaxDaysValueCommand}" CommandParameter="{Binding MaxOnlineDayConsultationValue}" />
+                                            </Border.GestureRecognizers>
+
+                                            <Label
+                                                FontFamily="AppIcons"
+                                                FontSize="16"
+                                                Text="&#xe83d;"
+                                                TextColor="White"
+                                                VerticalTextAlignment="Center" />
+                                        </Border>
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <Border Padding="10" Style="{StaticResource MasterBorderStyle}">
+                                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                    <HorizontalStackLayout Spacing="6">
+                                        <Label
+                                            Margin="0,1,0,0"
+                                            FontFamily="AppIcons"
+                                            FontSize="12"
+                                            Text="&#xf0f7;"
+                                            TextColor="Blue"
+                                            VerticalTextAlignment="Center" />
+                                        <Label
+                                            FontFamily="Semibold"
+                                            FontSize="12"
+                                            Text="Consultas Presenciais"
+                                            VerticalTextAlignment="Center" />
+                                    </HorizontalStackLayout>
+
+                                    <Label
+                                        FontSize="12"
+                                        LineHeight="1.3"
+                                        Text="Configure o máximo de consultas presenciais por dia."
+                                        TextColor="Gray" />
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <Border
+                                Padding="10"
+                                Background="{StaticResource BackgroundGray}"
+                                HorizontalOptions="End"
+                                Stroke="Transparent"
+                                Style="{StaticResource MasterBorderStyle}">
+                                <VerticalStackLayout Spacing="6">
+                                    <Label
+                                        FontFamily="Semibold"
+                                        FontSize="12"
+                                        Text="Máximo de consultas presenciais por dia" />
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="15">
+                                        <Border
+                                            Padding="10,6,10,6"
+                                            BackgroundColor="LightGray"
+                                            Style="{StaticResource MasterBorderStyle}">
+                                            <Label
+                                                FontSize="16"
+                                                Text="{Binding MaxPresencialDayConsultationValue.Model}"
+                                                TextColor="Green" />
+                                        </Border>
+                                        <ActivityIndicator
+                                            Grid.Column="1"
+                                            IsRunning="{Binding MaxPresencialDayConsultationValue.IsBusy}"
+                                            IsVisible="{Binding MaxPresencialDayConsultationValue.IsBusy}" />
+                                        <Stepper
+                                            Grid.Column="1"
+                                            BackgroundColor="CornflowerBlue"
+                                            Increment="1"
+                                            IsVisible="{Binding MaxPresencialDayConsultationValue.IsBusy, Converter={StaticResource InverseBoolConverter}}"
+                                            Maximum="100"
+                                            Minimum="1"
+                                            Value="{Binding MaxPresencialDayConsultationValue.Model, Mode=TwoWay}" />
+                                        <Border
+                                            Grid.Column="2"
+                                            Padding="10,4,10,4"
+                                            BackgroundColor="Black"
+                                            IsVisible="{Binding MaxPresencialDayConsultationValue.IsActive, Converter={StaticResource InverseBoolConverter}}"
+                                            Style="{StaticResource MasterBorderStyle}">
+
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding SaveMaxDaysValueCommand}" CommandParameter="{Binding MaxPresencialDayConsultationValue}" />
+                                            </Border.GestureRecognizers>
+
+                                            <Label
+                                                FontFamily="AppIcons"
+                                                FontSize="16"
+                                                Text="&#xe83d;"
+                                                TextColor="White"
+                                                VerticalTextAlignment="Center" />
+                                        </Border>
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </Border>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border
+                        IsVisible="{Binding Docprop.IsActive}"
+                        Shadow="{StaticResource BottomShadow}"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <toolkit:Expander x:Name="AvDocOnlineExpander" ExpandedChanged="Expander_ExpandedChanged">
+                            <toolkit:Expander.Header>
+                                <FlexLayout JustifyContent="SpaceBetween">
+                                    <VerticalStackLayout Spacing="6">
+                                        <HorizontalStackLayout Spacing="10">
+                                            <Label
+                                                FontFamily="AppIcons"
+                                                Text="&#xe802;"
+                                                TextColor="Purple"
+                                                VerticalTextAlignment="Center" />
+                                            <Label
+                                                FontFamily="Semibold"
+                                                FontSize="13"
+                                                Text="Horários Online"
+                                                TextColor="Purple" />
+                                        </HorizontalStackLayout>
+                                        <Label
+                                            FontSize="12"
+                                            Text="Configure seus horários de atendimento online"
+                                            TextColor="Gray" />
+                                    </VerticalStackLayout>
+
+                                    <Label
+                                        x:Name="AvDocOnlineIconLabelExpand"
+                                        ClassId="IconLabelExpand"
+                                        FontFamily="AppIcons"
+                                        FontSize="12"
+                                        Text="&#xe80e;"
+                                        TextColor="Black"
+                                        VerticalTextAlignment="Center" />
+                                </FlexLayout>
+                            </toolkit:Expander.Header>
+
+                            <toolkit:Expander.Content>
+                                <VerticalStackLayout Spacing="10">
+                                    <CollectionView
+                                        Margin="0,10,0,0"
+                                        ItemSizingStrategy="MeasureAllItems"
+                                        ItemTemplate="{StaticResource AvailabilitesDoctorDataTemplateCollection}"
+                                        ItemsSource="{Binding AvailabilitiesDoctorOnline}">
+
+                                        <CollectionView.ItemsLayout>
+                                            <LinearItemsLayout ItemSpacing="6" Orientation="Vertical" />
+                                        </CollectionView.ItemsLayout>
+                                    </CollectionView>
+
+                                    <Border
+                                        Margin="0,5,0,0"
+                                        Padding="5"
+                                        BackgroundColor="Black"
+                                        Stroke="Transparent"
+                                        StrokeShape="6">
+
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding UpdateAvailabilitiesDoctorOnlineCommand}" CommandParameter="{Binding .}" />
+                                        </Border.GestureRecognizers>
+
+                                        <Label
+                                            FontFamily="Semibold"
+                                            FontSize="13"
+                                            HorizontalTextAlignment="Center"
+                                            Text="Salvar Horários"
+                                            TextColor="White" />
+                                    </Border>
+                                </VerticalStackLayout>
+                            </toolkit:Expander.Content>
+                        </toolkit:Expander>
+                    </Border>
+
+                    <Border
+                        Margin="0,0,0,10"
+                        Shadow="{StaticResource BottomShadow}"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <toolkit:Expander x:Name="AvDocPresencialExpander" ExpandedChanged="Expander_ExpandedChanged">
+                            <toolkit:Expander.Header>
+                                <FlexLayout JustifyContent="SpaceBetween">
+                                    <VerticalStackLayout Spacing="6">
+                                        <HorizontalStackLayout Spacing="10">
+                                            <Label
+                                                FontFamily="AppIcons"
+                                                Text="&#xf0f7;"
+                                                TextColor="CornflowerBlue"
+                                                VerticalTextAlignment="Center" />
+                                            <Label
+                                                FontFamily="Semibold"
+                                                FontSize="13"
+                                                Text="Horários Presenciais"
+                                                TextColor="CornflowerBlue" />
+                                        </HorizontalStackLayout>
+                                        <Label
+                                            FontSize="12"
+                                            Text="Configure seus horários de atendimento presencial"
+                                            TextColor="Gray" />
+                                    </VerticalStackLayout>
+
+                                    <Label
+                                        x:Name="AvDocPresencialIconLabelExpand"
+                                        ClassId="IconLabelExpand"
+                                        FontFamily="AppIcons"
+                                        FontSize="12"
+                                        Text="&#xe80e;"
+                                        TextColor="Black"
+                                        VerticalTextAlignment="Center" />
+                                </FlexLayout>
+                            </toolkit:Expander.Header>
+
+                            <toolkit:Expander.Content>
+                                <VerticalStackLayout Spacing="10">
+                                    <CollectionView
+                                        Margin="0,10,0,0"
+                                        ItemSizingStrategy="MeasureAllItems"
+                                        ItemTemplate="{StaticResource AvailabilitesDoctorDataTemplateCollection}"
+                                        ItemsSource="{Binding AvailabilitiesDoctorPresencial}">
+
+                                        <CollectionView.ItemsLayout>
+                                            <LinearItemsLayout ItemSpacing="6" Orientation="Vertical" />
+                                        </CollectionView.ItemsLayout>
+                                    </CollectionView>
+
+                                    <Border
+                                        Margin="0,5,0,0"
+                                        Padding="5"
+                                        BackgroundColor="Black"
+                                        Stroke="Transparent"
+                                        StrokeShape="6">
+
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding UpdateAvailabilitiesDoctorPresencialCommand}" CommandParameter="{Binding .}" />
+                                        </Border.GestureRecognizers>
+
+                                        <Label
+                                            FontFamily="Semibold"
+                                            FontSize="13"
+                                            HorizontalTextAlignment="Center"
+                                            Text="Salvar Horários"
+                                            TextColor="White" />
+                                    </Border>
+                                </VerticalStackLayout>
+                            </toolkit:Expander.Content>
+                        </toolkit:Expander>
+                    </Border>
+                </VerticalStackLayout>
+                <!--#endregion-->
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentView>

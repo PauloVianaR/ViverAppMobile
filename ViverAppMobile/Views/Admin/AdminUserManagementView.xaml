@@ -1,0 +1,1085 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="ViverAppMobile.Views.Admin.AdminUserManagementView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converter="clr-namespace:ViverAppMobile.Converters"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:ViverAppMobile.ViewModels.Admin"
+    x:Name="AdminUserManagementPage"
+    BackgroundColor="{StaticResource PageBackground}">
+
+    <ContentView.BindingContext>
+        <vm:AdminUserManagementViewModel />
+    </ContentView.BindingContext>
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converter:SelectedValueToBoolConverter x:Key="SelectedValueToBoolConverter" />
+            <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
+            <converter:SByteToBoolConverter x:Key="SByteToBoolConverter" />
+            <converter:DateTimeToStringConverter x:Key="DateTimeToStringConverter" CurrentFormat="dd/MM/yyyy" />
+            <converter:SelectedValueToColorConverter
+                x:Key="SelectedValueToTabColorConverter"
+                SelectedColor="White"
+                UnselectedColor="Transparent" />
+            <converter:SelectedValueToColorConverter
+                x:Key="SelectedUserTypeToBackgroundColorConverter"
+                SelectedColor="Black"
+                UnselectedColor="LightGray" />
+            <converter:SelectedValueToColorConverter
+                x:Key="SelectedUserTypeToForeColorConverter"
+                SelectedColor="White"
+                UnselectedColor="Black" />
+            <converter:SelectedValueToStringConverter
+                x:Key="SelectedUserTypeToStringConverter"
+                TextForFalse="Gerente"
+                TextForTrue="Médico" />
+            <converter:SelectedValueToStringConverter
+                x:Key="SelectedValueToStringBlockOrReleaseConverter"
+                TextForFalse="Bloqueado"
+                TextForTrue="Ativo" />
+            <converter:SelectedValueToColorConverter
+                x:Key="SelectedValueToColorBlockOrReleaseConverter"
+                SelectedColor="Black"
+                UnselectedColor="Red" />
+            <converter:SelectedValueToStringConverter
+                x:Key="SelectedValueToStringBlockActionBlockOrReleaseConverter"
+                TextForFalse="Ativar"
+                TextForTrue="Bloquear" />
+            <converter:SelectedValueToColorConverter
+                x:Key="SelectedValueToColorBlockActionBlockOrReleaseConverter"
+                SelectedColor="Red"
+                UnselectedColor="Black" />
+            <converter:SelectedValueToStringConverter
+                x:Key="SelectedValueToStringBlockActionBlockOrReleaseIconConverter"
+                TextForFalse="&#xe836;"
+                TextForTrue="&#xe837;" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <RefreshView Command="{Binding ReloadPageCommand}" IsRefreshing="{Binding IsReloading}">
+        <ScrollView>
+            <VerticalStackLayout Padding="15" Spacing="20">
+                <!--#region HEADER-->
+                <VerticalStackLayout Spacing="2">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="22"
+                        Text="Gestão de Usuários" />
+                    <Label
+                        FontSize="13"
+                        Text="Gerencie pacientes, médicos e gerentes"
+                        TextColor="Gray" />
+                </VerticalStackLayout>
+
+                <Grid
+                    ColumnDefinitions="*,*"
+                    ColumnSpacing="10"
+                    RowDefinitions="*,*"
+                    RowSpacing="10">
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Style="{StaticResource MasterBorderStyle}">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ShowUsertTotInfoCommand}" />
+                        </Border.GestureRecognizers>
+
+                        <VerticalStackLayout Spacing="4">
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="24"
+                                HorizontalTextAlignment="Center"
+                                Text="&#xe812;"
+                                TextColor="Blue" />
+                            <Label HorizontalTextAlignment="Center" Text="Total" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding UsersCount}" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Style="{StaticResource MasterBorderStyle}">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ShowUsersActiveTotInfoCommand}" />
+                        </Border.GestureRecognizers>
+
+                        <VerticalStackLayout Spacing="4">
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="24"
+                                HorizontalTextAlignment="Center"
+                                Text="&#xe803;"
+                                TextColor="Green" />
+                            <Label HorizontalTextAlignment="Center" Text="Ativos" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding UsersActive}" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout Spacing="4">
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="24"
+                                HorizontalTextAlignment="Center"
+                                Text="&#xe836;"
+                                TextColor="OrangeRed" />
+                            <Label HorizontalTextAlignment="Center" Text="Pendentes" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding PendingApprovals}" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout Spacing="4">
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="24"
+                                HorizontalTextAlignment="Center"
+                                Text="&#xe80f;"
+                                TextColor="Gold" />
+                            <Label HorizontalTextAlignment="Center" Text="Premium" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding PremiumUsers}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+                <!--#endregion-->
+
+                <!--#region FILTERS-->
+                <Border
+                    Padding="10"
+                    BackgroundColor="White"
+                    StrokeShape="8">
+                    <toolkit:Expander x:Name="FilterExpander" ExpandedChanged="Expander_ExpandedChanged">
+                        <toolkit:Expander.Header>
+                            <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
+                                <Label FontSize="12">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontFamily="AppIcons" Text="&#xe810;" />
+                                            <Span Text="  Filtros" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label
+                                    x:Name="FiltersIconLabelExpand"
+                                    ClassId="IconLabelExpand"
+                                    FontFamily="AppIcons"
+                                    FontSize="12"
+                                    Text="&#xe80e;"
+                                    TextColor="Black" />
+                            </FlexLayout>
+                        </toolkit:Expander.Header>
+
+                        <toolkit:Expander.Content>
+                            <StackLayout Margin="0,20,0,0" Spacing="10">
+                                <Border
+                                    Padding="0,-6"
+                                    BackgroundColor="{StaticResource BackgroundGray}"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 8">
+                                    <SearchBar
+                                        FontSize="13"
+                                        Placeholder="Buscar por nome, email, CPF ou CRM...."
+                                        PlaceholderColor="Gray"
+                                        SearchCommand="{Binding FilterByStringCommand}"
+                                        Text="{Binding FilterString}" />
+                                </Border>
+                                <Border
+                                    Padding="0,-8"
+                                    BackgroundColor="{StaticResource BackgroundGray}"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 8">
+                                    <Picker
+                                        FontSize="12"
+                                        ItemsSource="{Binding UserStatusList}"
+                                        SelectedItem="{Binding SelectedUserStatus}"
+                                        TextColor="Gray" />
+                                </Border>
+                            </StackLayout>
+                        </toolkit:Expander.Content>
+                    </toolkit:Expander>
+                </Border>
+                <!--#endregion-->
+
+                <!--#region TABS-->
+                <Border
+                    Padding="3"
+                    BackgroundColor="#ececf0"
+                    Stroke="Transparent"
+                    StrokeShape="10">
+                    <Grid ColumnDefinitions="*,*,*,*,*">
+                        <Border
+                            Grid.Column="0"
+                            Padding="4"
+                            BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToTabColorConverter}, ConverterParameter=0}"
+                            Stroke="Transparent"
+                            StrokeShape="10">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SwitchSelectedTabCommand}" CommandParameter="0" />
+                            </Border.GestureRecognizers>
+
+                            <Label
+                                FontSize="12"
+                                HorizontalTextAlignment="Center"
+                                TextColor="Black"
+                                VerticalTextAlignment="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Pendentes (" />
+                                        <Span Text="{Binding PendingApprovals}" />
+                                        <Span Text=")" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Border>
+                        <Border
+                            Grid.Column="1"
+                            Padding="4"
+                            BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToTabColorConverter}, ConverterParameter=1}"
+                            Stroke="Transparent"
+                            StrokeShape="10">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SwitchSelectedTabCommand}" CommandParameter="1" />
+                            </Border.GestureRecognizers>
+
+                            <Label
+                                FontSize="12"
+                                HorizontalTextAlignment="Center"
+                                TextColor="Black"
+                                VerticalTextAlignment="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Pacientes (" />
+                                        <Span Text="{Binding PatientCount}" />
+                                        <Span Text=")" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Border>
+                        <Border
+                            Grid.Column="2"
+                            Padding="4"
+                            BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToTabColorConverter}, ConverterParameter=2}"
+                            Stroke="Transparent"
+                            StrokeShape="10">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SwitchSelectedTabCommand}" CommandParameter="2" />
+                            </Border.GestureRecognizers>
+
+                            <Label
+                                FontSize="12"
+                                HorizontalTextAlignment="Center"
+                                TextColor="Black"
+                                VerticalTextAlignment="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Médicos (" />
+                                        <Span Text="{Binding DoctorCount}" />
+                                        <Span Text=")" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Border>
+                        <Border
+                            Grid.Column="3"
+                            Padding="4"
+                            BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToTabColorConverter}, ConverterParameter=3}"
+                            Stroke="Transparent"
+                            StrokeShape="10">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SwitchSelectedTabCommand}" CommandParameter="3" />
+                            </Border.GestureRecognizers>
+
+                            <Label
+                                FontSize="12"
+                                HorizontalTextAlignment="Center"
+                                TextColor="Black"
+                                VerticalTextAlignment="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Gerentes (" />
+                                        <Span Text="{Binding ManagerCount}" />
+                                        <Span Text=")" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Border>
+                        <Border
+                            Grid.Column="4"
+                            Padding="4"
+                            BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToTabColorConverter}, ConverterParameter=4}"
+                            Stroke="Transparent"
+                            StrokeShape="10">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SwitchSelectedTabCommand}" CommandParameter="4" />
+                            </Border.GestureRecognizers>
+
+                            <Label
+                                FontSize="12"
+                                HorizontalTextAlignment="Center"
+                                TextColor="Black"
+                                VerticalTextAlignment="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Rejeitados (" />
+                                        <Span Text="{Binding RejectedCount}" />
+                                        <Span Text=")" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Border>
+                    </Grid>
+                </Border>
+                <!--#endregion-->
+
+                <!--#region PendingApprovalCollection-->
+                <Border
+                    Padding="10"
+                    IsVisible="{Binding SelectedTab, Converter={StaticResource SelectedValueToBoolConverter}, ConverterParameter=0}"
+                    Shadow="{StaticResource BottomShadow}"
+                    Style="{StaticResource MasterBorderStyle}">
+                    <VerticalStackLayout Spacing="15">
+                        <Label
+                            Margin="5,0,0,0"
+                            FontFamily="Semibold"
+                            FontSize="13"
+                            Text="Usuários pendentes de aprovação" />
+
+                        <CollectionView ItemsSource="{Binding PendingUserApprovals}">
+
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout ItemSpacing="4" Orientation="Vertical" />
+                            </CollectionView.ItemsLayout>
+
+                            <CollectionView.EmptyView>
+                                <ContentView BindingContext="Sem pendências de aprovação no momento." ControlTemplate="{StaticResource EmptyStateTemplate}" />
+                            </CollectionView.EmptyView>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="10" Style="{StaticResource MasterBorderStyle}">
+                                        <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="6">
+                                            <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                                <HorizontalStackLayout Spacing="8">
+                                                    <Label
+                                                        FontFamily="Semibold"
+                                                        FontSize="12"
+                                                        Text="{Binding Model.Name}"
+                                                        VerticalTextAlignment="Center" />
+                                                    <Border
+                                                        Padding="6,2,6,2"
+                                                        BackgroundColor="{Binding Model.Usertype, Converter={StaticResource SelectedUserTypeToBackgroundColorConverter}, ConverterParameter={StaticResource Index4}}"
+                                                        Stroke="Transparent"
+                                                        StrokeShape="6">
+                                                        <Label
+                                                            FontSize="10"
+                                                            Text="{Binding Model.Usertype, Converter={StaticResource SelectedUserTypeToStringConverter}, ConverterParameter={StaticResource Index4}}"
+                                                            TextColor="{Binding Model.Usertype, Converter={StaticResource SelectedUserTypeToForeColorConverter}, ConverterParameter={StaticResource Index4}}" />
+                                                    </Border>
+                                                </HorizontalStackLayout>
+                                                <VerticalStackLayout Margin="0,4,0,0" Spacing="2">
+                                                    <Label
+                                                        FontSize="12"
+                                                        Text="{Binding Model.Email}"
+                                                        TextColor="Gray">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xe82c;" />
+                                                                <Span Text="  Email: " />
+                                                                <Span Text="{Binding Model.Email}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label FontSize="11" TextColor="Gray">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xf0f6;" />
+                                                                <Span Text="   CPF: " />
+                                                                <Span Text="{Binding Model.Cpf}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label FontSize="11" TextColor="Gray">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xe804;" />
+                                                                <Span Text="   Telefone: " />
+                                                                <Span Text="{Binding Model.Fone}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </VerticalStackLayout>
+                                            </VerticalStackLayout>
+
+                                            <ActivityIndicator
+                                                Grid.Column="2"
+                                                IsRunning="{Binding IsBusy}"
+                                                IsVisible="{Binding IsBusy}" />
+
+                                            <Border
+                                                Grid.Column="1"
+                                                Padding="10,4,10,4"
+                                                BackgroundColor="Black"
+                                                IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
+                                                Stroke="Transparent"
+                                                StrokeShape="4"
+                                                VerticalOptions="Center">
+
+                                                <Border.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding BindingContext.ApproveUserCommand, Source={x:Reference AdminUserManagementPage}}" CommandParameter="{Binding .}" />
+                                                </Border.GestureRecognizers>
+
+                                                <Label
+                                                    FontFamily="AppIcons"
+                                                    Text="&#xe803;"
+                                                    TextColor="White" />
+                                            </Border>
+                                            <Border
+                                                Grid.Column="2"
+                                                Padding="8,4,8,4"
+                                                BackgroundColor="Red"
+                                                IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
+                                                Stroke="Transparent"
+                                                StrokeShape="4"
+                                                VerticalOptions="Center">
+
+                                                <Border.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding BindingContext.ReproveUserCommand, Source={x:Reference AdminUserManagementPage}}" CommandParameter="{Binding .}" />
+                                                </Border.GestureRecognizers>
+
+                                                <Label
+                                                    FontFamily="AppIcons"
+                                                    Text="&#xe81e;"
+                                                    TextColor="White" />
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+                <!--#endregion-->
+
+                <!--#region PacientCollection-->
+                <Border
+                    Padding="10"
+                    IsVisible="{Binding SelectedTab, Converter={StaticResource SelectedValueToBoolConverter}, ConverterParameter=1}"
+                    Shadow="{StaticResource BottomShadow}"
+                    Style="{StaticResource MasterBorderStyle}">
+                    <VerticalStackLayout Spacing="15">
+                        <Label
+                            Margin="5,0,0,0"
+                            FontFamily="Semibold"
+                            FontSize="13"
+                            Text="Listagem total de pacientes cadastrados" />
+
+                        <CollectionView ItemsSource="{Binding PatientsCollection}">
+
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout ItemSpacing="4" Orientation="Vertical" />
+                            </CollectionView.ItemsLayout>
+
+                            <CollectionView.EmptyView>
+                                <ContentView BindingContext="Não foi encontrado nenhum paciente cadastrado." ControlTemplate="{StaticResource EmptyStateTemplate}" />
+                            </CollectionView.EmptyView>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="10" Style="{StaticResource MasterBorderStyle}">
+                                        <VerticalStackLayout Spacing="2">
+                                            <HorizontalStackLayout Spacing="8">
+                                                <Label
+                                                    FontFamily="Semibold"
+                                                    FontSize="12"
+                                                    Text="{Binding Model.Name}"
+                                                    VerticalTextAlignment="Center" />
+                                                <Border
+                                                    Padding="6,2,6,2"
+                                                    BackgroundColor="DarkRed"
+                                                    Stroke="Transparent"
+                                                    StrokeShape="6">
+                                                    <Label
+                                                        FontSize="10"
+                                                        Text="Paciente"
+                                                        TextColor="White" />
+                                                </Border>
+                                                <Border
+                                                    Padding="6,2,6,2"
+                                                    BackgroundColor="{Binding IsActive, Converter={StaticResource SelectedValueToColorBlockOrReleaseConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                                    Stroke="Transparent"
+                                                    StrokeShape="6">
+                                                    <Label
+                                                        FontSize="10"
+                                                        Text="{Binding IsActive, Converter={StaticResource SelectedValueToStringBlockOrReleaseConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                                        TextColor="White" />
+                                                </Border>
+                                                <Border
+                                                    Padding="6,2,6,2"
+                                                    BackgroundColor="Gold"
+                                                    IsVisible="{Binding Model.IsPremium, Converter={StaticResource SByteToBoolConverter}}"
+                                                    Stroke="Transparent"
+                                                    StrokeShape="6">
+                                                    <Label FontSize="10" TextColor="White">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xe844;" />
+                                                                <Span Text="  Premium" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </Border>
+                                            </HorizontalStackLayout>
+
+                                            <Grid
+                                                Margin="0,4,0,0"
+                                                ColumnDefinitions="*,Auto"
+                                                ColumnSpacing="6">
+                                                <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                                    <Label
+                                                        FontSize="12"
+                                                        Text="{Binding Model.Email}"
+                                                        TextColor="Gray">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xe82c;" />
+                                                                <Span Text="  Email: " />
+                                                                <Span Text="{Binding Model.Email}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label FontSize="11" TextColor="Gray">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xf0f6;" />
+                                                                <Span Text="   CPF: " />
+                                                                <Span Text="{Binding Model.Cpf}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label FontSize="11" TextColor="Gray">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xe804;" />
+                                                                <Span Text="   Telefone: " />
+                                                                <Span Text="{Binding Model.Fone}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label FontSize="11" TextColor="Gray">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xf133;" />
+                                                                <Span Text="   Data de Cadastro: " />
+                                                                <Span Text="{Binding Model.Createdat, Converter={StaticResource DateTimeToStringConverter}}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </VerticalStackLayout>
+
+                                                <ActivityIndicator
+                                                    Grid.Column="1"
+                                                    IsRunning="{Binding IsBusy}"
+                                                    IsVisible="{Binding IsBusy}" />
+
+                                                <Border
+                                                    Grid.Column="1"
+                                                    Padding="10,4,10,4"
+                                                    BackgroundColor="{Binding IsActive, Converter={StaticResource SelectedValueToColorBlockActionBlockOrReleaseConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                                    IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
+                                                    Stroke="Transparent"
+                                                    StrokeShape="4"
+                                                    VerticalOptions="Center">
+
+                                                    <Border.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.BlockOrUnblockUserCommand, Source={x:Reference AdminUserManagementPage}}" CommandParameter="{Binding .}" />
+                                                    </Border.GestureRecognizers>
+
+                                                    <Label FontSize="12" TextColor="White">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="{Binding IsActive, Converter={StaticResource SelectedValueToStringBlockActionBlockOrReleaseIconConverter}, ConverterParameter={StaticResource TrueParam}}" />
+                                                                <Span Text="  " />
+                                                                <Span Text="{Binding IsActive, Converter={StaticResource SelectedValueToStringBlockActionBlockOrReleaseConverter}, ConverterParameter={StaticResource TrueParam}}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </Border>
+                                            </Grid>
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+                <!--#endregion-->
+
+                <!--#region DoctorCollection-->
+                <Border
+                    Padding="10"
+                    IsVisible="{Binding SelectedTab, Converter={StaticResource SelectedValueToBoolConverter}, ConverterParameter=2}"
+                    Shadow="{StaticResource BottomShadow}"
+                    Style="{StaticResource MasterBorderStyle}">
+                    <VerticalStackLayout Spacing="15">
+                        <Label
+                            Margin="5,0,0,0"
+                            FontFamily="Semibold"
+                            FontSize="13"
+                            Text="Listagem total de médicos cadastrados" />
+
+                        <CollectionView ItemsSource="{Binding DoctorsCollection}">
+
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout ItemSpacing="4" Orientation="Vertical" />
+                            </CollectionView.ItemsLayout>
+
+                            <CollectionView.EmptyView>
+                                <ContentView BindingContext="Não foi encontrado nenhum médico cadastrado." ControlTemplate="{StaticResource EmptyStateTemplate}" />
+                            </CollectionView.EmptyView>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="10" Style="{StaticResource MasterBorderStyle}">
+                                        <VerticalStackLayout Spacing="2">
+                                            <HorizontalStackLayout Spacing="8">
+                                                <Label
+                                                    FontFamily="Semibold"
+                                                    FontSize="12"
+                                                    Text="{Binding Model.ProfessionalDoctorName}"
+                                                    VerticalTextAlignment="Center" />
+                                                <Border
+                                                    Padding="6,2,6,2"
+                                                    BackgroundColor="Green"
+                                                    Stroke="Transparent"
+                                                    StrokeShape="6">
+                                                    <Label
+                                                        FontSize="10"
+                                                        Text="Médico"
+                                                        TextColor="White" />
+                                                </Border>
+                                                <Border
+                                                    Padding="6,2,6,2"
+                                                    BackgroundColor="{Binding IsActive, Converter={StaticResource SelectedValueToColorBlockOrReleaseConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                                    Stroke="Transparent"
+                                                    StrokeShape="6">
+                                                    <Label
+                                                        FontSize="10"
+                                                        Text="{Binding IsActive, Converter={StaticResource SelectedValueToStringBlockOrReleaseConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                                        TextColor="White" />
+                                                </Border>
+                                            </HorizontalStackLayout>
+
+                                            <Grid
+                                                Margin="0,4,0,0"
+                                                ColumnDefinitions="*,Auto"
+                                                ColumnSpacing="6">
+                                                <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                                    <Label FontSize="12" TextColor="Gray">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xe82c;" />
+                                                                <Span Text="  Email: " />
+                                                                <Span Text="{Binding Model.Email}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label FontSize="11" TextColor="Gray">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xf0f6;" />
+                                                                <Span Text="   CPF: " />
+                                                                <Span Text="{Binding Model.Cpf}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label FontSize="11" TextColor="Gray">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xe804;" />
+                                                                <Span Text="   Telefone: " />
+                                                                <Span Text="{Binding Model.Fone}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label FontSize="11" TextColor="Gray">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xf0f7;" />
+                                                                <Span Text="    CRM: " />
+                                                                <Span Text="{Binding Model.Crm}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label FontSize="11" TextColor="Gray">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xe811;" />
+                                                                <Span Text="   Especialidade: " />
+                                                                <Span Text="{Binding Model.Mainspecialty}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label FontSize="11" TextColor="Gray">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xe801;" />
+                                                                <Span Text="   Tempo de experiência: " />
+                                                                <Span Text="{Binding Model.Medicalexperience}" />
+                                                                <Span Text=" anos" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label FontSize="11" TextColor="Gray">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xe835;" />
+                                                                <Span Text="   Avaliação Geral: " />
+                                                                <Span Text="{Binding Model.Rating}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label FontSize="11" TextColor="Gray">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xf133;" />
+                                                                <Span Text="   Data de Cadastro: " />
+                                                                <Span Text="{Binding Model.Createdat, Converter={StaticResource DateTimeToStringConverter}}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </VerticalStackLayout>
+
+                                                <ActivityIndicator
+                                                    Grid.Column="1"
+                                                    IsRunning="{Binding IsBusy}"
+                                                    IsVisible="{Binding IsBusy}" />
+
+                                                <Border
+                                                    Grid.Column="1"
+                                                    Padding="10,4,10,4"
+                                                    BackgroundColor="{Binding IsActive, Converter={StaticResource SelectedValueToColorBlockActionBlockOrReleaseConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                                    IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
+                                                    Stroke="Transparent"
+                                                    StrokeShape="4"
+                                                    VerticalOptions="Center">
+
+                                                    <Border.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.BlockOrUnblockDoctorCommand, Source={x:Reference AdminUserManagementPage}}" CommandParameter="{Binding .}" />
+                                                    </Border.GestureRecognizers>
+
+                                                    <Label FontSize="12" TextColor="White">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="{Binding IsActive, Converter={StaticResource SelectedValueToStringBlockActionBlockOrReleaseIconConverter}, ConverterParameter={StaticResource TrueParam}}" />
+                                                                <Span Text="  " />
+                                                                <Span Text="{Binding IsActive, Converter={StaticResource SelectedValueToStringBlockActionBlockOrReleaseConverter}, ConverterParameter={StaticResource TrueParam}}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </Border>
+                                            </Grid>
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+                <!--#endregion-->
+
+                <!--#region ManagerCollection-->
+                <Border
+                    Padding="10"
+                    IsVisible="{Binding SelectedTab, Converter={StaticResource SelectedValueToBoolConverter}, ConverterParameter=3}"
+                    Shadow="{StaticResource BottomShadow}"
+                    Style="{StaticResource MasterBorderStyle}">
+                    <VerticalStackLayout Spacing="15">
+                        <Label
+                            Margin="5,0,0,0"
+                            FontFamily="Semibold"
+                            FontSize="13"
+                            Text="Listagem total de gerentes cadastrados" />
+
+                        <CollectionView ItemsSource="{Binding ManagersCollection}">
+
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout ItemSpacing="4" Orientation="Vertical" />
+                            </CollectionView.ItemsLayout>
+
+                            <CollectionView.EmptyView>
+                                <ContentView BindingContext="Não foi encontrado nenhum gerente cadastrado." ControlTemplate="{StaticResource EmptyStateTemplate}" />
+                            </CollectionView.EmptyView>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="10" Style="{StaticResource MasterBorderStyle}">
+                                        <VerticalStackLayout Spacing="2">
+                                            <HorizontalStackLayout Spacing="8">
+                                                <Label
+                                                    FontFamily="Semibold"
+                                                    FontSize="12"
+                                                    Text="{Binding Model.Name}"
+                                                    VerticalTextAlignment="Center" />
+                                                <Border
+                                                    Padding="6,2,6,2"
+                                                    BackgroundColor="Gray"
+                                                    Stroke="Transparent"
+                                                    StrokeShape="6">
+                                                    <Label
+                                                        FontSize="10"
+                                                        Text="Gerente"
+                                                        TextColor="White" />
+                                                </Border>
+                                                <Border
+                                                    Padding="6,2,6,2"
+                                                    BackgroundColor="{Binding IsActive, Converter={StaticResource SelectedValueToColorBlockOrReleaseConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                                    Stroke="Transparent"
+                                                    StrokeShape="6">
+                                                    <Label
+                                                        FontSize="10"
+                                                        Text="{Binding IsActive, Converter={StaticResource SelectedValueToStringBlockOrReleaseConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                                        TextColor="White" />
+                                                </Border>
+                                            </HorizontalStackLayout>
+
+                                            <Grid
+                                                Margin="0,4,0,0"
+                                                ColumnDefinitions="*,Auto"
+                                                ColumnSpacing="6">
+                                                <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                                    <Label
+                                                        FontSize="12"
+                                                        Text="{Binding Model.Email}"
+                                                        TextColor="Gray">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xe82c;" />
+                                                                <Span Text="  Email: " />
+                                                                <Span Text="{Binding Model.Email}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label FontSize="11" TextColor="Gray">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xf0f6;" />
+                                                                <Span Text="   CPF: " />
+                                                                <Span Text="{Binding Model.Cpf}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label FontSize="11" TextColor="Gray">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xe804;" />
+                                                                <Span Text="   Telefone: " />
+                                                                <Span Text="{Binding Model.Fone}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label FontSize="11" TextColor="Gray">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xf133;" />
+                                                                <Span Text="   Data de Cadastro: " />
+                                                                <Span Text="{Binding Model.Createdat, Converter={StaticResource DateTimeToStringConverter}}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </VerticalStackLayout>
+
+                                                <ActivityIndicator
+                                                    Grid.Column="1"
+                                                    IsRunning="{Binding IsBusy}"
+                                                    IsVisible="{Binding IsBusy}" />
+
+                                                <Border
+                                                    Grid.Column="1"
+                                                    Padding="10,4,10,4"
+                                                    BackgroundColor="{Binding IsActive, Converter={StaticResource SelectedValueToColorBlockActionBlockOrReleaseConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                                    IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
+                                                    Stroke="Transparent"
+                                                    StrokeShape="4"
+                                                    VerticalOptions="Center">
+
+                                                    <Border.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.BlockOrUnblockUserCommand, Source={x:Reference AdminUserManagementPage}}" CommandParameter="{Binding .}" />
+                                                    </Border.GestureRecognizers>
+
+                                                    <Label FontSize="12" TextColor="White">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="{Binding IsActive, Converter={StaticResource SelectedValueToStringBlockActionBlockOrReleaseIconConverter}, ConverterParameter={StaticResource TrueParam}}" />
+                                                                <Span Text="  " />
+                                                                <Span Text="{Binding IsActive, Converter={StaticResource SelectedValueToStringBlockActionBlockOrReleaseConverter}, ConverterParameter={StaticResource TrueParam}}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </Border>
+                                            </Grid>
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+                <!--#endregion-->
+
+                <!--#region RejectedCollection-->
+                <Border
+                    Padding="10"
+                    IsVisible="{Binding SelectedTab, Converter={StaticResource SelectedValueToBoolConverter}, ConverterParameter=4}"
+                    Shadow="{StaticResource BottomShadow}"
+                    Style="{StaticResource MasterBorderStyle}">
+                    <VerticalStackLayout Spacing="15">
+                        <Label
+                            Margin="5,0,0,0"
+                            FontFamily="Semibold"
+                            FontSize="13"
+                            Text="Listagem de cadastros rejeitados" />
+
+                        <CollectionView ItemsSource="{Binding RejectedUsers}">
+
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout ItemSpacing="4" Orientation="Vertical" />
+                            </CollectionView.ItemsLayout>
+
+                            <CollectionView.EmptyView>
+                                <ContentView BindingContext="Sem cadastros rejeitados no momento." ControlTemplate="{StaticResource EmptyStateTemplate}" />
+                            </CollectionView.EmptyView>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="10" Style="{StaticResource MasterBorderStyle}">
+                                        <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="6">
+                                            <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                                <HorizontalStackLayout Spacing="8">
+                                                    <Label
+                                                        FontFamily="Semibold"
+                                                        FontSize="12"
+                                                        Text="{Binding Model.Name}"
+                                                        VerticalTextAlignment="Center" />
+                                                    <Border
+                                                        Padding="6,2,6,2"
+                                                        BackgroundColor="{Binding Model.Usertype, Converter={StaticResource SelectedUserTypeToBackgroundColorConverter}, ConverterParameter={StaticResource Index4}}"
+                                                        Stroke="Transparent"
+                                                        StrokeShape="6">
+                                                        <Label
+                                                            FontSize="10"
+                                                            Text="{Binding Model.Usertype, Converter={StaticResource SelectedUserTypeToStringConverter}, ConverterParameter={StaticResource Index4}}"
+                                                            TextColor="{Binding Model.Usertype, Converter={StaticResource SelectedUserTypeToForeColorConverter}, ConverterParameter={StaticResource Index4}}" />
+                                                    </Border>
+                                                    <Border
+                                                        Padding="6,2,6,2"
+                                                        BackgroundColor="OrangeRed"
+                                                        Stroke="Transparent"
+                                                        StrokeShape="6">
+                                                        <Label
+                                                            FontSize="10"
+                                                            Text="REJEITADO"
+                                                            TextColor="White" />
+                                                    </Border>
+                                                </HorizontalStackLayout>
+                                                <VerticalStackLayout Margin="0,4,0,0" Spacing="2">
+                                                    <Label
+                                                        FontSize="12"
+                                                        Text="{Binding Model.Email}"
+                                                        TextColor="Gray">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xe82c;" />
+                                                                <Span Text="  Email: " />
+                                                                <Span Text="{Binding Model.Email}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label FontSize="11" TextColor="Gray">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xf0f6;" />
+                                                                <Span Text="   CPF: " />
+                                                                <Span Text="{Binding Model.Cpf}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label FontSize="11" TextColor="Gray">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xe804;" />
+                                                                <Span Text="   Telefone: " />
+                                                                <Span Text="{Binding Model.Fone}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </VerticalStackLayout>
+                                            </VerticalStackLayout>
+
+                                            <ActivityIndicator
+                                                Grid.Column="2"
+                                                IsRunning="{Binding IsBusy}"
+                                                IsVisible="{Binding IsBusy}" />
+
+                                            <Border
+                                                Grid.Column="1"
+                                                Padding="10,4,10,4"
+                                                BackgroundColor="DarkGreen"
+                                                IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
+                                                Stroke="Transparent"
+                                                StrokeShape="4"
+                                                VerticalOptions="Center">
+
+                                                <Border.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding BindingContext.ApproveUserCommand, Source={x:Reference AdminUserManagementPage}}" CommandParameter="{Binding .}" />
+                                                </Border.GestureRecognizers>
+
+                                                <Label FontSize="12" TextColor="White">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span FontFamily="AppIcons" Text="&#xe803;" />
+                                                            <Span Text="  Aprovar" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+                <!--#endregion-->
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentView>

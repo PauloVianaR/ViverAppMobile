@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mopups:PopupPage
+    x:Class="ViverAppMobile.Views.Popups.ReschedulePopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converter="clr-namespace:ViverAppMobile.Converters"
+    xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+    xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Calendar;assembly=Syncfusion.Maui.Calendar"
+    xmlns:sys="clr-namespace:System;assembly=netstandard"
+    xmlns:vm="clr-namespace:ViverAppMobile.ViewModels.Popups"
+    BackgroundColor="#80000000">
+
+    <mopups:PopupPage.BindingContext>
+        <vm:ReschudlePopupViewModel />
+    </mopups:PopupPage.BindingContext>
+
+    <Border
+        HeightRequest="670"
+        MaximumHeightRequest="670"
+        Style="{StaticResource BorderPopupStyle}"
+        WidthRequest="350">
+
+        <Border.Resources>
+            <ResourceDictionary>
+                <converter:SelectedValueToDoubleConverter x:Key="SelectedValueToDoubleConverter" />
+                <converter:DateTimeToStringConverter x:Key="DateTimeToStringConverter" CurrentFormat="dddd, dd 'de' MMMM 'de' yyyy 'às' HH:mm" />
+            </ResourceDictionary>
+        </Border.Resources>
+
+        <VerticalStackLayout Spacing="16">
+            <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
+                <Label FontSize="16" TextColor="Black">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontFamily="AppIcons" Text="&#xe80b;" />
+                            <Span FontFamily="Semibold" Text="   Remarcar Atendimento" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label
+                    FontFamily="AppIcons"
+                    FontSize="12"
+                    Text="&#xe81e;"
+                    TextColor="Gray">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="BackButtonPressed" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </FlexLayout>
+            <Label
+                FontSize="12"
+                HorizontalTextAlignment="Center"
+                Text="Selecione uma nova data e horário para este atendimento"
+                TextColor="Gray" />
+            <Border
+                Padding="10"
+                BackgroundColor="{StaticResource BackgroundGray}"
+                Stroke="Transparent"
+                StrokeShape="6">
+                <VerticalStackLayout Spacing="2">
+                    <Label FontSize="12">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontAttributes="Bold" Text="Especialista: " />
+                                <Span Text="{Binding UserSchedule.ProfessionalDoctorName}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label FontSize="12">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontAttributes="Bold" Text="Data:  " />
+                                <Span Text="{Binding UserSchedule.AppointmentDate, Converter={StaticResource DateTimeToStringConverter}}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label FontSize="12">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontAttributes="Bold" Text="Tipo:  " />
+                                <Span Text="{Binding UserSchedule.AppointmentTitle}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </VerticalStackLayout>
+            </Border>
+
+            <VerticalStackLayout Margin="0,10,0,0" Spacing="6">
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontFamily="AppIcons" Text="&#xf133;" />
+                            <Span FontFamily="Semibold" Text="   Nova Data" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Border
+                    BackgroundColor="{StaticResource BackgroundGray}"
+                    StrokeShape="8"
+                    StrokeThickness="0.5">
+                    <syncfusion:SfCalendar
+                        Margin="9,0,0,0"
+                        BackgroundColor="Transparent"
+                        FlexLayout.Basis="0%"
+                        FlexLayout.Grow="1"
+                        HorizontalOptions="Fill"
+                        MaximumDate="{Binding MaximumDate}"
+                        MaximumHeightRequest="300"
+                        MinimumDate="{Binding MinimumDate}"
+                        SelectableDayPredicate="{Binding CanSelectDate}"
+                        SelectedDate="{Binding ScheduleDateSelected, Mode=TwoWay}"
+                        SelectionMode="Single"
+                        ShowTrailingAndLeadingDates="False" />
+                </Border>
+            </VerticalStackLayout>
+
+            <StackLayout Spacing="6">
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontFamily="AppIcons" Text="&#xe801;" />
+                            <Span FontFamily="Semibold" Text="   Novo Horário" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Border
+                    Padding="12,2,12,2"
+                    BackgroundColor="{StaticResource BackgroundGray}"
+                    StrokeShape="8"
+                    StrokeThickness="0.5">
+                    <FlexLayout
+                        AlignItems="Center"
+                        Direction="Row"
+                        JustifyContent="Start">
+                        <Label
+                            FontFamily="AppIcons"
+                            Text="&#xe801;"
+                            TextColor="Gray" />
+                        <Picker
+                            Margin="9,0,0,0"
+                            BackgroundColor="Transparent"
+                            FlexLayout.Basis="0%"
+                            FlexLayout.Grow="1"
+                            HorizontalOptions="Fill"
+                            ItemsSource="{Binding TimesCanSchedule}"
+                            SelectedItem="{Binding ScheduleTimeSelected}" />
+                    </FlexLayout>
+                </Border>
+            </StackLayout>
+
+            <Grid
+                Margin="0,8,0,0"
+                ColumnDefinitions="*,*"
+                ColumnSpacing="4">
+                <Border
+                    Grid.Column="0"
+                    Padding="0,7,0,7"
+                    BackgroundColor="Black"
+                    Opacity="{Binding CanReschedule, Converter={StaticResource SelectedValueToDoubleConverter}, ConverterParameter={StaticResource FalseParam}}"
+                    Stroke="Transparent"
+                    StrokeShape="6">
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="YesButtonPressed" />
+                    </Border.GestureRecognizers>
+
+                    <Label
+                        FontFamily="Semibold"
+                        FontSize="12"
+                        HorizontalTextAlignment="Center"
+                        Text="Remarcar"
+                        TextColor="White"
+                        VerticalTextAlignment="Center" />
+                </Border>
+                <Border
+                    Grid.Column="1"
+                    Padding="0,7,0,7"
+                    BackgroundColor="White"
+                    Stroke="LightGray"
+                    StrokeShape="6">
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="BackButtonPressed" />
+                    </Border.GestureRecognizers>
+
+                    <Label
+                        FontFamily="Semibold"
+                        FontSize="12"
+                        HorizontalTextAlignment="Center"
+                        Text="Cancelar"
+                        TextColor="Black" />
+                </Border>
+            </Grid>
+        </VerticalStackLayout>
+    </Border>
+</mopups:PopupPage>

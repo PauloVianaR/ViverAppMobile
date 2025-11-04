@@ -1,0 +1,356 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <title>Consulta Online</title>
+    <style>
+        html, body {
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            background-color: #0f0f1a;
+            color: white;
+            font-family: "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .video-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 10px;
+        }
+
+        .video-box {
+            position: relative;
+            flex: 1;
+            width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            background-color: #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .placeholder {
+            position: absolute;
+            text-align: center;
+            width: 90%;
+            padding: 10px;
+            word-wrap: break-word;
+            font-size: 1.1rem;
+            opacity: 0.7;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #statusPanel {
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            background: rgba(20, 20, 30, 0.9);
+        }
+
+        .signal-indicator {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+            opacity: 0.9;
+            color: #fff;
+        }
+
+        .bars {
+            display: flex;
+            gap: 2px;
+            margin-top: 2px;
+        }
+
+        .bar {
+            width: 5px;
+            height: 8px;
+            background: #555;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+            .bar.active {
+                background: #4caf50;
+            }
+
+            .bar.medium {
+                background: #ffc107;
+            }
+
+            .bar.low {
+                background: #f44336;
+            }
+
+        .status-icons {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 2px;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <div id="remoteBox" class="video-box offline">
+            <div class="signal-indicator" id="signalIndicator">
+                <div>📶 <span id="signalText">Sem conexão</span></div>
+                <div class="bars">
+                    <div class="bar" id="bar1"></div>
+                    <div class="bar" id="bar2"></div>
+                    <div class="bar" id="bar3"></div>
+                </div>
+            </div>
+            <video id="remoteVideo" autoplay playsinline></video>
+            <span class="placeholder">Aguardando outro participante...</span>
+            <div class="status-icons" id="remoteStatusIcons"></div>
+        </div>
+
+        <div id="localBox" class="video-box offline">
+            <video id="localVideo" autoplay playsinline muted></video>
+            <span class="placeholder">Câmera não iniciada</span>
+            <div class="status-icons" id="localStatusIcons"></div>
+        </div>
+    </div>
+
+    <div id="statusPanel">🔄 Aguardando inicialização...</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+    <script>
+        let localStream, pc, connection;
+        let roomId = null;
+        let videoEnabled = true;
+        let audioEnabled = true;
+        let remoteVideoEnabled = true;
+        let remoteAudioEnabled = true;
+        let monitorInterval;
+        let isInitiator = false;
+
+        function updateStatus(msg) {
+            document.getElementById("statusPanel").textContent = msg;
+        }
+
+        function updateLocalIcons() {
+            const container = document.getElementById("localStatusIcons");
+            container.textContent = "";
+            if (!videoEnabled) container.textContent += "🎥❌";
+            if (!audioEnabled) container.textContent += "🎤❌";
+        }
+
+        function updateRemoteIcons() {
+            const container = document.getElementById("remoteStatusIcons");
+            container.textContent = "";
+            if (!remoteVideoEnabled) container.textContent += "🎥❌";
+            if (!remoteAudioEnabled) container.textContent += "🎤❌";
+        }
+
+        function toggleVideo() {
+            if (!localStream) return;
+            videoEnabled = !videoEnabled;
+            localStream.getVideoTracks().forEach(t => t.enabled = videoEnabled);
+            updateLocalIcons();
+            connection.invoke("SendSignal", roomId, "toggleVideo", JSON.stringify({ enabled: videoEnabled }));
+        }
+
+        function toggleAudio() {
+            if (!localStream) return;
+            audioEnabled = !audioEnabled;
+            localStream.getAudioTracks().forEach(t => t.enabled = audioEnabled);
+            updateLocalIcons();
+            connection.invoke("SendSignal", roomId, "toggleAudio", JSON.stringify({ enabled: audioEnabled }));
+        }
+
+        async function startConnectionMonitor() {
+            const signalBars = [document.getElementById("bar1"), document.getElementById("bar2"), document.getElementById("bar3")];
+            const signalText = document.getElementById("signalText");
+            monitorInterval = setInterval(async () => {
+                if (!pc) return;
+                try {
+                    const stats = await pc.getStats();
+                    let bitrate = 0;
+                    stats.forEach(report => {
+                        if (report.type === "outbound-rtp" && report.bytesSent && report.timestamp) {
+                            bitrate = report.bitrateMean || (report.bytesSent / (report.timestamp / 1000));
+                        }
+                    });
+                    let level = 0;
+                    if (bitrate > 500000) level = 3;
+                    else if (bitrate > 200000) level = 2;
+                    else if (bitrate > 50000) level = 1;
+                    signalBars.forEach((bar, i) => {
+                        bar.className = "bar";
+                        if (i < level) {
+                            if (level === 3) bar.classList.add("active");
+                            else if (level === 2) bar.classList.add("medium");
+                            else if (level === 1) bar.classList.add("low");
+                        }
+                    });
+                    signalText.textContent = level === 3 ? "Excelente" : level === 2 ? "Boa" : level === 1 ? "Ruim" : "Sem conexão";
+                } catch (err) {
+                    console.warn("Erro no monitor de conexão:", err);
+                    signalText.textContent = "Erro na conexão";
+                }
+            }, 2000);
+        }
+
+        async function init(room) {
+            roomId = room;
+            updateStatus("🔗 Conectando ao servidor de vídeo...");
+
+            try {
+                signalR.LogLevel = signalR.LogLevel.Debug;
+
+                connection = new signalR.HubConnectionBuilder()
+                    .withUrl(window.HUB_URL)
+                    .configureLogging(signalR.LogLevel.Debug)
+                    .withAutomaticReconnect()
+                    .build();
+
+                connection.onclose(() => updateStatus("❌ (Conexão Fechada) Falha ao se comunicar com o servidor."));
+                connection.onreconnecting(() => updateStatus("⏳ Reconectando..."));
+                connection.onreconnected(() => updateStatus("✅ Conectado ao servidor."));
+
+                connection.on("ReceiveSignal", async (type, data) => {
+                    const msg = JSON.parse(data);
+
+                    if (type === "toggleVideo") {
+                        remoteVideoEnabled = msg.enabled;
+                        updateRemoteIcons();
+                        return;
+                    }
+                    if (type === "toggleAudio") {
+                        remoteAudioEnabled = msg.enabled;
+                        updateRemoteIcons();
+                        return;
+                    }
+
+                    if (type === "offer") {
+                        updateStatus("📞 Recebendo offer...");
+                        await pc.setRemoteDescription(msg);
+                        const answer = await pc.createAnswer();
+                        await pc.setLocalDescription(answer);
+                        await connection.invoke("SendSignal", roomId, "answer", JSON.stringify(answer));
+                        updateStatus("📞 Enviando resposta...");
+                        return;
+                    }
+
+                    if (type === "answer") {
+                        await pc.setRemoteDescription(msg);
+                        updateStatus("✅ Conectado com o outro participante!");
+                        return;
+                    }
+
+                    if (type === "candidate") {
+                        await pc.addIceCandidate(msg);
+                        return;
+                    }
+                });
+
+                await connection.start();
+                await connection.invoke("JoinRoom", roomId);
+                updateStatus("✅ Conectado ao servidor. Obtendo mídia...");
+            } catch (ex) {
+                updateStatus("❌ Falha ao se comunicar com o servidor.");
+                console.error("Erro ao iniciar conexão:", ex);
+                return;
+            }
+
+            pc = new RTCPeerConnection({ iceServers: [{ urls: "stun:stun.l.google.com:19302" }] });
+            pc.onicecandidate = e => e.candidate && connection.invoke("SendSignal", roomId, "candidate", JSON.stringify(e.candidate));
+            pc.ontrack = e => {
+                document.getElementById("remoteVideo").srcObject = e.streams[0];
+                document.getElementById("remoteBox").classList.remove("offline");
+                document.querySelector("#remoteBox .placeholder").style.display = "none";
+                updateStatus("👥 Conectado com o outro participante");
+                startConnectionMonitor();
+            };
+
+            try {
+                const constraints = { video: { facingMode: "user" }, audio: true };
+                localStream = await navigator.mediaDevices.getUserMedia(constraints);
+                document.getElementById("localVideo").srcObject = localStream;
+                document.getElementById("localBox").classList.remove("offline");
+                document.querySelector("#localBox .placeholder").style.display = "none";
+                updateStatus("🎥 Câmera e microfone ativos");
+                updateLocalIcons();
+
+                localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
+            } catch (ex) {
+                updateStatus("❌ Erro ao acessar câmera/microfone");
+                console.error("Erro ao acessar camera/mic:", ex);
+                return;
+            }
+
+            try {
+                const resp = await fetch(`${window.HUB_URL.replace("/videohub", "")}/room/${roomId}/count`);
+                const data = await resp.json();
+                isInitiator = data.count > 0;
+            } catch {
+                isInitiator = Math.random() > 0.5;
+            }
+
+            if (isInitiator) {
+                setTimeout(async () => {
+                    try {
+                        updateStatus("📤 Criando offer...");
+                        const offer = await pc.createOffer();
+                        await pc.setLocalDescription(offer);
+                        await connection.invoke("SendSignal", roomId, "offer", JSON.stringify(offer));
+                        updateStatus("📤 Offer enviada");
+                    } catch (err) {
+                        console.error("Erro ao criar offer:", err);
+                    }
+                }, 2000);
+            } else {
+                updateStatus("🕓 Aguardando offer do outro participante...");
+            }
+        }
+
+        window.addEventListener("load", async () => {
+            if (window.HUB_URL && roomId) {
+                await init(roomId);
+            } else {
+                let retries = 0;
+                const check = setInterval(() => {
+                    if (window.HUB_URL && roomId) {
+                        clearInterval(check);
+                        init(roomId);
+                    } else if (retries++ > 20) {
+                        clearInterval(check);
+                        updateStatus("❌ RoomID não fornecido.");
+                    }
+                }, 500);
+            }
+        });
+
+        if (typeof window.HUB_URL !== "undefined" && typeof roomId !== "undefined") {
+            setTimeout(() => {
+                console.log("⚡ Detected HUB_URL before load, calling init immediately");
+                init(roomId);
+            }, 100);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,799 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="ViverAppMobile.Views.Admin.AdminHomeView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behavior="clr-namespace:ViverAppMobile.Behaviors"
+    xmlns:controls="clr-namespace:ViverAppMobile.Controls"
+    xmlns:converter="clr-namespace:ViverAppMobile.Converters"
+    xmlns:sys="clr-namespace:System;assembly=netstandard"
+    xmlns:vm="clr-namespace:ViverAppMobile.ViewModels.Admin"
+    x:Name="AdminHomePage"
+    BackgroundColor="{StaticResource PageBackground}">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
+            <converter:SelectedValueToBoolConverter x:Key="SelectedValueToBoolConverter" Inverse="True" />
+            <converter:DecimalToBrlMoneyConverter x:Key="DecimalToBrlMoneyConverter" />
+            <converter:DateTimeToStringConverter x:Key="DateTimeToStringConverter" CurrentFormat="dd/MM/yyyy 'às' HH:mm" />
+            <converter:SelectedValueToColorConverter
+                x:Key="SelectedUserTypeToBackgroundColorConverter"
+                SelectedColor="Black"
+                UnselectedColor="LightGray" />
+            <converter:SelectedValueToColorConverter
+                x:Key="SelectedUserTypeToForeColorConverter"
+                SelectedColor="White"
+                UnselectedColor="Black" />
+            <converter:SelectedValueToStringConverter
+                x:Key="SelectedUserTypeToStringConverter"
+                TextForFalse="Gerente"
+                TextForTrue="Médico" />
+            <converter:SelectedValueToStringConverter
+                x:Key="SelectedValueToStringAttendOnlineConverter"
+                TextForFalse="Bloqueado"
+                TextForTrue="Liberado" />
+            <converter:SelectedValueToColorConverter
+                x:Key="SelectedValueToColorAttendOnlineConverter"
+                SelectedColor="Black"
+                UnselectedColor="Red" />
+            <converter:SelectedValueToStringConverter
+                x:Key="SelectedValueToStringBlockAttendOnlineConverter"
+                TextForFalse="Liberar"
+                TextForTrue="Bloquear" />
+            <converter:SelectedValueToColorConverter
+                x:Key="SelectedValueToColorBlockAttendOnlineConverter"
+                SelectedColor="Red"
+                UnselectedColor="Black" />
+            <converter:SelectedValueToStringConverter
+                x:Key="SelectedValueToStringBlockAttendOnlineIconConverter"
+                TextForFalse="&#xe836;"
+                TextForTrue="&#xe837;" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ContentView.BindingContext>
+        <vm:AdminHomeViewModel />
+    </ContentView.BindingContext>
+
+    <RefreshView Command="{Binding ReloadPageCommand}" IsRefreshing="{Binding IsReloading}">
+        <ScrollView>
+            <VerticalStackLayout Padding="15" Spacing="24">
+                <VerticalStackLayout Spacing="2">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="22"
+                        Text="Painel Administrativo" />
+                    <Label
+                        FontSize="13"
+                        Text="Gestão completa do aplicativo Viver"
+                        TextColor="Gray" />
+                </VerticalStackLayout>
+
+                <Grid
+                    ColumnDefinitions="*,*"
+                    ColumnSpacing="12"
+                    RowDefinitions="*,*"
+                    RowSpacing="12">
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                            <Label
+                                Grid.Column="0"
+                                FontFamily="AppIcons"
+                                FontSize="28"
+                                Text="&#xe812;"
+                                TextColor="MediumBlue"
+                                VerticalTextAlignment="Center" />
+                            <VerticalStackLayout Grid.Column="1" Spacing="6">
+                                <Label FontSize="13" Text="Usuários Ativos" />
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="22"
+                                    Text="{Binding UsersActiveTot}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                            <Label
+                                Grid.Column="0"
+                                FontFamily="AppIcons"
+                                FontSize="28"
+                                Text="&#xf133;"
+                                TextColor="Green"
+                                VerticalTextAlignment="Center" />
+                            <VerticalStackLayout Grid.Column="1" Spacing="6">
+                                <Label FontSize="13" Text="Consultas Hoje" />
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="22"
+                                    Text="{Binding ScheduleTodayTot}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                            <Label
+                                Grid.Column="0"
+                                FontFamily="AppIcons"
+                                FontSize="28"
+                                Text="&#xe80f;"
+                                TextColor="gold"
+                                VerticalTextAlignment="Center" />
+                            <VerticalStackLayout Grid.Column="1" Spacing="6">
+                                <Label FontSize="13" Text="Premium" />
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="22"
+                                    Text="{Binding PremiumTot}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                            <Label
+                                Grid.Column="0"
+                                FontFamily="AppIcons"
+                                FontSize="28"
+                                Text="&#xe839;"
+                                TextColor="Red"
+                                VerticalTextAlignment="Center" />
+                            <VerticalStackLayout Grid.Column="1" Spacing="6">
+                                <Label FontSize="13" Text="Pendências" />
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="22"
+                                    Text="{Binding PendingTot}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <Grid
+                    ColumnDefinitions="*,*"
+                    ColumnSpacing="12"
+                    RowDefinitions="*,*,*"
+                    RowSpacing="12">
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Padding="10"
+                        Style="{StaticResource MasterBorderStyle}">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SwitchPageCommand}" CommandParameter="{StaticResource Index1}" />
+                        </Border.GestureRecognizers>
+
+                        <VerticalStackLayout HorizontalOptions="Center" Spacing="10">
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="15"
+                                HorizontalTextAlignment="Center"
+                                Text="&#xf0f7;"
+                                TextColor="CornflowerBlue" />
+                            <Label
+                                FontFamily="Semibold"
+                                FontSize="11"
+                                HorizontalTextAlignment="Center"
+                                Text="Configurações da Clínica" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Padding="10"
+                        Style="{StaticResource MasterBorderStyle}">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SwitchPageCommand}" CommandParameter="{StaticResource Index3}" />
+                        </Border.GestureRecognizers>
+
+                        <VerticalStackLayout HorizontalOptions="Center" Spacing="10">
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="15"
+                                HorizontalTextAlignment="Center"
+                                Text="&#xe838;"
+                                TextColor="MediumBlue" />
+                            <Label
+                                FontFamily="Semibold"
+                                FontSize="11"
+                                HorizontalTextAlignment="Center"
+                                Text="Analytics Dashboard" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Padding="10"
+                        Style="{StaticResource MasterBorderStyle}">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SwitchPageCommand}" CommandParameter="{StaticResource Index4}" />
+                        </Border.GestureRecognizers>
+
+                        <VerticalStackLayout HorizontalOptions="Center" Spacing="10">
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="15"
+                                HorizontalTextAlignment="Center"
+                                Text="&#xe823;"
+                                TextColor="Red" />
+                            <Label
+                                FontFamily="Semibold"
+                                FontSize="11"
+                                HorizontalTextAlignment="Center"
+                                Text="Central de Notificações" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Padding="10"
+                        Style="{StaticResource MasterBorderStyle}">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SwitchPageCommand}" CommandParameter="{StaticResource Index5}" />
+                        </Border.GestureRecognizers>
+
+                        <VerticalStackLayout HorizontalOptions="Center" Spacing="10">
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="15"
+                                HorizontalTextAlignment="Center"
+                                Text="&#xe812;"
+                                TextColor="Indigo" />
+                            <Label
+                                FontFamily="Semibold"
+                                FontSize="11"
+                                HorizontalTextAlignment="Center"
+                                Text="Gestão de Usuários" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Padding="10"
+                        Style="{StaticResource MasterBorderStyle}">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NavigateToPremiumPageCommand}" />
+                        </Border.GestureRecognizers>
+
+                        <VerticalStackLayout HorizontalOptions="Center" Spacing="10">
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="15"
+                                HorizontalTextAlignment="Center"
+                                Text="&#xe80f;"
+                                TextColor="Gold" />
+                            <Label
+                                FontFamily="Semibold"
+                                FontSize="11"
+                                HorizontalTextAlignment="Center"
+                                Text="Gestão Premium" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Padding="10"
+                        Style="{StaticResource MasterBorderStyle}">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SwitchPageCommand}" CommandParameter="{StaticResource Index2}" />
+                        </Border.GestureRecognizers>
+
+                        <VerticalStackLayout HorizontalOptions="Center" Spacing="10">
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="15"
+                                HorizontalTextAlignment="Center"
+                                Text="&#xf133;"
+                                TextColor="Green" />
+                            <Label
+                                FontFamily="Semibold"
+                                FontSize="11"
+                                HorizontalTextAlignment="Center"
+                                Text="Gestão de Consultas" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <Border
+                    IsVisible="{Binding PendingApprovals, Converter={StaticResource SelectedValueToBoolConverter}, ConverterParameter={StaticResource Index0}}"
+                    Shadow="{StaticResource BottomShadow}"
+                    Style="{StaticResource MasterBorderStyle}">
+
+                    <Border.Behaviors>
+                        <behavior:BorderDismissBehavior />
+                    </Border.Behaviors>
+
+                    <VerticalStackLayout Spacing="16">
+                        <HorizontalStackLayout Spacing="8">
+                            <Label
+                                FontFamily="AppIcons"
+                                Text="&#xe803;"
+                                TextColor="Red" />
+                            <Label Text="Aprovações Pendentes" />
+                            <Border
+                                Padding="6,2,6,2"
+                                BackgroundColor="Red"
+                                Stroke="Transparent"
+                                StrokeShape="4">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="10"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding PendingApprovals}"
+                                    TextColor="White"
+                                    VerticalTextAlignment="Center" />
+                            </Border>
+                        </HorizontalStackLayout>
+
+                        <VerticalStackLayout x:Name="PendingApprovalsCollection" Spacing="0">
+                            <CollectionView ItemsSource="{Binding PendingUserApprovals}">
+
+                                <CollectionView.ItemsLayout>
+                                    <LinearItemsLayout ItemSpacing="8" Orientation="Vertical" />
+                                </CollectionView.ItemsLayout>
+
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Padding="10" Style="{StaticResource MasterBorderStyle}">
+                                            <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="6">
+                                                <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                                    <HorizontalStackLayout Spacing="8">
+                                                        <Label
+                                                            FontFamily="Semibold"
+                                                            FontSize="12"
+                                                            Text="{Binding Model.Name}"
+                                                            VerticalTextAlignment="Center" />
+                                                        <Border
+                                                            Padding="6,2,6,2"
+                                                            BackgroundColor="{Binding Model.Usertype, Converter={StaticResource SelectedUserTypeToBackgroundColorConverter}, ConverterParameter={StaticResource Index4}}"
+                                                            Stroke="Transparent"
+                                                            StrokeShape="6">
+                                                            <Label
+                                                                FontSize="10"
+                                                                Text="{Binding Model.Usertype, Converter={StaticResource SelectedUserTypeToStringConverter}, ConverterParameter={StaticResource Index4}}"
+                                                                TextColor="{Binding Model.Usertype, Converter={StaticResource SelectedUserTypeToForeColorConverter}, ConverterParameter={StaticResource Index4}}" />
+                                                        </Border>
+                                                    </HorizontalStackLayout>
+                                                    <VerticalStackLayout Margin="0,4,0,0" Spacing="2">
+                                                        <Label
+                                                            FontSize="12"
+                                                            Text="{Binding Model.Email}"
+                                                            TextColor="Gray">
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span FontFamily="AppIcons" Text="&#xe82c;" />
+                                                                    <Span Text="  Email: " />
+                                                                    <Span Text="{Binding Model.Email}" />
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>
+                                                        <Label FontSize="11" TextColor="Gray">
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span FontFamily="AppIcons" Text="&#xf0f6;" />
+                                                                    <Span Text="   CPF: " />
+                                                                    <Span Text="{Binding Model.Cpf}" />
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>
+                                                        <Label FontSize="11" TextColor="Gray">
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span FontFamily="AppIcons" Text="&#xe804;" />
+                                                                    <Span Text="   Telefone: " />
+                                                                    <Span Text="{Binding Model.Fone}" />
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>
+                                                    </VerticalStackLayout>
+                                                </VerticalStackLayout>
+                                                <Border
+                                                    Grid.Column="1"
+                                                    Padding="10,4,10,4"
+                                                    BackgroundColor="Black"
+                                                    IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
+                                                    Stroke="Transparent"
+                                                    StrokeShape="4"
+                                                    VerticalOptions="Center">
+
+                                                    <Border.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.ApproveUserCommand, Source={x:Reference AdminHomePage}}" CommandParameter="{Binding .}" />
+                                                    </Border.GestureRecognizers>
+
+                                                    <Label
+                                                        FontFamily="AppIcons"
+                                                        Text="&#xe803;"
+                                                        TextColor="White" />
+                                                </Border>
+                                                <Border
+                                                    Grid.Column="2"
+                                                    Padding="8,4,8,4"
+                                                    BackgroundColor="Red"
+                                                    IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
+                                                    Stroke="Transparent"
+                                                    StrokeShape="4"
+                                                    VerticalOptions="Center">
+
+                                                    <Border.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.ReproveUserCommand, Source={x:Reference AdminHomePage}}" CommandParameter="{Binding .}" />
+                                                    </Border.GestureRecognizers>
+
+                                                    <Label
+                                                        FontFamily="AppIcons"
+                                                        Text="&#xe81e;"
+                                                        TextColor="White" />
+                                                </Border>
+                                                <ActivityIndicator
+                                                    Grid.Column="2"
+                                                    IsRunning="{Binding IsBusy}"
+                                                    IsVisible="{Binding IsBusy}" />
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border
+                    IsVisible="{Binding PendingPayments, Converter={StaticResource SelectedValueToBoolConverter}, ConverterParameter={StaticResource Index0}}"
+                    Shadow="{StaticResource BottomShadow}"
+                    Style="{StaticResource MasterBorderStyle}">
+
+                    <Border.Behaviors>
+                        <behavior:BorderDismissBehavior />
+                    </Border.Behaviors>
+
+                    <VerticalStackLayout Spacing="16">
+                        <HorizontalStackLayout Spacing="8">
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="16"
+                                Text="&#xe805;"
+                                TextColor="Orange" />
+                            <Label Text="Consultas com Pagamento Pendente" />
+                            <Border
+                                Padding="6,2,6,2"
+                                BackgroundColor="Red"
+                                Stroke="Transparent"
+                                StrokeShape="4">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="10"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding PendingPayments}"
+                                    TextColor="White"
+                                    VerticalTextAlignment="Center" />
+                            </Border>
+                        </HorizontalStackLayout>
+
+                        <CollectionView ItemsSource="{Binding PendingPaymentAppointments}">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout ItemSpacing="8" Orientation="Vertical" />
+                            </CollectionView.ItemsLayout>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border
+                                        Padding="10"
+                                        BackgroundColor="#fff7ed"
+                                        Stroke="orange"
+                                        StrokeShape="6"
+                                        StrokeThickness="0.5">
+                                        <VerticalStackLayout Spacing="3">
+                                            <FlexLayout JustifyContent="SpaceBetween">
+                                                <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                                                    <Label
+                                                        FontFamily="Semibold"
+                                                        FontSize="12"
+                                                        Text="Paciente: " />
+                                                    <Label
+                                                        FontSize="12"
+                                                        Text="{Binding Model.UserName}"
+                                                        VerticalTextAlignment="End" />
+                                                </HorizontalStackLayout>
+                                                <Border
+                                                    Padding="6,2,6,2"
+                                                    Stroke="OrangeRed"
+                                                    StrokeShape="8"
+                                                    StrokeThickness="0.5"
+                                                    VerticalOptions="Center">
+                                                    <Label
+                                                        FontSize="12"
+                                                        Text="Pagamento Pendente"
+                                                        TextColor="OrangeRed" />
+                                                </Border>
+                                            </FlexLayout>
+                                            <HorizontalStackLayout Spacing="6">
+                                                <Label
+                                                    FontFamily="Semibold"
+                                                    FontSize="12"
+                                                    Text="Médico: " />
+                                                <Label
+                                                    FontSize="12"
+                                                    Text="{Binding Model.ProfessionalDoctorName}"
+                                                    VerticalTextAlignment="End" />
+                                            </HorizontalStackLayout>
+                                            <HorizontalStackLayout Spacing="6">
+                                                <Label
+                                                    FontFamily="Semibold"
+                                                    FontSize="12"
+                                                    Text="Data: " />
+                                                <Label
+                                                    FontSize="12"
+                                                    Text="{Binding Model.AppointmentDate, Converter={StaticResource DateTimeToStringConverter}}"
+                                                    VerticalTextAlignment="End" />
+                                            </HorizontalStackLayout>
+                                            <HorizontalStackLayout Spacing="6">
+                                                <Label
+                                                    FontFamily="Semibold"
+                                                    FontSize="12"
+                                                    Text="Tipo: " />
+                                                <Label
+                                                    FontSize="12"
+                                                    Text="{Binding Model.AppointmentDescription}"
+                                                    VerticalTextAlignment="End" />
+                                            </HorizontalStackLayout>
+                                            <HorizontalStackLayout Spacing="6">
+                                                <Label
+                                                    FontFamily="Semibold"
+                                                    FontSize="12"
+                                                    Text="Valor: " />
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="12"
+                                                    Text="{Binding Model.AppointmentPrice, Converter={StaticResource DecimalToBrlMoneyConverter}}"
+                                                    TextColor="Green"
+                                                    VerticalTextAlignment="End" />
+                                            </HorizontalStackLayout>
+
+                                            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+
+                                            <Grid
+                                                Margin="0,10,0,0"
+                                                ColumnDefinitions="*,*"
+                                                ColumnSpacing="8"
+                                                IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}">
+                                                <Border
+                                                    Grid.Column="0"
+                                                    Padding="8,6,8,6"
+                                                    BackgroundColor="Green"
+                                                    Stroke="Transparent"
+                                                    StrokeShape="6">
+
+                                                    <Border.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.ConfirmPaymentCommand, Source={x:Reference AdminHomePage}}" CommandParameter="{Binding .}" />
+                                                    </Border.GestureRecognizers>
+
+                                                    <Label
+                                                        FontSize="12"
+                                                        HorizontalTextAlignment="Center"
+                                                        TextColor="White">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xe803;" />
+                                                                <Span Text="  Confirmar Pagamento" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </Border>
+                                                <Border
+                                                    Grid.Column="1"
+                                                    Padding="8,6,8,6"
+                                                    BackgroundColor="Red"
+                                                    Stroke="Transparent"
+                                                    StrokeShape="6">
+
+                                                    <Border.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.CancelScheduleCommand, Source={x:Reference AdminHomePage}}" CommandParameter="{Binding .}" />
+                                                    </Border.GestureRecognizers>
+
+                                                    <Label
+                                                        FontSize="12"
+                                                        HorizontalTextAlignment="Center"
+                                                        TextColor="White">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span FontFamily="AppIcons" Text="&#xe81e;" />
+                                                                <Span Text="  Cancelar Consulta" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </Border>
+                                            </Grid>
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Shadow="{StaticResource BottomShadow}" Style="{StaticResource MasterBorderStyle}">
+
+                    <Border.Behaviors>
+                        <behavior:BorderDismissBehavior />
+                    </Border.Behaviors>
+
+                    <VerticalStackLayout Spacing="16">
+                        <VerticalStackLayout Spacing="6">
+                            <HorizontalStackLayout Spacing="10">
+                                <Label
+                                    FontFamily="AppIcons"
+                                    FontSize="16"
+                                    Text="&#xe817;"
+                                    TextColor="MediumBlue"
+                                    VerticalTextAlignment="Center" />
+                                <Label Text="Controle de Atendimento Online" />
+                            </HorizontalStackLayout>
+                            <Label
+                                FontSize="13"
+                                Text="Gerencie o acesso dos médicos ao atendimento online"
+                                TextColor="Gray" />
+                        </VerticalStackLayout>
+
+                        <CollectionView ItemsSource="{Binding AllDoctors}">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout ItemSpacing="8" Orientation="Vertical" />
+                            </CollectionView.ItemsLayout>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="12" Style="{StaticResource MasterBorderStyle}">
+                                        <FlexLayout JustifyContent="SpaceBetween">
+                                            <Grid
+                                                ColumnDefinitions="*,Auto"
+                                                ColumnSpacing="8"
+                                                VerticalOptions="Center">
+                                                <Label
+                                                    Grid.Column="0"
+                                                    FontFamily="Semibold"
+                                                    FontSize="12"
+                                                    Text="{Binding Model.ProfessionalDoctorName}" />
+                                                <Border
+                                                    Grid.Column="1"
+                                                    Padding="6,2,6,2"
+                                                    BackgroundColor="{Binding IsActive, Converter={StaticResource SelectedValueToColorAttendOnlineConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                                    IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
+                                                    Stroke="Transparent"
+                                                    StrokeShape="6">
+                                                    <Label
+                                                        FontSize="10"
+                                                        Text="{Binding IsActive, Converter={StaticResource SelectedValueToStringAttendOnlineConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                                        TextColor="White" />
+                                                </Border>
+                                                <ActivityIndicator
+                                                    Grid.Column="1"
+                                                    IsRunning="{Binding IsBusy}"
+                                                    IsVisible="{Binding IsBusy}" />
+                                            </Grid>
+
+                                            <Border
+                                                Padding="6"
+                                                BackgroundColor="{Binding IsActive, Converter={StaticResource SelectedValueToColorBlockAttendOnlineConverter}, ConverterParameter={StaticResource TrueParam}}"
+                                                Stroke="Transparent"
+                                                StrokeShape="4">
+
+                                                <Border.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding BindingContext.LockOrUnlockAttendOnlineDoctorCommand, Source={x:Reference AdminHomePage}}" CommandParameter="{Binding .}" />
+                                                </Border.GestureRecognizers>
+
+                                                <Label FontSize="13" TextColor="White">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span FontFamily="AppIcons" Text="{Binding IsActive, Converter={StaticResource SelectedValueToStringBlockAttendOnlineIconConverter}, ConverterParameter={StaticResource TrueParam}}" />
+                                                            <Span FontAttributes="Bold" Text="   " />
+                                                            <Span FontAttributes="Bold" Text="{Binding IsActive, Converter={StaticResource SelectedValueToStringBlockAttendOnlineConverter}, ConverterParameter={StaticResource TrueParam}}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                            </Border>
+                                        </FlexLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Shadow="{StaticResource BottomShadow}" Style="{StaticResource MasterBorderStyle}">
+
+                    <Border.Behaviors>
+                        <behavior:BorderDismissBehavior />
+                    </Border.Behaviors>
+
+                    <VerticalStackLayout Spacing="20">
+                        <HorizontalStackLayout Spacing="10">
+                            <Label
+                                FontFamily="AppIcons"
+                                FontSize="12"
+                                Text="&#xe83b;"
+                                TextColor="Green"
+                                VerticalTextAlignment="Center" />
+                            <Label Text="Resumo Financeiro" />
+                        </HorizontalStackLayout>
+                        <FlexLayout JustifyContent="SpaceBetween">
+                            <VerticalStackLayout Spacing="8">
+                                <Label FontSize="12" Text="Receita Mensal" />
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="20"
+                                    Text="{Binding MonthlyIncome, Converter={StaticResource DecimalToBrlMoneyConverter}}"
+                                    TextColor="Green" />
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Spacing="8">
+                                <Label FontSize="12" Text="Pacientes Premium" />
+                                <Label FontSize="16">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontAttributes="Bold" Text="{Binding PremiumTot}" />
+                                            <Span FontAttributes="Bold" Text=" de " />
+                                            <Span FontAttributes="Bold" Text="{Binding PatientTot}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label FontSize="11" TextColor="Gray">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding PremiumUsersPercent}" />
+                                            <Span Text="% são Premium" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </VerticalStackLayout>
+                        </FlexLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Shadow="{StaticResource BottomShadow}" Style="{StaticResource MasterBorderStyle}">
+
+                    <Border.Behaviors>
+                        <behavior:BorderDismissBehavior />
+                    </Border.Behaviors>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                        <Label
+                            Grid.Column="0"
+                            FontFamily="AppIcons"
+                            FontSize="16"
+                            Text="&#xe81f;"
+                            VerticalTextAlignment="Center" />
+                        <VerticalStackLayout Grid.Column="1">
+                            <Label
+                                FontSize="12"
+                                Text="Sistema funcionando normalmente."
+                                TextColor="Gray" />
+                            <Label FontSize="12" TextColor="Gray">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Última atualização: " />
+                                        <Span Text="10/09/2025 às 23:35" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentView>

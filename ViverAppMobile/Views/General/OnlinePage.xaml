@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ViverAppMobile.Views.General.OnlinePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converter="clr-namespace:ViverAppMobile.Converters"
+    xmlns:vm="clr-namespace:ViverAppMobile.ViewModels.General"
+    BackgroundColor="{StaticResource PageBackground}">
+
+    <ContentPage.BindingContext>
+        <vm:OnlinePageViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:SelectedValueToColorConverter
+                x:Key="BoolToTextColorConverter"
+                SelectedColor="White"
+                UnselectedColor="Black" />
+            <converter:SelectedValueToColorConverter
+                x:Key="BoolToBackgroundColorConverter"
+                SelectedColor="Black"
+                UnselectedColor="LightGray" />
+            <converter:BoolToStringConverter
+                x:Key="BoolToStringConverter"
+                TextForFalse="Conectar"
+                TextForTrue="Desconectar" />
+            <converter:SelectedValueToColorConverter
+                x:Key="BoolToBackroundPageColorConverter"
+                SelectedColor="#0f0f1a"
+                UnselectedColor="Transparent" />
+            <converter:BoolToDoubleConverter
+                x:Key="BoolToOpacityConverter"
+                DoubleForFalse="0.5"
+                DoubleForTrue="1" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="*,Auto">
+        <Grid Grid.Row="0" RowDefinitions="Auto,*">
+            <Grid Grid.Row="0" BackgroundColor="{Binding CallStarted, Converter={StaticResource BoolToBackroundPageColorConverter}, ConverterParameter={StaticResource TrueParam}}">
+                <Label
+                    Margin="10"
+                    FontFamily="AppIcons"
+                    FontSize="18"
+                    Text="&#xe815;"
+                    TextColor="{Binding CallStarted, Converter={StaticResource BoolToTextColorConverter}, ConverterParameter={StaticResource TrueParam}}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding BackToCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <VerticalStackLayout
+                    Padding="20"
+                    IsVisible="{Binding CallStarted, Converter={converter:InverseBoolConverter}}"
+                    Spacing="20"
+                    VerticalOptions="Center">
+                    <Border Shadow="{StaticResource BottomShadow}" Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout
+                            Padding="10"
+                            HorizontalOptions="Center"
+                            Spacing="10"
+                            VerticalOptions="Center">
+
+                            <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                                <Label
+                                    FontFamily="AppIcons"
+                                    FontSize="Large"
+                                    HorizontalTextAlignment="Center"
+                                    Text="&#xe829;"
+                                    TextColor="Red" />
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="20"
+                                    HorizontalTextAlignment="Center"
+                                    Text="Chamada não iniciada..."
+                                    VerticalTextAlignment="Center" />
+                            </HorizontalStackLayout>
+
+                            <Label
+                                FontFamily="Semibold"
+                                FontSize="18"
+                                HorizontalTextAlignment="Center"
+                                Text="Para iniciar a chamada clique em CONECTAR logo abaixo"
+                                VerticalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border
+                        BackgroundColor="{StaticResource BackgroundGreen}"
+                        Shadow="{StaticResource BottomShadow}"
+                        Stroke="Green"
+                        Style="{StaticResource MasterBorderStyle}">
+                        <VerticalStackLayout Spacing="10">
+                            <HorizontalStackLayout Spacing="10">
+                                <Label
+                                    FontFamily="AppIcons"
+                                    FontSize="18"
+                                    Text="&#xe836;"
+                                    TextColor="DarkGreen"
+                                    VerticalTextAlignment="Center" />
+                                <Label
+                                    FontFamily="Semibold"
+                                    FontSize="13"
+                                    Text="Dica"
+                                    TextColor="DarkGreen" />
+                            </HorizontalStackLayout>
+
+                            <Label
+                                FontSize="12"
+                                LineHeight="1.3"
+                                Text="Lembre-se de testar sua conexão antes das consultas online e verificar se o áudio e a câmera estão funcionando normalmente."
+                                TextColor="DarkGreen" />
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+                <WebView
+                    x:Name="WebRTCWebView"
+                    IsVisible="{Binding CallStarted}"
+                    Source="WebControls/loading.html" />
+            </Grid>
+        </Grid>
+
+        <Grid
+            Grid.Row="1"
+            Margin="10"
+            ColumnDefinitions="*,*,*,*"
+            ColumnSpacing="6">
+            <Button
+                Grid.Column="0"
+                Padding="0"
+                BackgroundColor="{Binding CallStarted, Converter={StaticResource BoolToBackgroundColorConverter}, ConverterParameter={StaticResource TrueParam}}"
+                BorderColor="Gray"
+                Command="{Binding StartEndCommand}"
+                CommandParameter="{x:Reference WebRTCWebView}"
+                FontAttributes="Bold"
+                IsEnabled="{Binding CanConnectOrDisconnect}"
+                Opacity="{Binding CanConnectOrDisconnect, Converter={StaticResource BoolToOpacityConverter}}"
+                Text="{Binding CallStarted, Converter={StaticResource BoolToStringConverter}, ConverterParameter={StaticResource TrueParam}}"
+                TextColor="{Binding CallStarted, Converter={StaticResource BoolToTextColorConverter}, ConverterParameter={StaticResource TrueParam}}" />
+            <Button
+                Grid.Column="1"
+                BackgroundColor="LightGray"
+                BorderColor="Gray"
+                Command="{Binding ToggleAudioCommand}"
+                CommandParameter="{x:Reference WebRTCWebView}"
+                FontFamily="AppIcons"
+                IsEnabled="{Binding CallStarted}"
+                Opacity="{Binding CallStarted, Converter={StaticResource BoolToOpacityConverter}}"
+                Text="{Binding AudioIcon}"
+                TextColor="Black" />
+            <Button
+                Grid.Column="2"
+                BackgroundColor="LightGray"
+                BorderColor="Gray"
+                Command="{Binding ToggleVideoCommand}"
+                CommandParameter="{x:Reference WebRTCWebView}"
+                FontFamily="AppIcons"
+                IsEnabled="{Binding CallStarted}"
+                Opacity="{Binding CallStarted, Converter={StaticResource BoolToOpacityConverter}}"
+                Text="{Binding VideoIcon}"
+                TextColor="Black" />
+            <Button
+                Grid.Column="3"
+                BackgroundColor="LightGray"
+                BorderColor="Gray"
+                Command="{Binding ReconnectCommand}"
+                CommandParameter="{x:Reference WebRTCWebView}"
+                FontFamily="AppIcons"
+                IsEnabled="{Binding CallStarted}"
+                Opacity="{Binding CallStarted, Converter={StaticResource BoolToOpacityConverter}}"
+                Text="&#xe83f;"
+                TextColor="Black" />
+        </Grid>
+    </Grid>
+</ContentPage>
