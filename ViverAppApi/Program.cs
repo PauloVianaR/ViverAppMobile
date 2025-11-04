@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Net.Http.Headers;
 using System.Text;
 using ViverApp.Shared.Context;
 using ViverAppApi.Helpers;
@@ -8,7 +7,7 @@ using ViverAppApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"] 
+var connectionString = builder.Configuration["ConnectionStrings:ProductionConnection"] 
     ?? string.Empty;
 
 builder.Services.AddDbContext<ViverappmobileContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
