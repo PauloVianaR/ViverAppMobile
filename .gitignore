@@ -363,5 +363,9 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # Local Secretes
-appsettings.json
-appsettings.Development.json
+**/appsettings.json
+**/appsettings.Development.json
+/ViverAppApi/appsettings.json
+/ViverAppMobile/appsettings.json
+/ViverAppEmailWorker/appsettings.json
+/ViverAppVideoHub/appsettings.json
