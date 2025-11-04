@@ -9,7 +9,7 @@ using ViverAppApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"] 
-    ?? "server=localhost;user=root;password=Relapa123635241987$;database=viverappmobile";
+    ?? string.Empty;
 
 builder.Services.AddDbContext<ViverappmobileContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
