@@ -37,6 +37,8 @@ public partial class Schedule
 
     public string? Feedback { get; set; }
 
+    public DateTime Createdat { get; set; }
+
     public virtual Appointment IdappointmentNavigation { get; set; } = null!;
 
     public virtual Clinic IdclinicNavigation { get; set; } = null!;

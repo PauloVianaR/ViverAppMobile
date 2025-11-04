@@ -496,6 +496,10 @@ public partial class ViverappmobileContext : DbContext
             entity.Property(e => e.Status)
                 .HasDefaultValueSql("'1'")
                 .HasColumnName("status");
+            entity.Property(e => e.Createdat)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("datetime")
+                .HasColumnName("createdat");
 
             entity.HasOne(d => d.IdappointmentNavigation).WithMany(p => p.Schedules)
                 .HasForeignKey(d => d.Idappointment)
