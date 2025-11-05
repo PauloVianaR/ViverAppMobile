@@ -39,7 +39,7 @@
             <Style x:Key="MasterBorderItemStyle" TargetType="Border">
                 <Setter Property="Margin" Value="5,10" />
                 <Setter Property="BackgroundColor" Value="White" />
-                <Setter Property="StrokeShape" Value="12" />
+                <Setter Property="StrokeShape" Value="RoundRectangle 12" />
                 <Setter Property="Stroke" Value="LightGray" />
                 <Setter Property="Padding" Value="15,20,15,20" />
             </Style>

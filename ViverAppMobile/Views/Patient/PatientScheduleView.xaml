@@ -37,7 +37,7 @@
                     <Style x:Key="BorderItemStyle" TargetType="Border">
                         <Setter Property="FlexLayout.Grow" Value="1" />
                         <Setter Property="HeightRequest" Value="26" />
-                        <Setter Property="StrokeShape" Value="18" />
+                        <Setter Property="StrokeShape" Value="RoundRectangle 18" />
                         <Setter Property="StrokeThickness" Value="0" />
                         <Setter Property="VerticalOptions" Value="Center" />
                     </Style>

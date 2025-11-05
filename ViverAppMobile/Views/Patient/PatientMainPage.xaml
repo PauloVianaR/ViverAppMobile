@@ -20,7 +20,7 @@
                 <Style x:Key="MasterBorderItem" TargetType="Border">
                     <Setter Property="Padding" Value="10" />
                     <Setter Property="BackgroundColor" Value="White" />
-                    <Setter Property="StrokeShape" Value="10" />
+                    <Setter Property="StrokeShape" Value="RoundRectangle 10" />
                     <Setter Property="StrokeThickness" Value="0.5" />
                     <Setter Property="VerticalOptions" Value="Center" />
                 </Style>
