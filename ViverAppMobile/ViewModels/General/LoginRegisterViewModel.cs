@@ -486,6 +486,8 @@ namespace ViverAppMobile.ViewModels.General
                 var resp = await authService.ConfirmEmail(Email, confirmcode);
                 resp.ThrowIfIsNotSucess();
 
+                await PopupHelper.PopLoadingAsync();
+
                 if (await IsPatient(registredUser))
                     this.SwitchToHomePage(registredUser);
             }
@@ -498,7 +500,7 @@ namespace ViverAppMobile.ViewModels.General
                 await Messenger.ShowErrorMessageAsync(ex.Message);
             }
 
-            await PopupHelper.PopAllPopUpAsync();
+            await PopupHelper.PopLoadingAsync();
         }
 
         private void StartTimerAsync()
