@@ -62,7 +62,9 @@
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#FFFFFF" />
 
 		<!-- Splash Screen -->
-    <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#FFFFFF" BaseSize="512,512" />
+    <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#FFFFFF" BaseSize="512,512">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </MauiSplashScreen>
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -74,9 +76,15 @@
 
     		<!-- Custom Fonts -->
     <!-- <MauiFont Include="Resources\Fonts\*" /> -->
-    <MauiFont Include="Resources\Fonts\OpenSans-Regular.ttf" />
-    <MauiFont Include="Resources\Fonts\OpenSans-Semibold.ttf" Alias="Semibold" />
-    <MauiFont Include="Resources\Fonts\fontello.ttf" Alias="AppIcons" />
+    <MauiFont Include="Resources\Fonts\OpenSans-Regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </MauiFont>
+    <MauiFont Include="Resources\Fonts\OpenSans-Semibold.ttf" Alias="Semibold">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </MauiFont>
+    <MauiFont Include="Resources\Fonts\fontello.ttf" Alias="AppIcons">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </MauiFont>
 
     <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
@@ -134,5 +142,20 @@
 
   <ItemGroup>
     <GoogleServicesJson Include="Platforms/Android/google-services.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <MauiImage Update="Resources\Images\carouselimage1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </MauiImage>
+    <MauiImage Update="Resources\Images\carouselimage2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </MauiImage>
+    <MauiImage Update="Resources\Images\carouselimage3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </MauiImage>
+    <MauiImage Update="Resources\Images\carouselimage4.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </MauiImage>
   </ItemGroup>
 </Project>
