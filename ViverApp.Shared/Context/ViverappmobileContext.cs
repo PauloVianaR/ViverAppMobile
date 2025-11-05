@@ -57,11 +57,6 @@ public partial class ViverappmobileContext : DbContext
 
     public virtual DbSet<UserToken> UserTokens { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseMySql("server=localhost;database=viverappmobile;user id=root;password=Relapa123635241987$", ServerVersion.Parse("8.0.41-mysql"));
-    }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
