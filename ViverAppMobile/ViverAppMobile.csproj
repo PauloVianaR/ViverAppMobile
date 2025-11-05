@@ -78,38 +78,6 @@
     <MauiFont Include="Resources\Fonts\OpenSans-Semibold.ttf" Alias="Semibold" />
     <MauiFont Include="Resources\Fonts\fontello.ttf" Alias="AppIcons" />
 
-    <!-- Roboto padrão -->
-    <MauiFont Include="Resources\Fonts\Roboto-Regular.ttf" Alias="Roboto" />
-    <MauiFont Include="Resources\Fonts\Roboto-Bold.ttf" Alias="RobotoBold" />
-    <MauiFont Include="Resources\Fonts\Roboto-BoldItalic.ttf" Alias="RobotoBoldItalic" />
-    <MauiFont Include="Resources\Fonts\Roboto-Italic.ttf" Alias="RobotoItalic" />
-    <MauiFont Include="Resources\Fonts\Roboto-Light.ttf" Alias="RobotoLight" />
-    <MauiFont Include="Resources\Fonts\Roboto-LightItalic.ttf" Alias="RobotoLightItalic" />
-    <MauiFont Include="Resources\Fonts\Roboto-Medium.ttf" Alias="RobotoMedium" />
-    <MauiFont Include="Resources\Fonts\Roboto-MediumItalic.ttf" Alias="RobotoMediumItalic" />
-    <MauiFont Include="Resources\Fonts\Roboto-SemiBold.ttf" Alias="RobotoSemiBold" />
-    <MauiFont Include="Resources\Fonts\Roboto-SemiBoldItalic.ttf" Alias="RobotoSemiBoldItalic" />
-    <MauiFont Include="Resources\Fonts\Roboto-Black.ttf" Alias="RobotoBlack" />
-    <MauiFont Include="Resources\Fonts\Roboto-BlackItalic.ttf" Alias="RobotoBlackItalic" />
-    <MauiFont Include="Resources\Fonts\Roboto-ExtraBold.ttf" Alias="RobotoExtraBold" />
-    <MauiFont Include="Resources\Fonts\Roboto-ExtraBoldItalic.ttf" Alias="RobotoExtraBoldItalic" />
-    <MauiFont Include="Resources\Fonts\Roboto-ExtraLight.ttf" Alias="RobotoExtraLight" />
-    <MauiFont Include="Resources\Fonts\Roboto-ExtraLightItalic.ttf" Alias="RobotoExtraLightItalic" />
-
-    <!-- Roboto SemiCondensed -->
-    <MauiFont Include="Resources\Fonts\Roboto_SemiCondensed-Regular.ttf" Alias="RobotoSemiCondensed" />
-    <MauiFont Include="Resources\Fonts\Roboto_SemiCondensed-Bold.ttf" Alias="RobotoSemiCondensedBold" />
-    <MauiFont Include="Resources\Fonts\Roboto_SemiCondensed-BoldItalic.ttf" Alias="RobotoSemiCondensedBoldItalic" />
-    <MauiFont Include="Resources\Fonts\Roboto_SemiCondensed-Light.ttf" Alias="RobotoSemiCondensedLight" />
-    <MauiFont Include="Resources\Fonts\Roboto_SemiCondensed-LightItalic.ttf" Alias="RobotoSemiCondensedLightItalic" />
-    <MauiFont Include="Resources\Fonts\Roboto_SemiCondensed-Medium.ttf" Alias="RobotoSemiCondensedMedium" />
-    <MauiFont Include="Resources\Fonts\Roboto_SemiCondensed-MediumItalic.ttf" Alias="RobotoSemiCondensedMediumItalic" />
-    <MauiFont Include="Resources\Fonts\Roboto_SemiCondensed-SemiBold.ttf" Alias="RobotoSemiCondensedSemiBold" />
-    <MauiFont Include="Resources\Fonts\Roboto_SemiCondensed-SemiBoldItalic.ttf" Alias="RobotoSemiCondensedSemiBoldItalic" />
-    <MauiFont Include="Resources\Fonts\Roboto_SemiCondensed-Thin.ttf" Alias="RobotoSemiCondensedThin" />
-    <MauiFont Include="Resources\Fonts\Roboto_SemiCondensed-ThinItalic.ttf" Alias="RobotoSemiCondensedThinItalic" />
-
-
     <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
@@ -166,26 +134,5 @@
 
   <ItemGroup>
     <GoogleServicesJson Include="Platforms/Android/google-services.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Controls\SkeletonView.xaml.cs">
-      <DependentUpon>SkeletonView.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Controls\SkeletonControl.xaml.cs">
-      <DependentUpon>SkeletonControl.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <MauiXaml Update="Controls\SkeletonView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </MauiXaml>
-    <MauiXaml Update="Controls\SkeletonControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </MauiXaml>
-    <MauiXaml Update="Views\General\PaymentSuccessfulPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </MauiXaml>
   </ItemGroup>
 </Project>

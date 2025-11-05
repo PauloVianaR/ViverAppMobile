@@ -41,8 +41,6 @@ public static class MauiProgram
             {
                 fonts.AddFont("Inter-Regular.ttf", "InterRegular");
                 fonts.AddFont("Inter-Bold.ttf", "InterBold");
-                fonts.AddFont("Roboto-Regular.ttf", "Roboto");
-                fonts.AddFont("Roboto-Bold.ttf", "RobotoBold");
                 fonts.AddFont("fontello.ttf", "AppIcons");
                 fonts.AddFont("OpenSans-Semibold.ttf", "Semibold");
             })
