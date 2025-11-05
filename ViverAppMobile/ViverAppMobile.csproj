@@ -52,7 +52,9 @@
     <AndroidEnableAapt2>true</AndroidEnableAapt2>
     <AndroidUseLatestPlatformSdk>true</AndroidUseLatestPlatformSdk>
     <AndroidLinkMode>None</AndroidLinkMode>
-    <RunAOTCompilation>true</RunAOTCompilation>
+    <RunAOTCompilation>false</RunAOTCompilation>
+    <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
+    <AndroidEnableLLVM>false</AndroidEnableLLVM>
   </PropertyGroup>
 
 	<ItemGroup>
