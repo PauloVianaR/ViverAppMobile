@@ -7,7 +7,7 @@ using ViverAppApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration["ConnectionStrings:ProductionConnection"] 
+var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"] 
     ?? string.Empty;
 
 builder.Services.AddDbContext<ViverappmobileContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
