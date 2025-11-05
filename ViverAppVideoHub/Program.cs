@@ -3,6 +3,7 @@ using ViverAppVideoHub.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
+#if DEBUG
 var cert = X509CertificateLoader.LoadPkcs12FromFile(
     @"C:\Certs\devhub_san.pfx",
     "1234",
@@ -17,6 +18,7 @@ builder.WebHost.ConfigureKestrel(options =>
         listenOptions.UseHttps(cert);
     });
 });
+#endif
 
 builder.Services.AddControllers();
 builder.Services.AddSignalR();
@@ -25,12 +27,16 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAppDir", policy =>
     {
         policy
+#if DEBUG
             .WithOrigins(
                 "https://appdir",
                 "https://192.168.18.2:7177",
                 "http://192.168.18.2:5279",
                 "null"
             )
+#else
+            .SetIsOriginAllowed(_ => true)
+#endif
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
