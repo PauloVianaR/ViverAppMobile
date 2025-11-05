@@ -7,6 +7,8 @@ using ViverAppApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddEnvironmentVariables();
+
 var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"] 
     ?? string.Empty;
 
@@ -57,11 +59,8 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseCors("AllowAll");
 app.UseAuthentication();
