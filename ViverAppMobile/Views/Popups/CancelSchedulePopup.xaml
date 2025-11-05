@@ -45,7 +45,7 @@
                     Padding="10"
                     BackgroundColor="{StaticResource BackgroundGray}"
                     Stroke="Transparent"
-                    StrokeShape="6">
+                    StrokeShape="RoundRectangle 6">
                     <VerticalStackLayout Spacing="2">
                         <Label FontSize="12" IsVisible="{Binding IsPatient, Converter={StaticResource InverseBoolConverter}}">
                             <Label.FormattedText>
@@ -102,7 +102,7 @@
                         <Border
                             FlexLayout.Grow="1"
                             Stroke="Transparent"
-                            StrokeShape="8">
+                            StrokeShape="RoundRectangle 8">
                             <Editor
                                 x:Name="CancellationReason"
                                 BackgroundColor="{StaticResource BackgroundGray}"
@@ -124,7 +124,7 @@
                     Padding="4"
                     BackgroundColor="Red"
                     Stroke="Transparent"
-                    StrokeShape="6">
+                    StrokeShape="RoundRectangle 6">
 
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="YesButtonPressed" />
@@ -142,7 +142,7 @@
                     Padding="4"
                     BackgroundColor="White"
                     Stroke="LightGray"
-                    StrokeShape="6">
+                    StrokeShape="RoundRectangle 6">
 
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="BackButtonPressed" />

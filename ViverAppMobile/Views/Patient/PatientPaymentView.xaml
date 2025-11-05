@@ -86,7 +86,7 @@
                     Padding="3"
                     BackgroundColor="#DDDDDD"
                     Stroke="LightGray"
-                    StrokeShape=" RoundRectangle 12">
+                    StrokeShape="RoundRectangle 12">
                     <FlexLayout
                         Direction="Row"
                         HorizontalOptions="Center"
@@ -176,7 +176,7 @@
                                     Padding="10"
                                     BackgroundColor="{StaticResource BackgroundBlue}"
                                     Stroke="{StaticResource BorderBlue}"
-                                    StrokeShape="6"
+                                    StrokeShape="RoundRectangle 6"
                                     StrokeThickness="0.5">
                                     <StackLayout Spacing="15">
                                         <Label
@@ -196,7 +196,7 @@
                                             BackgroundColor="#155dfc"
                                             HorizontalOptions="Center"
                                             Stroke="Transparent"
-                                            StrokeShape="6">
+                                            StrokeShape="RoundRectangle 6">
 
                                             <Border.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding SwitchToSchedulePageCommand}" />
@@ -237,7 +237,7 @@
                                                 Padding="10"
                                                 BackgroundColor="{Binding BackgroundColor}"
                                                 Stroke="{Binding BorderColor}"
-                                                StrokeShape="8">
+                                                StrokeShape="RoundRectangle 8">
 
                                                 <Border.GestureRecognizers>
                                                     <TapGestureRecognizer Command="{Binding BindingContext.SetSelectedScheduleIdCommand, Source={x:Reference PaymentPage}}" CommandParameter="{Binding Model.IdSchedule}" />
@@ -256,7 +256,7 @@
                                                                 BackgroundColor="{StaticResource LightPurple}"
                                                                 IsVisible="{Binding Model.IsOnline, Converter={StaticResource SByteToBoolConverter}}"
                                                                 Stroke="Transparent"
-                                                                StrokeShape="4">
+                                                                StrokeShape="RoundRectangle 4">
                                                                 <Label FontSize="11" TextColor="Purple">
                                                                     <Label.FormattedText>
                                                                         <FormattedString>
@@ -298,7 +298,7 @@
                                                             Padding="5,2,5,2"
                                                             BackgroundColor="#fef9c2"
                                                             Stroke="Orange"
-                                                            StrokeShape="6"
+                                                            StrokeShape="RoundRectangle 6"
                                                             StrokeThickness="0.5">
                                                             <Label
                                                                 FontSize="11"
@@ -345,7 +345,7 @@
                                     BackgroundColor="{StaticResource LightPurple}"
                                     IsVisible="{Binding SelectedScheduleIsOnline}"
                                     Stroke="Purple"
-                                    StrokeShape="6"
+                                    StrokeShape="RoundRectangle 6"
                                     StrokeThickness="0.3">
                                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
                                         <Label
@@ -631,7 +631,7 @@
                         IsVisible="{Binding UserHasPendingPayments}"
                         Opacity="{Binding CanPayOrConfirm, Converter={StaticResource SelectedValueToOpacityConverter}, ConverterParameter={StaticResource TrueParam}}"
                         Stroke="Transparent"
-                        StrokeShape="6">
+                        StrokeShape="RoundRectangle 6">
 
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding PayOrConfirmCommand}" />
@@ -672,7 +672,7 @@
                                 Padding="10,6,10,6"
                                 BackgroundColor="{Binding IsShowingFilters, Converter={StaticResource SelectedValueToBackgroundColorConverter}, ConverterParameter={StaticResource TrueParam}}"
                                 Stroke="{Binding IsShowingFilters, Converter={StaticResource SelectedValueToBorderColorConverter}, ConverterParameter={StaticResource TrueParam}}"
-                                StrokeShape="6"
+                                StrokeShape="RoundRectangle 6"
                                 Style="{StaticResource MasterBorderStyle}">
 
                                 <Border.GestureRecognizers>
@@ -746,7 +746,7 @@
                                         <Border
                                             Padding="12,4,12,4"
                                             BackgroundColor="{StaticResource BackgroundGray}"
-                                            StrokeShape="8"
+                                            StrokeShape="RoundRectangle 8"
                                             StrokeThickness="0.5">
                                             <FlexLayout AlignItems="Center">
                                                 <controls:FullWidthDatePicker
@@ -781,7 +781,7 @@
                                         <Border
                                             Padding="12,4,12,4"
                                             BackgroundColor="{StaticResource BackgroundGray}"
-                                            StrokeShape="8"
+                                            StrokeShape="RoundRectangle 8"
                                             StrokeThickness="0.5">
                                             <FlexLayout AlignItems="Center">
                                                 <controls:FullWidthDatePicker
@@ -817,7 +817,7 @@
                                         <Border
                                             Padding="12,2,0,0"
                                             BackgroundColor="{StaticResource BackgroundGray}"
-                                            StrokeShape="8"
+                                            StrokeShape="RoundRectangle 8"
                                             StrokeThickness="0.5">
                                             <FlexLayout
                                                 AlignItems="Center"
@@ -850,7 +850,7 @@
                                         <Border
                                             Padding="12,2,0,0"
                                             BackgroundColor="{StaticResource BackgroundGray}"
-                                            StrokeShape="8"
+                                            StrokeShape="RoundRectangle 8"
                                             StrokeThickness="0.5">
                                             <FlexLayout
                                                 AlignItems="Center"
@@ -982,7 +982,7 @@
                                         Margin="0,5"
                                         Padding="8,4,8,4"
                                         HorizontalOptions="Center"
-                                        StrokeShape="4"
+                                        StrokeShape="RoundRectangle 4"
                                         StrokeThickness="0.7">
                                         <Label
                                             FontSize="12"
@@ -1064,7 +1064,7 @@
                                                         Padding="2,3,2,3"
                                                         BackgroundColor="#dbfce7"
                                                         Stroke="Transparent"
-                                                        StrokeShape="6"
+                                                        StrokeShape="RoundRectangle 6"
                                                         StrokeThickness="0.5">
                                                         <Label
                                                             FontSize="11"

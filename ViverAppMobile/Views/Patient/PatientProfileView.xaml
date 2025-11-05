@@ -72,7 +72,7 @@
                 Padding="2"
                 BackgroundColor="#DDDDDD"
                 Stroke="LightGray"
-                StrokeShape=" RoundRectangle 12">
+                StrokeShape="RoundRectangle 12">
                 <FlexLayout
                     Direction="Row"
                     HorizontalOptions="Center"
@@ -307,7 +307,7 @@
                                 <Border
                                     Padding="12,8,12,8"
                                     BackgroundColor="{StaticResource BackgroundGray}"
-                                    StrokeShape="8"
+                                    StrokeShape="RoundRectangle 8"
                                     StrokeThickness="0.5">
                                     <FlexLayout AlignItems="Center">
                                         <controls:FullWidthDatePicker
@@ -334,7 +334,7 @@
                                 Grid.Column="1"
                                 Margin="0,13,0,0"
                                 Padding="6,2,6,2"
-                                StrokeShape="6"
+                                StrokeShape="RoundRectangle 6"
                                 StrokeThickness="0.7"
                                 Style="{StaticResource MasterBorderStyle}"
                                 VerticalOptions="Center">
@@ -630,7 +630,7 @@
                             Padding="5"
                             BackgroundColor="Black"
                             Stroke="Transparent"
-                            StrokeShape="6">
+                            StrokeShape="RoundRectangle 6">
 
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SaveUserChangesCommand}" />
@@ -683,7 +683,7 @@
                                     Padding="8"
                                     BackgroundColor="{StaticResource BackgroundBlue}"
                                     Stroke="Transparent"
-                                    StrokeShape="40"
+                                    StrokeShape="RoundRectangle 40"
                                     VerticalOptions="Center">
                                     <Label
                                         FontFamily="AppIcons"
@@ -712,7 +712,7 @@
                                     Padding="8,5,8,5"
                                     BackgroundColor="White"
                                     Stroke="LightGray"
-                                    StrokeShape="6"
+                                    StrokeShape="RoundRectangle 6"
                                     StrokeThickness="0.7"
                                     VerticalOptions="Center">
 
@@ -729,7 +729,7 @@
                             Padding="10"
                             BackgroundColor="{StaticResource BackgroundBlue}"
                             Stroke="Transparent"
-                            StrokeShape="6">
+                            StrokeShape="RoundRectangle 6">
                             <StackLayout Spacing="4">
                                 <Label FontSize="12">
                                     <Label.FormattedText>
@@ -882,7 +882,7 @@
                             Padding="16"
                             BackgroundColor="#fefbe9"
                             Stroke="Orange"
-                            StrokeShape="6"
+                            StrokeShape="RoundRectangle 6"
                             StrokeThickness="0.5">
                             <StackLayout Spacing="6">
                                 <Label
@@ -911,7 +911,7 @@
                             Padding="10,6,10,6"
                             BackgroundColor="#d08700"
                             Stroke="Transparent"
-                            StrokeShape="6">
+                            StrokeShape="RoundRectangle 6">
 
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SignPremiumCommand}" />
@@ -940,7 +940,7 @@
                     IsVisible="{Binding IsUserPremium}"
                     Shadow="{StaticResource BottomShadow}"
                     Stroke="Orange"
-                    StrokeShape="6"
+                    StrokeShape="RoundRectangle 6"
                     StrokeThickness="0.5">
                     <StackLayout Spacing="8">
                         <Label>
@@ -1041,7 +1041,7 @@
                             Padding="10"
                             BackgroundColor="#fffdf7"
                             Stroke="Orange"
-                            StrokeShape="6"
+                            StrokeShape="RoundRectangle 6"
                             StrokeThickness="0.5">
                             <StackLayout Spacing="8">
                                 <StackLayout Spacing="4">
@@ -1066,7 +1066,7 @@
                                         Padding="4"
                                         BackgroundColor="#fef9d6"
                                         Stroke="Transparent"
-                                        StrokeShape="6">
+                                        StrokeShape="RoundRectangle 6">
                                         <StackLayout Spacing="4">
                                             <HorizontalStackLayout Spacing="4">
                                                 <Label
@@ -1111,7 +1111,7 @@
                                 <Border
                                     Padding="10,6,10,6"
                                     Stroke="DarkRed"
-                                    StrokeShape="6"
+                                    StrokeShape="RoundRectangle 6"
                                     StrokeThickness="0.5">
 
                                     <Border.GestureRecognizers>

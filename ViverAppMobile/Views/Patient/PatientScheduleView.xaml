@@ -79,7 +79,7 @@
                             Padding="2"
                             BackgroundColor="#DDDDDD"
                             Stroke="LightGray"
-                            StrokeShape=" RoundRectangle 12">
+                            StrokeShape="RoundRectangle 12">
                             <FlexLayout
                                 Direction="Row"
                                 HorizontalOptions="Center"
@@ -165,7 +165,7 @@
                                 BackgroundColor="#f0f6ff"
                                 IsVisible="{Binding CanShowPriceAndDuration}"
                                 Stroke="Transparent"
-                                StrokeShape="8">
+                                StrokeShape="RoundRectangle 8">
                                 <StackLayout Spacing="8">
                                     <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
                                         <Label
@@ -284,7 +284,7 @@
                             BackgroundColor="#F0F6FF"
                             IsVisible="{Binding IsOnline}"
                             Stroke="#66a3ff"
-                            StrokeShape="6"
+                            StrokeShape="RoundRectangle 6"
                             StrokeThickness="0.5">
                             <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
                                 <Label
@@ -322,7 +322,7 @@
                                 BackgroundColor="#dbebff"
                                 IsVisible="{Binding IsOnline}"
                                 Stroke="Transparent"
-                                StrokeShape="6">
+                                StrokeShape="RoundRectangle 6">
                                 <Label
                                     FontSize="11"
                                     Text="3 disponível(is) online"
@@ -343,7 +343,7 @@
                                         Padding="18,0,18,18"
                                         BackgroundColor="{Binding BackgroundColor}"
                                         Stroke="{Binding BorderColor}"
-                                        StrokeShape="8"
+                                        StrokeShape="RoundRectangle 8"
                                         StrokeThickness="0.5">
 
                                         <Border.GestureRecognizers>
@@ -365,7 +365,7 @@
                                                         BackgroundColor="#dbebff"
                                                         IsVisible="{Binding Model.IdUser, Converter={StaticResource SelectedValueToBoolConverter}, ConverterParameter={StaticResource Index1}}"
                                                         Stroke="Transparent"
-                                                        StrokeShape="6">
+                                                        StrokeShape="RoundRectangle 6">
                                                         <Label FontSize="11">
                                                             <Label.FormattedText>
                                                                 <FormattedString>
@@ -383,7 +383,7 @@
                                                         BackgroundColor="#dbfce7"
                                                         IsVisible="{Binding BindingContext.IsConsultation, Source={x:Reference PatientSchedulePage}}"
                                                         Stroke="Transparent"
-                                                        StrokeShape="6">
+                                                        StrokeShape="RoundRectangle 6">
                                                         <Label FontSize="11" IsVisible="{Binding Model.Attendonline, Converter={StaticResource SbyteToBool}}">
                                                             <Label.FormattedText>
                                                                 <FormattedString>
@@ -461,7 +461,7 @@
                         </Label>
                         <Border
                             BackgroundColor="{StaticResource BackgroundGray}"
-                            StrokeShape="8"
+                            StrokeShape="RoundRectangle 8"
                             StrokeThickness="0.5">
                             <syncfusion:SfCalendar
                                 Margin="9,0,0,0"
@@ -492,7 +492,7 @@
                         <Border
                             Padding="12,2,12,2"
                             BackgroundColor="{StaticResource BackgroundGray}"
-                            StrokeShape="8"
+                            StrokeShape="RoundRectangle 8"
                             StrokeThickness="0.5">
                             <FlexLayout
                                 AlignItems="Center"
@@ -526,7 +526,7 @@
                             Margin="0,8,0,0"
                             BackgroundColor="{StaticResource BackgroundGray}"
                             Stroke="Transparent"
-                            StrokeShape="6">
+                            StrokeShape="RoundRectangle 6">
                             <Editor
                                 AutoSize="TextChanges"
                                 FontSize="12"
@@ -543,7 +543,7 @@
                     BackgroundColor="{StaticResource BackgroundBlue}"
                     IsVisible="{Binding CanScheduleAppointment}"
                     Stroke="{StaticResource BorderBlue}"
-                    StrokeShape="8">
+                    StrokeShape="RoundRectangle 8">
                     <StackLayout Spacing="22">
                         <Label
                             FontSize="13"
@@ -607,7 +607,7 @@
                     Padding="7"
                     BackgroundColor="Black"
                     Opacity="{Binding CanScheduleAppointment, Converter={StaticResource SelectedValueToOpacityConverter}, ConverterParameter={StaticResource FalseParam}}"
-                    StrokeShape="6">
+                    StrokeShape="RoundRectangle 6">
 
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ConfirmScheduleCommand}" />

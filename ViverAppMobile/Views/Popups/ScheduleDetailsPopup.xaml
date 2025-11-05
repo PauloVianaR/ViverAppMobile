@@ -68,7 +68,7 @@
                                 Text="{Binding UserSchedule.UserName}" />
                             <Border
                                 Padding="6,2,6,2"
-                                StrokeShape="6"
+                                StrokeShape="RoundRectangle 6"
                                 StrokeThickness="0.7"
                                 Style="{StaticResource MasterBorderStyle}">
                                 <Label
@@ -114,7 +114,7 @@
                                 Padding="10,6,10,6"
                                 BackgroundColor="#dbeafe"
                                 Stroke="Transparent"
-                                StrokeShape="40">
+                                StrokeShape="RoundRectangle 40">
                                 <Label
                                     FontFamily="AppIcons"
                                     FontSize="13"
@@ -139,7 +139,7 @@
                                 Padding="10,6,10,6"
                                 BackgroundColor="#f3e8ff"
                                 Stroke="Transparent"
-                                StrokeShape="40">
+                                StrokeShape="RoundRectangle 40">
                                 <Label
                                     FontFamily="AppIcons"
                                     FontSize="14"
@@ -164,7 +164,7 @@
                                 Padding="10,6,10,6"
                                 BackgroundColor="#e0e7ff"
                                 Stroke="Transparent"
-                                StrokeShape="40">
+                                StrokeShape="RoundRectangle 40">
                                 <Label
                                     FontFamily="AppIcons"
                                     FontSize="14"
@@ -189,7 +189,7 @@
                                 Padding="10,6,10,6"
                                 BackgroundColor="#dbd7fe"
                                 Stroke="Transparent"
-                                StrokeShape="40">
+                                StrokeShape="RoundRectangle 40">
                                 <Label
                                     FontFamily="AppIcons"
                                     FontSize="14"
@@ -217,7 +217,7 @@
                                 Padding="8,12,8,12"
                                 BackgroundColor="LightCyan"
                                 Stroke="Transparent"
-                                StrokeShape="40"
+                                StrokeShape="RoundRectangle 40"
                                 VerticalOptions="Center">
                                 <Label
                                     FontFamily="AppIcons"
@@ -285,7 +285,7 @@
                             Padding="10,6,10,6"
                             BackgroundColor="{StaticResource BackgroundGray}"
                             Stroke="Transparent"
-                            StrokeShape="40">
+                            StrokeShape="RoundRectangle 40">
                             <Label
                                 FontFamily="AppIcons"
                                 FontSize="13"

@@ -182,7 +182,7 @@
                 <Border
                     Padding="10"
                     BackgroundColor="#f9fafb"
-                    StrokeShape="8">
+                    StrokeShape="RoundRectangle 8">
                     <toolkit:Expander x:Name="FilterExpander" ExpandedChanged="Expander_ExpandedChanged">
                         <toolkit:Expander.Header>
                             <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
@@ -270,7 +270,7 @@
                                                     BackgroundColor="{Binding Severity, Converter={StaticResource IntToColorConverter}}"
                                                     HorizontalOptions="Start"
                                                     Stroke="Transparent"
-                                                    StrokeShape="6">
+                                                    StrokeShape="RoundRectangle 6">
                                                     <Label
                                                         FontSize="11"
                                                         Text="{Binding Severity, Converter={StaticResource IntToStringConverter}}"
@@ -293,7 +293,7 @@
                                                     Padding="10"
                                                     BackgroundColor="#dbeafe"
                                                     Stroke="Transparent"
-                                                    StrokeShape="40"
+                                                    StrokeShape="RoundRectangle 40"
                                                     VerticalOptions="Start">
                                                     <Label
                                                         FontFamily="AppIcons"

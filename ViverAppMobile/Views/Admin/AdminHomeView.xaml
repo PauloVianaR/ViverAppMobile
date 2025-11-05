@@ -332,7 +332,7 @@
                                 Padding="6,2,6,2"
                                 BackgroundColor="Red"
                                 Stroke="Transparent"
-                                StrokeShape="4">
+                                StrokeShape="RoundRectangle 4">
                                 <Label
                                     FontAttributes="Bold"
                                     FontSize="10"
@@ -365,7 +365,7 @@
                                                             Padding="6,2,6,2"
                                                             BackgroundColor="{Binding Model.Usertype, Converter={StaticResource SelectedUserTypeToBackgroundColorConverter}, ConverterParameter={StaticResource Index4}}"
                                                             Stroke="Transparent"
-                                                            StrokeShape="6">
+                                                            StrokeShape="RoundRectangle 6">
                                                             <Label
                                                                 FontSize="10"
                                                                 Text="{Binding Model.Usertype, Converter={StaticResource SelectedUserTypeToStringConverter}, ConverterParameter={StaticResource Index4}}"
@@ -411,7 +411,7 @@
                                                     BackgroundColor="Black"
                                                     IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
                                                     Stroke="Transparent"
-                                                    StrokeShape="4"
+                                                    StrokeShape="RoundRectangle 4"
                                                     VerticalOptions="Center">
 
                                                     <Border.GestureRecognizers>
@@ -429,7 +429,7 @@
                                                     BackgroundColor="Red"
                                                     IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
                                                     Stroke="Transparent"
-                                                    StrokeShape="4"
+                                                    StrokeShape="RoundRectangle 4"
                                                     VerticalOptions="Center">
 
                                                     <Border.GestureRecognizers>
@@ -475,7 +475,7 @@
                                 Padding="6,2,6,2"
                                 BackgroundColor="Red"
                                 Stroke="Transparent"
-                                StrokeShape="4">
+                                StrokeShape="RoundRectangle 4">
                                 <Label
                                     FontAttributes="Bold"
                                     FontSize="10"
@@ -497,7 +497,7 @@
                                         Padding="10"
                                         BackgroundColor="#fff7ed"
                                         Stroke="orange"
-                                        StrokeShape="6"
+                                        StrokeShape="RoundRectangle 6"
                                         StrokeThickness="0.5">
                                         <VerticalStackLayout Spacing="3">
                                             <FlexLayout JustifyContent="SpaceBetween">
@@ -514,7 +514,7 @@
                                                 <Border
                                                     Padding="6,2,6,2"
                                                     Stroke="OrangeRed"
-                                                    StrokeShape="8"
+                                                    StrokeShape="RoundRectangle 8"
                                                     StrokeThickness="0.5"
                                                     VerticalOptions="Center">
                                                     <Label
@@ -578,7 +578,7 @@
                                                     Padding="8,6,8,6"
                                                     BackgroundColor="Green"
                                                     Stroke="Transparent"
-                                                    StrokeShape="6">
+                                                    StrokeShape="RoundRectangle 6">
 
                                                     <Border.GestureRecognizers>
                                                         <TapGestureRecognizer Command="{Binding BindingContext.ConfirmPaymentCommand, Source={x:Reference AdminHomePage}}" CommandParameter="{Binding .}" />
@@ -601,7 +601,7 @@
                                                     Padding="8,6,8,6"
                                                     BackgroundColor="Red"
                                                     Stroke="Transparent"
-                                                    StrokeShape="6">
+                                                    StrokeShape="RoundRectangle 6">
 
                                                     <Border.GestureRecognizers>
                                                         <TapGestureRecognizer Command="{Binding BindingContext.CancelScheduleCommand, Source={x:Reference AdminHomePage}}" CommandParameter="{Binding .}" />
@@ -675,7 +675,7 @@
                                                     BackgroundColor="{Binding IsActive, Converter={StaticResource SelectedValueToColorAttendOnlineConverter}, ConverterParameter={StaticResource TrueParam}}"
                                                     IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
                                                     Stroke="Transparent"
-                                                    StrokeShape="6">
+                                                    StrokeShape="RoundRectangle 6">
                                                     <Label
                                                         FontSize="10"
                                                         Text="{Binding IsActive, Converter={StaticResource SelectedValueToStringAttendOnlineConverter}, ConverterParameter={StaticResource TrueParam}}"
@@ -691,7 +691,7 @@
                                                 Padding="6"
                                                 BackgroundColor="{Binding IsActive, Converter={StaticResource SelectedValueToColorBlockAttendOnlineConverter}, ConverterParameter={StaticResource TrueParam}}"
                                                 Stroke="Transparent"
-                                                StrokeShape="4">
+                                                StrokeShape="RoundRectangle 4">
 
                                                 <Border.GestureRecognizers>
                                                     <TapGestureRecognizer Command="{Binding BindingContext.LockOrUnlockAttendOnlineDoctorCommand, Source={x:Reference AdminHomePage}}" CommandParameter="{Binding .}" />

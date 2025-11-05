@@ -49,7 +49,7 @@
                 BackgroundColor="{StaticResource BackgroundGray}"
                 HeightRequest="480"
                 Stroke="Transparent"
-                StrokeShape="6">
+                StrokeShape="RoundRectangle 6">
                 <ScrollView>
                     <Editor
                         FontSize="12"
@@ -58,7 +58,7 @@
                 </ScrollView>
             </Border>
 
-            <Border Padding="6" StrokeShape="6">
+            <Border Padding="6" StrokeShape="RoundRectangle 6">
 
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Tapped="DownloadOrSaveMedicalReport" />

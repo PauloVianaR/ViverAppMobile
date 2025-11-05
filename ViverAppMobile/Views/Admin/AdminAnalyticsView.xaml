@@ -272,7 +272,7 @@
                     Padding="2"
                     BackgroundColor="#DDDDDD"
                     Stroke="LightGray"
-                    StrokeShape=" RoundRectangle 12">
+                    StrokeShape="RoundRectangle 12">
                     <FlexLayout
                         Direction="Row"
                         HorizontalOptions="Center"

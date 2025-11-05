@@ -78,14 +78,14 @@
                     Padding="3"
                     BackgroundColor="#ececf0"
                     Stroke="Transparent"
-                    StrokeShape="10">
+                    StrokeShape="RoundRectangle 10">
                     <Grid ColumnDefinitions="*,*,*,*">
                         <Border
                             Grid.Column="0"
                             Padding="4"
                             BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToColorConverter}, ConverterParameter=0}"
                             Stroke="Transparent"
-                            StrokeShape="10">
+                            StrokeShape="RoundRectangle 10">
 
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SwitchSelectedTabCommand}" CommandParameter="0" />
@@ -103,7 +103,7 @@
                             Padding="4"
                             BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToColorConverter}, ConverterParameter=1}"
                             Stroke="Transparent"
-                            StrokeShape="10">
+                            StrokeShape="RoundRectangle 10">
 
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SwitchSelectedTabCommand}" CommandParameter="1" />
@@ -121,7 +121,7 @@
                             Padding="4"
                             BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToColorConverter}, ConverterParameter=2}"
                             Stroke="Transparent"
-                            StrokeShape="10">
+                            StrokeShape="RoundRectangle 10">
 
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SwitchSelectedTabCommand}" CommandParameter="2" />
@@ -139,7 +139,7 @@
                             Padding="4"
                             BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToColorConverter}, ConverterParameter=3}"
                             Stroke="Transparent"
-                            StrokeShape="10">
+                            StrokeShape="RoundRectangle 10">
 
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SwitchSelectedTabCommand}" CommandParameter="3" />
@@ -629,7 +629,7 @@
                             Padding="5"
                             BackgroundColor="Black"
                             Stroke="Transparent"
-                            StrokeShape="6">
+                            StrokeShape="RoundRectangle 6">
 
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SaveClinicInfoCommand}" />
@@ -676,7 +676,7 @@
                             Margin="0,5,0,0"
                             Padding="10"
                             BackgroundColor="#f9fafb"
-                            StrokeShape="6"
+                            StrokeShape="RoundRectangle 6"
                             StrokeThickness="0.5">
                             <toolkit:Expander x:Name="AddNewAppointmentExpander" ExpandedChanged="Expander_ExpandedChanged">
                                 <toolkit:Expander.Header>
@@ -705,7 +705,7 @@
                                             Padding="0,5,0,5"
                                             BackgroundColor="{StaticResource BackgroundGray}"
                                             Stroke="Transparent"
-                                            StrokeShape="4">
+                                            StrokeShape="RoundRectangle 4">
                                             <FlexLayout AlignItems="Center" Direction="Row">
                                                 <Picker
                                                     FlexLayout.Grow="1"
@@ -720,7 +720,7 @@
                                             Padding="0,5,0,5"
                                             BackgroundColor="{StaticResource BackgroundGray}"
                                             Stroke="Transparent"
-                                            StrokeShape="4">
+                                            StrokeShape="RoundRectangle 4">
                                             <FlexLayout AlignItems="Center" Direction="Row">
                                                 <Entry
                                                     FlexLayout.Grow="1"
@@ -734,7 +734,7 @@
                                         <Border
                                             BackgroundColor="{StaticResource BackgroundGray}"
                                             Stroke="Transparent"
-                                            StrokeShape="4">
+                                            StrokeShape="RoundRectangle 4">
                                             <Editor
                                                 AutoSize="TextChanges"
                                                 FontSize="12"
@@ -748,7 +748,7 @@
                                             Padding="0,5,0,5"
                                             BackgroundColor="{StaticResource BackgroundGray}"
                                             Stroke="Transparent"
-                                            StrokeShape="4">
+                                            StrokeShape="RoundRectangle 4">
                                             <FlexLayout AlignItems="Center" Direction="Row">
                                                 <Entry
                                                     FlexLayout.Grow="1"
@@ -763,7 +763,7 @@
                                             Padding="0,5,0,5"
                                             BackgroundColor="{StaticResource BackgroundGray}"
                                             Stroke="Transparent"
-                                            StrokeShape="4">
+                                            StrokeShape="RoundRectangle 4">
                                             <FlexLayout AlignItems="Center" Direction="Row">
                                                 <Entry
                                                     FlexLayout.Grow="1"
@@ -780,7 +780,7 @@
                                             Padding="6"
                                             BackgroundColor="Black"
                                             Stroke="Transparent"
-                                            StrokeShape="6">
+                                            StrokeShape="RoundRectangle 6">
 
                                             <Border.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding AddAppointmentCommand}" />
@@ -806,7 +806,7 @@
                         <Border
                             Padding="10"
                             BackgroundColor="#f9fafb"
-                            StrokeShape="8">
+                            StrokeShape="RoundRectangle 8">
                             <toolkit:Expander x:Name="FilterExpander" ExpandedChanged="Expander_ExpandedChanged">
                                 <toolkit:Expander.Header>
                                     <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
@@ -868,7 +868,7 @@
                                 <Border
                                     Padding="15"
                                     BackgroundColor="White"
-                                    StrokeShape="8">
+                                    StrokeShape="RoundRectangle 8">
                                     <StackLayout Padding="10" Spacing="6">
                                         <Label
                                             Padding="10"
@@ -899,7 +899,7 @@
                                                 BackgroundColor="{Binding Model.Idappointmenttype, Converter={StaticResource AppointmentTypeToColorConverter}}"
                                                 HorizontalOptions="Start"
                                                 Stroke="Transparent"
-                                                StrokeShape="6">
+                                                StrokeShape="RoundRectangle 6">
                                                 <Label
                                                     FontAttributes="Bold"
                                                     FontFamily="AppIcons"
@@ -937,7 +937,7 @@
                                                         HorizontalOptions="End"
                                                         IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
                                                         Stroke="Transparent"
-                                                        StrokeShape="4">
+                                                        StrokeShape="RoundRectangle 4">
                                                         <Label
                                                             FontAttributes="Bold"
                                                             FontSize="10"
@@ -964,7 +964,7 @@
                                                 <Border
                                                     Grid.Column="0"
                                                     Padding="8,4,8,4"
-                                                    StrokeShape="6"
+                                                    StrokeShape="RoundRectangle 6"
                                                     StrokeThickness="1">
 
                                                     <Border.GestureRecognizers>
@@ -983,7 +983,7 @@
                                                     Grid.Column="1"
                                                     Padding="8,4,8,4"
                                                     BackgroundColor="Red"
-                                                    StrokeShape="6"
+                                                    StrokeShape="RoundRectangle 6"
                                                     StrokeThickness="1">
 
                                                     <Border.GestureRecognizers>
@@ -1078,7 +1078,7 @@
                                                         HorizontalOptions="End"
                                                         IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
                                                         Stroke="Transparent"
-                                                        StrokeShape="4">
+                                                        StrokeShape="RoundRectangle 4">
                                                         <Label
                                                             FontAttributes="Bold"
                                                             FontSize="10"
@@ -1110,7 +1110,7 @@
                                 Padding="5"
                                 BackgroundColor="Black"
                                 Stroke="Transparent"
-                                StrokeShape="6">
+                                StrokeShape="RoundRectangle 6">
 
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding UpdateAvailabilitiesClinicCommand}" />
@@ -1152,7 +1152,7 @@
                             <Border
                                 Padding="10"
                                 BackgroundColor="#f9fafb"
-                                StrokeShape="8">
+                                StrokeShape="RoundRectangle 8">
                                 <toolkit:Expander x:Name="AddHolidayExpander" ExpandedChanged="Expander_ExpandedChanged">
                                     <toolkit:Expander.Header>
                                         <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
@@ -1173,7 +1173,7 @@
                                                 Padding="0,5,0,5"
                                                 BackgroundColor="{StaticResource BackgroundGray}"
                                                 Stroke="Transparent"
-                                                StrokeShape="4">
+                                                StrokeShape="RoundRectangle 4">
                                                 <FlexLayout AlignItems="Center" Direction="Row">
                                                     <Entry
                                                         FlexLayout.Grow="1"
@@ -1186,7 +1186,7 @@
                                             <Border
                                                 Padding="0,5,0,5"
                                                 BackgroundColor="{StaticResource BackgroundGray}"
-                                                StrokeShape="4"
+                                                StrokeShape="RoundRectangle 4"
                                                 StrokeThickness="0.5">
                                                 <FlexLayout AlignItems="Center">
                                                     <controls:FullWidthDatePicker
@@ -1207,7 +1207,7 @@
                                                 Padding="5"
                                                 BackgroundColor="Black"
                                                 Stroke="Transparent"
-                                                StrokeShape="6">
+                                                StrokeShape="RoundRectangle 6">
 
                                                 <Border.GestureRecognizers>
                                                     <TapGestureRecognizer Command="{Binding AddNewHolidayCommand}" />
@@ -1270,7 +1270,7 @@
                                                     Padding="8,6,8,6"
                                                     BackgroundColor="Red"
                                                     Stroke="Transparent"
-                                                    StrokeShape="4"
+                                                    StrokeShape="RoundRectangle 4"
                                                     VerticalOptions="Center">
 
                                                     <Border.GestureRecognizers>
@@ -1353,7 +1353,7 @@
                                                             HorizontalOptions="End"
                                                             IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
                                                             Stroke="Transparent"
-                                                            StrokeShape="4">
+                                                            StrokeShape="RoundRectangle 4">
                                                             <Label
                                                                 FontAttributes="Bold"
                                                                 FontSize="10"
@@ -1402,7 +1402,7 @@
                                                         BackgroundColor="DarkGreen"
                                                         IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
                                                         Stroke="Transparent"
-                                                        StrokeShape="4"
+                                                        StrokeShape="RoundRectangle 4"
                                                         VerticalOptions="Center">
 
                                                         <Border.GestureRecognizers>

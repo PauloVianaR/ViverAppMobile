@@ -78,7 +78,7 @@
                                 Padding="10,8,10,8"
                                 BackgroundColor="{StaticResource BackgroundBlue}"
                                 Stroke="Transparent"
-                                StrokeShape="40">
+                                StrokeShape="RoundRectangle 40">
                                 <Label
                                     FontFamily="AppIcons"
                                     Text="&#xe812;"
@@ -99,7 +99,7 @@
                                         Text="{Binding UserSchedule.UserName}" />
                                     <Border
                                         Padding="6,2,6,2"
-                                        StrokeShape="6"
+                                        StrokeShape="RoundRectangle 6"
                                         StrokeThickness="0.7"
                                         Style="{StaticResource MasterBorderStyle}">
                                         <Label
@@ -149,7 +149,7 @@
                                         Padding="6,3,6,3"
                                         BackgroundColor="{Binding UserSchedule.AppointmentType, Converter={StaticResource AppointmentTypeToColorConverter}}"
                                         Stroke="Transparent"
-                                        StrokeShape="4">
+                                        StrokeShape="RoundRectangle 4">
                                         <Label
                                             FontFamily="AppIcons"
                                             FontSize="11"
@@ -163,7 +163,7 @@
                                         BackgroundColor="#f3e8ff"
                                         IsVisible="{Binding UserSchedule.IsOnline, Converter={StaticResource SByteToBoolConverter}}"
                                         Stroke="Transparent"
-                                        StrokeShape="4">
+                                        StrokeShape="RoundRectangle 4">
                                         <Label
                                             FontSize="10"
                                             HorizontalTextAlignment="Center"
@@ -217,7 +217,7 @@
                     <Border
                         FlexLayout.Grow="1"
                         Stroke="Transparent"
-                        StrokeShape="8">
+                        StrokeShape="RoundRectangle 8">
                         <Editor
                             x:Name="MedicalReportEditor"
                             AutoSize="TextChanges"
@@ -277,7 +277,7 @@
                                 Padding="8"
                                 BackgroundColor="{StaticResource BackgroundGray}"
                                 Stroke="Transparent"
-                                StrokeShape="6">
+                                StrokeShape="RoundRectangle 6">
                                 <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
                                     <VerticalStackLayout Grid.Column="0" Spacing="2">
                                         <Label
@@ -297,7 +297,7 @@
                                         Grid.Column="1"
                                         Padding="8"
                                         BackgroundColor="White"
-                                        StrokeShape="6">
+                                        StrokeShape="RoundRectangle 6">
 
                                         <Border.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding BindingContext.DeleteFileAsyncCommand, Source={x:Reference CompleteSchedulePage}}" CommandParameter="{Binding .}" />

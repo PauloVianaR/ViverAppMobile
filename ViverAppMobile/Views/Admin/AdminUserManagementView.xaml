@@ -171,7 +171,7 @@
                 <Border
                     Padding="10"
                     BackgroundColor="White"
-                    StrokeShape="8">
+                    StrokeShape="RoundRectangle 8">
                     <toolkit:Expander x:Name="FilterExpander" ExpandedChanged="Expander_ExpandedChanged">
                         <toolkit:Expander.Header>
                             <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
@@ -229,14 +229,14 @@
                     Padding="3"
                     BackgroundColor="#ececf0"
                     Stroke="Transparent"
-                    StrokeShape="10">
+                    StrokeShape="RoundRectangle 10">
                     <Grid ColumnDefinitions="*,*,*,*,*">
                         <Border
                             Grid.Column="0"
                             Padding="4"
                             BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToTabColorConverter}, ConverterParameter=0}"
                             Stroke="Transparent"
-                            StrokeShape="10">
+                            StrokeShape="RoundRectangle 10">
 
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SwitchSelectedTabCommand}" CommandParameter="0" />
@@ -261,7 +261,7 @@
                             Padding="4"
                             BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToTabColorConverter}, ConverterParameter=1}"
                             Stroke="Transparent"
-                            StrokeShape="10">
+                            StrokeShape="RoundRectangle 10">
 
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SwitchSelectedTabCommand}" CommandParameter="1" />
@@ -286,7 +286,7 @@
                             Padding="4"
                             BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToTabColorConverter}, ConverterParameter=2}"
                             Stroke="Transparent"
-                            StrokeShape="10">
+                            StrokeShape="RoundRectangle 10">
 
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SwitchSelectedTabCommand}" CommandParameter="2" />
@@ -311,7 +311,7 @@
                             Padding="4"
                             BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToTabColorConverter}, ConverterParameter=3}"
                             Stroke="Transparent"
-                            StrokeShape="10">
+                            StrokeShape="RoundRectangle 10">
 
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SwitchSelectedTabCommand}" CommandParameter="3" />
@@ -336,7 +336,7 @@
                             Padding="4"
                             BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToTabColorConverter}, ConverterParameter=4}"
                             Stroke="Transparent"
-                            StrokeShape="10">
+                            StrokeShape="RoundRectangle 10">
 
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SwitchSelectedTabCommand}" CommandParameter="4" />
@@ -398,7 +398,7 @@
                                                         Padding="6,2,6,2"
                                                         BackgroundColor="{Binding Model.Usertype, Converter={StaticResource SelectedUserTypeToBackgroundColorConverter}, ConverterParameter={StaticResource Index4}}"
                                                         Stroke="Transparent"
-                                                        StrokeShape="6">
+                                                        StrokeShape="RoundRectangle 6">
                                                         <Label
                                                             FontSize="10"
                                                             Text="{Binding Model.Usertype, Converter={StaticResource SelectedUserTypeToStringConverter}, ConverterParameter={StaticResource Index4}}"
@@ -450,7 +450,7 @@
                                                 BackgroundColor="Black"
                                                 IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
                                                 Stroke="Transparent"
-                                                StrokeShape="4"
+                                                StrokeShape="RoundRectangle 4"
                                                 VerticalOptions="Center">
 
                                                 <Border.GestureRecognizers>
@@ -468,7 +468,7 @@
                                                 BackgroundColor="Red"
                                                 IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
                                                 Stroke="Transparent"
-                                                StrokeShape="4"
+                                                StrokeShape="RoundRectangle 4"
                                                 VerticalOptions="Center">
 
                                                 <Border.GestureRecognizers>
@@ -526,7 +526,7 @@
                                                     Padding="6,2,6,2"
                                                     BackgroundColor="DarkRed"
                                                     Stroke="Transparent"
-                                                    StrokeShape="6">
+                                                    StrokeShape="RoundRectangle 6">
                                                     <Label
                                                         FontSize="10"
                                                         Text="Paciente"
@@ -536,7 +536,7 @@
                                                     Padding="6,2,6,2"
                                                     BackgroundColor="{Binding IsActive, Converter={StaticResource SelectedValueToColorBlockOrReleaseConverter}, ConverterParameter={StaticResource TrueParam}}"
                                                     Stroke="Transparent"
-                                                    StrokeShape="6">
+                                                    StrokeShape="RoundRectangle 6">
                                                     <Label
                                                         FontSize="10"
                                                         Text="{Binding IsActive, Converter={StaticResource SelectedValueToStringBlockOrReleaseConverter}, ConverterParameter={StaticResource TrueParam}}"
@@ -547,7 +547,7 @@
                                                     BackgroundColor="Gold"
                                                     IsVisible="{Binding Model.IsPremium, Converter={StaticResource SByteToBoolConverter}}"
                                                     Stroke="Transparent"
-                                                    StrokeShape="6">
+                                                    StrokeShape="RoundRectangle 6">
                                                     <Label FontSize="10" TextColor="White">
                                                         <Label.FormattedText>
                                                             <FormattedString>
@@ -616,7 +616,7 @@
                                                     BackgroundColor="{Binding IsActive, Converter={StaticResource SelectedValueToColorBlockActionBlockOrReleaseConverter}, ConverterParameter={StaticResource TrueParam}}"
                                                     IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
                                                     Stroke="Transparent"
-                                                    StrokeShape="4"
+                                                    StrokeShape="RoundRectangle 4"
                                                     VerticalOptions="Center">
 
                                                     <Border.GestureRecognizers>
@@ -680,7 +680,7 @@
                                                     Padding="6,2,6,2"
                                                     BackgroundColor="Green"
                                                     Stroke="Transparent"
-                                                    StrokeShape="6">
+                                                    StrokeShape="RoundRectangle 6">
                                                     <Label
                                                         FontSize="10"
                                                         Text="Médico"
@@ -690,7 +690,7 @@
                                                     Padding="6,2,6,2"
                                                     BackgroundColor="{Binding IsActive, Converter={StaticResource SelectedValueToColorBlockOrReleaseConverter}, ConverterParameter={StaticResource TrueParam}}"
                                                     Stroke="Transparent"
-                                                    StrokeShape="6">
+                                                    StrokeShape="RoundRectangle 6">
                                                     <Label
                                                         FontSize="10"
                                                         Text="{Binding IsActive, Converter={StaticResource SelectedValueToStringBlockOrReleaseConverter}, ConverterParameter={StaticResource TrueParam}}"
@@ -789,7 +789,7 @@
                                                     BackgroundColor="{Binding IsActive, Converter={StaticResource SelectedValueToColorBlockActionBlockOrReleaseConverter}, ConverterParameter={StaticResource TrueParam}}"
                                                     IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
                                                     Stroke="Transparent"
-                                                    StrokeShape="4"
+                                                    StrokeShape="RoundRectangle 4"
                                                     VerticalOptions="Center">
 
                                                     <Border.GestureRecognizers>
@@ -853,7 +853,7 @@
                                                     Padding="6,2,6,2"
                                                     BackgroundColor="Gray"
                                                     Stroke="Transparent"
-                                                    StrokeShape="6">
+                                                    StrokeShape="RoundRectangle 6">
                                                     <Label
                                                         FontSize="10"
                                                         Text="Gerente"
@@ -863,7 +863,7 @@
                                                     Padding="6,2,6,2"
                                                     BackgroundColor="{Binding IsActive, Converter={StaticResource SelectedValueToColorBlockOrReleaseConverter}, ConverterParameter={StaticResource TrueParam}}"
                                                     Stroke="Transparent"
-                                                    StrokeShape="6">
+                                                    StrokeShape="RoundRectangle 6">
                                                     <Label
                                                         FontSize="10"
                                                         Text="{Binding IsActive, Converter={StaticResource SelectedValueToStringBlockOrReleaseConverter}, ConverterParameter={StaticResource TrueParam}}"
@@ -928,7 +928,7 @@
                                                     BackgroundColor="{Binding IsActive, Converter={StaticResource SelectedValueToColorBlockActionBlockOrReleaseConverter}, ConverterParameter={StaticResource TrueParam}}"
                                                     IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
                                                     Stroke="Transparent"
-                                                    StrokeShape="4"
+                                                    StrokeShape="RoundRectangle 4"
                                                     VerticalOptions="Center">
 
                                                     <Border.GestureRecognizers>
@@ -993,7 +993,7 @@
                                                         Padding="6,2,6,2"
                                                         BackgroundColor="{Binding Model.Usertype, Converter={StaticResource SelectedUserTypeToBackgroundColorConverter}, ConverterParameter={StaticResource Index4}}"
                                                         Stroke="Transparent"
-                                                        StrokeShape="6">
+                                                        StrokeShape="RoundRectangle 6">
                                                         <Label
                                                             FontSize="10"
                                                             Text="{Binding Model.Usertype, Converter={StaticResource SelectedUserTypeToStringConverter}, ConverterParameter={StaticResource Index4}}"
@@ -1003,7 +1003,7 @@
                                                         Padding="6,2,6,2"
                                                         BackgroundColor="OrangeRed"
                                                         Stroke="Transparent"
-                                                        StrokeShape="6">
+                                                        StrokeShape="RoundRectangle 6">
                                                         <Label
                                                             FontSize="10"
                                                             Text="REJEITADO"
@@ -1055,7 +1055,7 @@
                                                 BackgroundColor="DarkGreen"
                                                 IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
                                                 Stroke="Transparent"
-                                                StrokeShape="4"
+                                                StrokeShape="RoundRectangle 4"
                                                 VerticalOptions="Center">
 
                                                 <Border.GestureRecognizers>

@@ -6,7 +6,7 @@
         Padding="5,-5,5,-5"
         BackgroundColor="#F7F7F7"
         Stroke="#eee"
-        StrokeShape="8"
+        StrokeShape="RoundRectangle 8"
         StrokeThickness="1">
         <Grid
             BackgroundColor="Transparent"

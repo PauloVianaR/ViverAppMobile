@@ -87,7 +87,7 @@
                     </Border>
                 </Grid>
 
-                <Border Stroke="Transparent" StrokeShape="8">
+                <Border Stroke="Transparent" StrokeShape="RoundRectangle 8">
                     <VerticalStackLayout Spacing="6">
                         <CarouselView
                             x:Name="ImageCarousel"
@@ -102,7 +102,7 @@
 
                             <CarouselView.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Stroke="{Binding IconBackColor}" StrokeShape="8">
+                                    <Border Stroke="{Binding IconBackColor}" StrokeShape="RoundRectangle 8">
                                         <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
                                             <Image
                                                 Aspect="AspectFill"
@@ -123,7 +123,7 @@
                                                         Padding="10,10,10,8"
                                                         BackgroundColor="{Binding IconBackColor}"
                                                         Stroke="Transparent"
-                                                        StrokeShape="14"
+                                                        StrokeShape="RoundRectangle 14"
                                                         VerticalOptions="Center">
                                                         <Label
                                                             FontFamily="AppIcons"
@@ -222,7 +222,7 @@
                     IsVisible="{Binding UserHasNextAppointment, Converter={StaticResource InverseBoolConverter}}"
                     Shadow="{StaticResource BottomShadow}"
                     Stroke="#D0E0FF"
-                    StrokeShape="12">
+                    StrokeShape="RoundRectangle 12">
                     <VerticalStackLayout Spacing="14">
                         <VerticalStackLayout Spacing="8">
                             <HorizontalStackLayout Spacing="8">
@@ -256,7 +256,7 @@
                                 Padding="12"
                                 BackgroundColor="#dbeafe"
                                 Stroke="#dbe2fe"
-                                StrokeShape="80">
+                                StrokeShape="RoundRectangle 80">
                                 <Label
                                     Padding="2,2,0,2"
                                     FontFamily="AppIcons"
@@ -284,7 +284,7 @@
                             Padding="14"
                             BackgroundColor="#dbebff"
                             Stroke="Transparent"
-                            StrokeShape="8">
+                            StrokeShape="RoundRectangle 8">
                             <VerticalStackLayout Spacing="8">
                                 <Label FontSize="12" TextColor="#3051bf">
                                     <Label.FormattedText>
@@ -324,7 +324,7 @@
                         <Border
                             Padding="7"
                             BackgroundColor="#145efc"
-                            StrokeShape="8">
+                            StrokeShape="RoundRectangle 8">
 
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SwitchToSchedulePageCommand}" />
@@ -351,7 +351,7 @@
                     BackgroundColor="White"
                     IsVisible="{Binding UserHasNextAppointment}"
                     Shadow="{StaticResource BottomShadow}"
-                    StrokeShape="12"
+                    StrokeShape="RoundRectangle 12"
                     StrokeThickness="0.5">
 
                     <VerticalStackLayout Spacing="12">
@@ -427,7 +427,7 @@
                                         BackgroundColor="#ffedd4"
                                         HeightRequest="25"
                                         Stroke="Transparent"
-                                        StrokeShape="8">
+                                        StrokeShape="RoundRectangle 8">
                                         <Label
                                             FontSize="11"
                                             TextColor="DarkRed"
@@ -596,7 +596,7 @@
                             Padding="10,15,10,15"
                             BackgroundColor="#dbeafe"
                             Stroke="Transparent"
-                            StrokeShape="8">
+                            StrokeShape="RoundRectangle 8">
                             <StackLayout Spacing="4">
                                 <Label FontSize="12">
                                     <Label.FormattedText>
@@ -736,7 +736,7 @@
                             Padding="5"
                             BackgroundColor="#00a63e"
                             IsVisible="{Binding NextAppointmentIsPending}"
-                            StrokeShape="8">
+                            StrokeShape="RoundRectangle 8">
 
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SwitchToPaymentPageCommand}" />
@@ -760,7 +760,7 @@
                     IsVisible="{Binding IsNotUserPremium}"
                     Shadow="{StaticResource BottomShadow}"
                     Stroke="#fcf76f"
-                    StrokeShape="12">
+                    StrokeShape="RoundRectangle 12">
 
                     <Border.Behaviors>
                         <behaviors:BorderDismissBehavior />
@@ -917,7 +917,7 @@
                                     <Border
                                         Padding="15"
                                         BackgroundColor="White"
-                                        StrokeShape="12"
+                                        StrokeShape="RoundRectangle 12"
                                         StrokeThickness="0.6">
                                         <StackLayout>
                                             <Grid ColumnDefinitions="Auto,*" ColumnSpacing="6">
@@ -952,7 +952,7 @@
                                                             BackgroundColor="#fffac2"
                                                             IsVisible="{Binding Ispopular}"
                                                             Stroke="Transparent"
-                                                            StrokeShape="8">
+                                                            StrokeShape="RoundRectangle 8">
                                                             <Label FontSize="10" TextColor="SaddleBrown">
                                                                 <Label.FormattedText>
                                                                     <FormattedString>
@@ -1078,7 +1078,7 @@
                                 <DataTemplate>
                                     <Border
                                         Padding="15"
-                                        StrokeShape="12"
+                                        StrokeShape="RoundRectangle 12"
                                         StrokeThickness="0.6">
                                         <StackLayout>
                                             <Grid ColumnDefinitions="Auto,*" ColumnSpacing="6">
@@ -1113,7 +1113,7 @@
                                                             BackgroundColor="#fffac2"
                                                             IsVisible="{Binding Ispopular}"
                                                             Stroke="Transparent"
-                                                            StrokeShape="8">
+                                                            StrokeShape="RoundRectangle 8">
                                                             <Label FontSize="10" TextColor="SaddleBrown">
                                                                 <Label.FormattedText>
                                                                     <FormattedString>
@@ -1215,7 +1215,7 @@
                                 Padding="13"
                                 BackgroundColor="#dbeafe"
                                 Stroke="Transparent"
-                                StrokeShape="40">
+                                StrokeShape="RoundRectangle 40">
                                 <Label
                                     FontAttributes="Bold"
                                     FontFamily="AppIcons"
@@ -1292,7 +1292,7 @@
                                 <Border
                                     BackgroundColor="#00a63e"
                                     Stroke="Transparent"
-                                    StrokeShape="4">
+                                    StrokeShape="RoundRectangle 4">
                                     <Label
                                         Padding="9,6,6,6"
                                         FontSize="12"

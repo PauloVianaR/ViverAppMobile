@@ -88,7 +88,7 @@
                     Padding="15"
                     BackgroundColor="White"
                     Stroke="LightGray"
-                    StrokeShape="10"
+                    StrokeShape="RoundRectangle 10"
                     StrokeThickness="0.5">
                     <VerticalStackLayout Spacing="10">
                         <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
@@ -99,7 +99,7 @@
                                 BackgroundColor="Red"
                                 IsVisible="{Binding Status, Converter={StaticResource ScheduleStatusToBoolConverter}, ConverterParameter={StaticResource Index4}}"
                                 Stroke="Transparent"
-                                StrokeShape="40">
+                                StrokeShape="RoundRectangle 40">
                                 <Label
                                     FontAttributes="Bold"
                                     FontFamily="AppIcons"
@@ -116,7 +116,7 @@
                                 BackgroundColor="{Binding AppointmentType, Converter={StaticResource AppointmentTypeToColorConverter}}"
                                 IsVisible="{Binding Status, Converter={StaticResource InverseScheduleStatusToBoolConverter}, ConverterParameter={StaticResource Index4}}"
                                 Stroke="Transparent"
-                                StrokeShape="40">
+                                StrokeShape="RoundRectangle 40">
                                 <Label
                                     FontFamily="AppIcons"
                                     FontSize="20"
@@ -161,7 +161,7 @@
                                     TextDecorations="{Binding Status, Converter={StaticResource ScheduleStatusToTextDecoration}, ConverterParameter=4}" />
                             </StackLayout>
                             <StackLayout Grid.Column="2" Spacing="6">
-                                <Border StrokeShape="4" StrokeThickness="0.5">
+                                <Border StrokeShape="RoundRectangle 4" StrokeThickness="0.5">
                                     <Label
                                         Padding="5,2,5,2"
                                         FontSize="12"
@@ -172,7 +172,7 @@
                                 <Border
                                     BackgroundColor="{Binding Status, Converter={StaticResource ScheduleStatusToColorConverter}, ConverterParameter={Binding AppointmentType}}"
                                     Stroke="Transparent"
-                                    StrokeShape="4">
+                                    StrokeShape="RoundRectangle 4">
                                     <Label
                                         Padding="5,2,5,2"
                                         FontSize="12"
@@ -224,7 +224,7 @@
                                         BackgroundColor="#ffedd4"
                                         HeightRequest="25"
                                         Stroke="Transparent"
-                                        StrokeShape="8">
+                                        StrokeShape="RoundRectangle 8">
                                         <Label
                                             FontSize="11"
                                             TextColor="DarkRed"
@@ -316,7 +316,7 @@
                             Padding="15"
                             BackgroundColor="#f9fafb"
                             Stroke="Transparent"
-                            StrokeShape="8">
+                            StrokeShape="RoundRectangle 8">
                             <StackLayout Spacing="8">
                                 <Label FontSize="12" TextColor="Black">
                                     <Label.FormattedText>
@@ -546,7 +546,7 @@
                             Padding="5"
                             BackgroundColor="#00a63e"
                             IsVisible="{Binding Status, Converter={StaticResource ScheduleStatusToBoolConverter}, ConverterParameter={StaticResource Index1}}"
-                            StrokeShape="8">
+                            StrokeShape="RoundRectangle 8">
 
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding BindingContext.SelectAppointmentToPayCommand, Source={x:Reference AdminAppointmentsManagementPage}}" CommandParameter="{Binding .}" />
@@ -593,7 +593,7 @@
                 <Border
                     Padding="10"
                     BackgroundColor="White"
-                    StrokeShape="8">
+                    StrokeShape="RoundRectangle 8">
                     <toolkit:Expander x:Name="FilterExpander" ExpandedChanged="FilterExpander_ExpandedChanged">
                         <toolkit:Expander.Header>
                             <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
@@ -656,7 +656,7 @@
                                         <Border
                                             Padding="12,4,12,4"
                                             BackgroundColor="{StaticResource BackgroundGray}"
-                                            StrokeShape="8"
+                                            StrokeShape="RoundRectangle 8"
                                             StrokeThickness="0.5">
                                             <FlexLayout AlignItems="Center">
                                                 <controls:FullWidthDatePicker
@@ -690,7 +690,7 @@
                                         <Border
                                             Padding="12,4,12,4"
                                             BackgroundColor="{StaticResource BackgroundGray}"
-                                            StrokeShape="8"
+                                            StrokeShape="RoundRectangle 8"
                                             StrokeThickness="0.5">
                                             <FlexLayout AlignItems="Center">
                                                 <controls:FullWidthDatePicker
@@ -722,7 +722,7 @@
                     Padding="2"
                     BackgroundColor="#DDDDDD"
                     Stroke="LightGray"
-                    StrokeShape=" RoundRectangle 12">
+                    StrokeShape="RoundRectangle 12">
                     <FlexLayout
                         Direction="Row"
                         HorizontalOptions="Center"

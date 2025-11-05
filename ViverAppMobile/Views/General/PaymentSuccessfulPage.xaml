@@ -37,7 +37,7 @@
                         BackgroundColor="#E6F8ED"
                         HeightRequest="100"
                         HorizontalOptions="Center"
-                        StrokeShape="90"
+                        StrokeShape="RoundRectangle 90"
                         StrokeThickness="0"
                         VerticalOptions="Center">
 

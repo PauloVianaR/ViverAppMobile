@@ -228,7 +228,7 @@
                                                     Padding="10,8,10,8"
                                                     BackgroundColor="{StaticResource BackgroundBlue}"
                                                     Stroke="Transparent"
-                                                    StrokeShape="40">
+                                                    StrokeShape="RoundRectangle 40">
                                                     <Label
                                                         FontFamily="AppIcons"
                                                         Text="&#xe812;"
@@ -249,7 +249,7 @@
                                                             Text="{Binding Model.UserName}" />
                                                         <Border
                                                             Padding="6,2,6,2"
-                                                            StrokeShape="6"
+                                                            StrokeShape="RoundRectangle 6"
                                                             StrokeThickness="0.7"
                                                             Style="{StaticResource MasterBorderStyle}">
                                                             <Label
@@ -277,7 +277,7 @@
                                                             Padding="6,3,6,3"
                                                             BackgroundColor="{Binding Model.AppointmentType, Converter={StaticResource AppointmentTypeToColorConverter}}"
                                                             Stroke="Transparent"
-                                                            StrokeShape="4">
+                                                            StrokeShape="RoundRectangle 4">
                                                             <Label
                                                                 FontFamily="AppIcons"
                                                                 FontSize="10"
@@ -290,7 +290,7 @@
                                                             BackgroundColor="#f3e8ff"
                                                             IsVisible="{Binding Model.IsOnline, Converter={StaticResource SByteToBoolConverter}}"
                                                             Stroke="Transparent"
-                                                            StrokeShape="4">
+                                                            StrokeShape="RoundRectangle 4">
                                                             <Label
                                                                 FontSize="10"
                                                                 HorizontalTextAlignment="Center"
@@ -430,7 +430,7 @@
                                                     BackgroundColor="Green"
                                                     IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
                                                     Stroke="Transparent"
-                                                    StrokeShape="6">
+                                                    StrokeShape="RoundRectangle 6">
 
                                                     <Border.GestureRecognizers>
                                                         <TapGestureRecognizer Command="{Binding BindingContext.ConfirmPaymentCommand, Source={x:Reference ManagerHomePage}}" CommandParameter="{Binding .}" />

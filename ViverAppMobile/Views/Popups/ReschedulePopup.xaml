@@ -56,7 +56,7 @@
                 Padding="10"
                 BackgroundColor="{StaticResource BackgroundGray}"
                 Stroke="Transparent"
-                StrokeShape="6">
+                StrokeShape="RoundRectangle 6">
                 <VerticalStackLayout Spacing="2">
                     <Label FontSize="12">
                         <Label.FormattedText>
@@ -96,7 +96,7 @@
                 </Label>
                 <Border
                     BackgroundColor="{StaticResource BackgroundGray}"
-                    StrokeShape="8"
+                    StrokeShape="RoundRectangle 8"
                     StrokeThickness="0.5">
                     <syncfusion:SfCalendar
                         Margin="9,0,0,0"
@@ -126,7 +126,7 @@
                 <Border
                     Padding="12,2,12,2"
                     BackgroundColor="{StaticResource BackgroundGray}"
-                    StrokeShape="8"
+                    StrokeShape="RoundRectangle 8"
                     StrokeThickness="0.5">
                     <FlexLayout
                         AlignItems="Center"
@@ -158,7 +158,7 @@
                     BackgroundColor="Black"
                     Opacity="{Binding CanReschedule, Converter={StaticResource SelectedValueToDoubleConverter}, ConverterParameter={StaticResource FalseParam}}"
                     Stroke="Transparent"
-                    StrokeShape="6">
+                    StrokeShape="RoundRectangle 6">
 
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="YesButtonPressed" />
@@ -177,7 +177,7 @@
                     Padding="0,7,0,7"
                     BackgroundColor="White"
                     Stroke="LightGray"
-                    StrokeShape="6">
+                    StrokeShape="RoundRectangle 6">
 
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="BackButtonPressed" />

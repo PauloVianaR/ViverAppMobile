@@ -57,7 +57,7 @@
                             Padding="10"
                             BackgroundColor="#f0b100"
                             HeightRequest="40"
-                            StrokeShape="90">
+                            StrokeShape="RoundRectangle 90">
                             <Label
                                 FontAttributes="Bold"
                                 FontFamily="AppIcons"
@@ -93,7 +93,7 @@
                             Padding="10"
                             BackgroundColor="#2b7fff"
                             HeightRequest="40"
-                            StrokeShape="90">
+                            StrokeShape="RoundRectangle 90">
                             <Label
                                 FontFamily="AppIcons"
                                 FontSize="18"
@@ -129,7 +129,7 @@
                             Padding="10"
                             BackgroundColor="LimeGreen"
                             HeightRequest="40"
-                            StrokeShape="90">
+                            StrokeShape="RoundRectangle 90">
                             <Label
                                 FontFamily="AppIcons"
                                 FontSize="18"
@@ -165,7 +165,7 @@
                             Padding="10"
                             BackgroundColor="MediumPurple"
                             HeightRequest="40"
-                            StrokeShape="90">
+                            StrokeShape="RoundRectangle 90">
                             <Label
                                 FontFamily="AppIcons"
                                 FontSize="18"
@@ -201,7 +201,7 @@
                             Padding="10"
                             BackgroundColor="OrangeRed"
                             HeightRequest="40"
-                            StrokeShape="90">
+                            StrokeShape="RoundRectangle 90">
                             <Label
                                 FontFamily="AppIcons"
                                 FontSize="18"

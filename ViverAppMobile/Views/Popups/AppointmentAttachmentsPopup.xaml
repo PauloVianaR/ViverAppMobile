@@ -53,7 +53,7 @@
                                     Padding="8"
                                     BackgroundColor="{StaticResource BackgroundGray}"
                                     Stroke="Transparent"
-                                    StrokeShape="6">
+                                    StrokeShape="RoundRectangle 6">
                                     <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="10">
                                         <VerticalStackLayout Grid.Column="0" Spacing="2">
                                             <Label
@@ -73,7 +73,7 @@
                                             Grid.Column="1"
                                             Padding="8"
                                             BackgroundColor="White"
-                                            StrokeShape="6">
+                                            StrokeShape="RoundRectangle 6">
 
                                             <Border.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding BindingContext.DownloadFileAsyncCommand, Source={x:Reference AppointmentAttachmentsPage}}" CommandParameter="{Binding .}" />
@@ -86,7 +86,7 @@
                                             Padding="8"
                                             BackgroundColor="White"
                                             IsVisible="{Binding BindingContext.Isnotpatient, Source={x:Reference AppointmentAttachmentsPage}}"
-                                            StrokeShape="6">
+                                            StrokeShape="RoundRectangle 6">
 
                                             <Border.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding BindingContext.DeleteFileAsyncCommand, Source={x:Reference AppointmentAttachmentsPage}}" CommandParameter="{Binding .}" />

@@ -53,7 +53,7 @@
                 <Border
                     Padding="10"
                     BackgroundColor="White"
-                    StrokeShape="8">
+                    StrokeShape="RoundRectangle 8">
                     <toolkit:Expander x:Name="FilterExpander" ExpandedChanged="FilterExpander_ExpandedChanged">
                         <toolkit:Expander.Header>
                             <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
@@ -156,7 +156,7 @@
                                         <Border
                                             Padding="12,4,12,4"
                                             BackgroundColor="{StaticResource BackgroundGray}"
-                                            StrokeShape="8"
+                                            StrokeShape="RoundRectangle 8"
                                             StrokeThickness="0.5">
                                             <FlexLayout AlignItems="Center">
                                                 <controls:FullWidthDatePicker
@@ -190,7 +190,7 @@
                                         <Border
                                             Padding="12,4,12,4"
                                             BackgroundColor="{StaticResource BackgroundGray}"
-                                            StrokeShape="8"
+                                            StrokeShape="RoundRectangle 8"
                                             StrokeThickness="0.5">
                                             <FlexLayout AlignItems="Center">
                                                 <controls:FullWidthDatePicker
@@ -308,7 +308,7 @@
                                             Padding="6,3,6,3"
                                             BackgroundColor="{Binding AppointmentType, Converter={StaticResource AppointmentTypeToColorConverter}}"
                                             Stroke="Transparent"
-                                            StrokeShape="6"
+                                            StrokeShape="RoundRectangle 6"
                                             VerticalOptions="Start">
                                             <Label FontSize="11" TextColor="White">
                                                 <Label.FormattedText>

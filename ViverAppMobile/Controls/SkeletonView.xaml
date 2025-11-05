@@ -10,7 +10,7 @@
                 Margin="10"
                 Padding="60"
                 Background="{StaticResource ShimmerBrush}"
-                StrokeShape="12"
+                StrokeShape="RoundRectangle 12"
                 StrokeThickness="0.5" />
 
             <Grid
@@ -24,7 +24,7 @@
                     Margin="10"
                     Padding="40"
                     Background="{StaticResource ShimmerBrush}"
-                    StrokeShape="12"
+                    StrokeShape="RoundRectangle 12"
                     StrokeThickness="0.5" />
                 <Border
                     Grid.Row="0"
@@ -32,7 +32,7 @@
                     Margin="10"
                     Padding="40"
                     Background="{StaticResource ShimmerBrush}"
-                    StrokeShape="12"
+                    StrokeShape="RoundRectangle 12"
                     StrokeThickness="0.5" />
                 <Border
                     Grid.Row="1"
@@ -40,7 +40,7 @@
                     Margin="10"
                     Padding="40"
                     Background="{StaticResource ShimmerBrush}"
-                    StrokeShape="12"
+                    StrokeShape="RoundRectangle 12"
                     StrokeThickness="0.5" />
                 <Border
                     Grid.Row="1"
@@ -48,7 +48,7 @@
                     Margin="10"
                     Padding="40"
                     Background="{StaticResource ShimmerBrush}"
-                    StrokeShape="12"
+                    StrokeShape="RoundRectangle 12"
                     StrokeThickness="0.5" />
             </Grid>
 
@@ -61,7 +61,7 @@
                 <Border
                     Background="{StaticResource ShimmerBrush}"
                     HeightRequest="48"
-                    StrokeShape="24"
+                    StrokeShape="RoundRectangle 24"
                     WidthRequest="48" />
 
                 <StackLayout Grid.Column="1" Spacing="6">
@@ -90,7 +90,7 @@
                 <Border
                     Background="{StaticResource ShimmerBrush}"
                     HeightRequest="48"
-                    StrokeShape="24"
+                    StrokeShape="RoundRectangle 24"
                     WidthRequest="48" />
 
                 <StackLayout Grid.Column="1" Spacing="6">
@@ -114,7 +114,7 @@
                 Margin="10"
                 Padding="60"
                 Background="{StaticResource ShimmerBrush}"
-                StrokeShape="12"
+                StrokeShape="RoundRectangle 12"
                 StrokeThickness="0.5" />
         </VerticalStackLayout>
     </controls:SkeletonControl>

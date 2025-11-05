@@ -270,7 +270,7 @@
                                 Padding="5"
                                 BackgroundColor="Black"
                                 Stroke="Transparent"
-                                StrokeShape="6">
+                                StrokeShape="RoundRectangle 6">
 
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding SaveChangesCommand}" />
@@ -323,7 +323,7 @@
                                         Padding="8"
                                         BackgroundColor="{StaticResource BackgroundBlue}"
                                         Stroke="Transparent"
-                                        StrokeShape="40"
+                                        StrokeShape="RoundRectangle 40"
                                         VerticalOptions="Center">
                                         <Label
                                             FontFamily="AppIcons"
@@ -352,7 +352,7 @@
                                         Padding="8,5,8,5"
                                         BackgroundColor="White"
                                         Stroke="LightGray"
-                                        StrokeShape="6"
+                                        StrokeShape="RoundRectangle 6"
                                         StrokeThickness="0.7"
                                         VerticalOptions="Center">
 
@@ -369,7 +369,7 @@
                                 Padding="10"
                                 BackgroundColor="{StaticResource BackgroundBlue}"
                                 Stroke="Transparent"
-                                StrokeShape="6">
+                                StrokeShape="RoundRectangle 6">
                                 <StackLayout Spacing="4">
                                     <Label FontSize="12">
                                         <Label.FormattedText>

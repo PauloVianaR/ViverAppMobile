@@ -42,7 +42,7 @@
                 TextForTrue="Disponível" />
 
             <DataTemplate x:Key="AppointmentSpecialtiesDataTemplateCollection">
-                <Border Padding="0,4,8,4" StrokeShape="6">
+                <Border Padding="0,4,8,4" StrokeShape="RoundRectangle 6">
                     <Grid ColumnDefinitions="Auto,*,Auto">
                         <CheckBox
                             Grid.Column="0"
@@ -115,7 +115,7 @@
                                 HorizontalOptions="End"
                                 IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"
                                 Stroke="Transparent"
-                                StrokeShape="4">
+                                StrokeShape="RoundRectangle 4">
                                 <Label
                                     FontAttributes="Bold"
                                     FontSize="10"
@@ -163,14 +163,14 @@
                     Padding="2"
                     BackgroundColor="LightGray"
                     Stroke="Transparent"
-                    StrokeShape="8">
+                    StrokeShape="RoundRectangle 8">
                     <Grid ColumnDefinitions="*,*,*">
                         <Border
                             Grid.Column="0"
                             Padding="2"
                             BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToTabColorConverter}, ConverterParameter=0}"
                             Stroke="Transparent"
-                            StrokeShape="8">
+                            StrokeShape="RoundRectangle 8">
 
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SelectTabCommand}" CommandParameter="0" />
@@ -187,7 +187,7 @@
                             Padding="2"
                             BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToTabColorConverter}, ConverterParameter=1}"
                             Stroke="Transparent"
-                            StrokeShape="8">
+                            StrokeShape="RoundRectangle 8">
 
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SelectTabCommand}" CommandParameter="1" />
@@ -204,7 +204,7 @@
                             Padding="2"
                             BackgroundColor="{Binding SelectedTab, Converter={StaticResource SelectedValueToTabColorConverter}, ConverterParameter=2}"
                             Stroke="Transparent"
-                            StrokeShape="8">
+                            StrokeShape="RoundRectangle 8">
 
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SelectTabCommand}" CommandParameter="2" />
@@ -589,7 +589,7 @@
                                 Padding="5"
                                 BackgroundColor="Black"
                                 Stroke="Transparent"
-                                StrokeShape="6">
+                                StrokeShape="RoundRectangle 6">
 
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding SaveDoctorChangesCommand}" />
@@ -642,7 +642,7 @@
                                         Padding="8"
                                         BackgroundColor="{StaticResource BackgroundBlue}"
                                         Stroke="Transparent"
-                                        StrokeShape="40"
+                                        StrokeShape="RoundRectangle 40"
                                         VerticalOptions="Center">
                                         <Label
                                             FontFamily="AppIcons"
@@ -671,7 +671,7 @@
                                         Padding="8,5,8,5"
                                         BackgroundColor="White"
                                         Stroke="LightGray"
-                                        StrokeShape="6"
+                                        StrokeShape="RoundRectangle 6"
                                         StrokeThickness="0.7"
                                         VerticalOptions="Center">
 
@@ -688,7 +688,7 @@
                                 Padding="10"
                                 BackgroundColor="{StaticResource BackgroundBlue}"
                                 Stroke="Transparent"
-                                StrokeShape="6">
+                                StrokeShape="RoundRectangle 6">
                                 <StackLayout Spacing="4">
                                     <Label FontSize="12">
                                         <Label.FormattedText>
@@ -802,7 +802,7 @@
                                             Padding="2"
                                             BackgroundColor="#dbfce7"
                                             Stroke="Transparent"
-                                            StrokeShape="4">
+                                            StrokeShape="RoundRectangle 4">
                                             <Label
                                                 FontSize="11"
                                                 HorizontalTextAlignment="Center"
@@ -834,7 +834,7 @@
                                             Padding="2"
                                             BackgroundColor="#dbeafe"
                                             Stroke="Transparent"
-                                            StrokeShape="4">
+                                            StrokeShape="RoundRectangle 4">
                                             <Label
                                                 FontSize="11"
                                                 HorizontalTextAlignment="Center"
@@ -866,7 +866,7 @@
                                             Padding="2"
                                             BackgroundColor="#ffe2e2"
                                             Stroke="Transparent"
-                                            StrokeShape="4">
+                                            StrokeShape="RoundRectangle 4">
                                             <Label
                                                 FontSize="11"
                                                 HorizontalTextAlignment="Center"
@@ -1161,7 +1161,7 @@
                                             HorizontalOptions="End"
                                             IsVisible="{Binding Docprop.IsBusy, Converter={StaticResource InverseBoolConverter}}"
                                             Stroke="Transparent"
-                                            StrokeShape="4">
+                                            StrokeShape="RoundRectangle 4">
                                             <Label
                                                 FontAttributes="Bold"
                                                 FontSize="10"
@@ -1376,7 +1376,7 @@
                                         Padding="5"
                                         BackgroundColor="Black"
                                         Stroke="Transparent"
-                                        StrokeShape="6">
+                                        StrokeShape="RoundRectangle 6">
 
                                         <Border.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding UpdateAvailabilitiesDoctorOnlineCommand}" CommandParameter="{Binding .}" />
@@ -1449,7 +1449,7 @@
                                         Padding="5"
                                         BackgroundColor="Black"
                                         Stroke="Transparent"
-                                        StrokeShape="6">
+                                        StrokeShape="RoundRectangle 6">
 
                                         <Border.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding UpdateAvailabilitiesDoctorPresencialCommand}" CommandParameter="{Binding .}" />
