@@ -28,4 +28,10 @@
   <ItemGroup>
     <ProjectReference Include="..\ViverApp.Shared\ViverApp.Shared.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Settings.job">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
