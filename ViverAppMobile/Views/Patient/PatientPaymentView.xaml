@@ -138,7 +138,10 @@
                     IsVisible="{Binding ShowingPaymentSide}"
                     Shadow="{StaticResource BottomShadow}"
                     Spacing="15">
-                    <Border Padding="20,20,20,0" Style="{StaticResource MasterBorderStyle}" StrokeShape="RoundRectangle 6">
+                    <Border
+                        Padding="20,20,20,0"
+                        StrokeShape="RoundRectangle 6"
+                        Style="{StaticResource MasterBorderStyle}">
                         <StackLayout Spacing="10">
                             <Label>
                                 <Label.FormattedText>
