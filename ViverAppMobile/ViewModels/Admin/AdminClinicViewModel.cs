@@ -263,9 +263,15 @@ namespace ViverAppMobile.ViewModels.Admin
             IsReloading = false;
         }
 
-#endregion
+        #endregion
 
         #region Information
+
+        partial void OnCepChanged(string value)
+        {
+            if (Cep.Length == 9)
+                _ = SearchAdressByCep();
+        }
 
         [RelayCommand]
         private async Task SearchAdressByCep()

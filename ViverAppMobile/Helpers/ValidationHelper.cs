@@ -172,5 +172,30 @@ namespace ViverAppMobile.Helpers
 
             return ValidStates.Contains(state.Trim());
         }
+
+        public static string CapitalizeName(string rawname)
+        {
+            if (string.IsNullOrWhiteSpace(rawname))
+                return string.Empty;
+
+            string[] prepositions =
+            [
+                "de", "da", "do", "das", "dos", "e", "em", "no", "na", "nos", "nas", "a", "o"
+            ];
+
+            var words = rawname.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            for (int i = 0; i < words.Length; i++)
+            {
+                string word = words[i];
+
+                if (i == 0 || !prepositions.Contains(word))
+                {
+                    words[i] = char.ToUpper(word[0]) + word.Substring(1);
+                }
+            }
+
+            return string.Join(' ', words).Trim();
+        }
     }
 }

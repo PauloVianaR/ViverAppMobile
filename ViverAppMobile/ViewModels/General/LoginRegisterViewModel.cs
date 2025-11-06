@@ -332,7 +332,7 @@ namespace ViverAppMobile.ViewModels.General
                 User user = new()
                 {
                     Usertype = SelectedUserType,
-                    Name = Fullname.Trim(),
+                    Name = ValidationHelper.CapitalizeName(Fullname),
                     Email = Email.Trim(),
                     Fone = Phone,
                     Birthdate = DateOnly.FromDateTime(Birthdate),

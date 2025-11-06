@@ -455,6 +455,7 @@
                                                 Margin="-3,0,-5,0"
                                                 BackgroundColor="Transparent"
                                                 FlexLayout.Grow="1"
+                                                Keyboard="Numeric"
                                                 Placeholder="123"
                                                 PlaceholderColor="DarkGray"
                                                 Text="{Binding Number}"

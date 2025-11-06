@@ -430,7 +430,7 @@
                                         Margin="0,0,-5,0"
                                         BackgroundColor="Transparent"
                                         FlexLayout.Grow="1"
-                                        Keyboard="{x:Static Keyboard.Create(KeyboardFlags.CapitalizeWord)}"
+                                        Keyboard="Plain"
                                         Placeholder="João Silva"
                                         PlaceholderColor="DarkGray"
                                         Text="{Binding Fullname}"
@@ -588,6 +588,7 @@
                                         MaximumDate="{Binding Today}"
                                         MinimumDate="{Binding MinimumDate}"
                                         MinimumWidthRequest="0"
+                                        TextColor="Black"
                                         VerticalOptions="Center">
                                         <controls:FullWidthDatePicker.Margin>
                                             <OnPlatform x:TypeArguments="Thickness">
@@ -629,6 +630,7 @@
                                         <SearchBar
                                             Margin="-3,0,-5,0"
                                             BackgroundColor="Transparent"
+                                            CancelButtonColor="Black"
                                             FlexLayout.Grow="1"
                                             FontFamily="AppIcons"
                                             Keyboard="Numeric"
@@ -698,6 +700,7 @@
                                                 Margin="-3,0,-5,0"
                                                 BackgroundColor="Transparent"
                                                 FlexLayout.Grow="1"
+                                                Keyboard="Numeric"
                                                 Placeholder="123"
                                                 PlaceholderColor="DarkGray"
                                                 Text="{Binding Number}"
