@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<linker>
+  <assembly fullname="ViverAppMobile">
+    <namespace fullname="ViverAppMobile.Views.Patient" preserve="all" />
+    <namespace fullname="ViverAppMobile.ViewModels.Patient" preserve="all" />
+    <type fullname="ViverAppMobile.Controls.CarouselItemView" preserve="all" />
+  </assembly>
+  <assembly fullname="Microsoft.Maui.Controls">
+    <type fullname="Microsoft.Maui.Controls.CarouselView" preserve="all" />
+    <type fullname="Microsoft.Maui.Controls.IndicatorView" preserve="all" />
+    <type fullname="Microsoft.Maui.Controls.Image" preserve="all" />
+  </assembly>
+  <assembly fullname="Microsoft.Maui.Graphics">
+    <namespace fullname="Microsoft.Maui.Graphics" preserve="all" />
+  </assembly>
+</linker>

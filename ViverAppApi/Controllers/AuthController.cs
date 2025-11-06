@@ -218,7 +218,8 @@ public class AuthController : ControllerBase
                 return BadRequest("Código de confirmação inválido.");
 
             var existingConfirmEmail = await _context.EmailConfirmations
-                .LastOrDefaultAsync(e => e.IdemailNavigation.Receiver == request.Email
+                .OrderByDescending(e => e.Idemailconfirmation)
+                .FirstOrDefaultAsync(e => e.IdemailNavigation.Receiver == request.Email
                 && e.Confirmationcode == request.ConfirmationCode);
 
             if (existingConfirmEmail is null)

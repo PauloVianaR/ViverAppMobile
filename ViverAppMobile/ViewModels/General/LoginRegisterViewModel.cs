@@ -483,6 +483,8 @@ namespace ViverAppMobile.ViewModels.General
             {
                 await PopupHelper.PushLoadingAsync();
 
+                StopTimer();
+
                 string concatedCode = $"{ValidationDigit1}{ValidationDigit2}{ValidationDigit3}{ValidationDigit4}";
                 int confirmcode = int.TryParse(concatedCode, out int result) ? result : 0;
 
@@ -492,7 +494,9 @@ namespace ViverAppMobile.ViewModels.General
                 var resp = await authService.ConfirmEmail(Email, confirmcode);
                 resp.ThrowIfIsNotSucess();
 
+                await Task.Delay(250);
                 await PopupHelper.PopLoadingAsync();
+                await Task.Delay(250);
 
                 if (await IsPatient(registredUser))
                     this.SwitchToHomePage(registredUser);

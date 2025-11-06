@@ -96,82 +96,14 @@
                             HorizontalScrollBarVisibility="Never"
                             IndicatorView="indicator"
                             IsScrollAnimated="True"
+                            IsVisible="False"
                             ItemsSource="{Binding CarouselItems}"
                             Loop="False"
                             VerticalOptions="Start">
 
                             <CarouselView.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Stroke="{Binding IconBackColor}" StrokeShape="RoundRectangle 8">
-                                        <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
-                                            <Image
-                                                Aspect="AspectFill"
-                                                HorizontalOptions="Fill"
-                                                Source="{Binding Image}"
-                                                VerticalOptions="Fill" />
-
-                                            <VerticalStackLayout
-                                                Margin="0,23,0,0"
-                                                Padding="15"
-                                                Spacing="40">
-                                                <Grid
-                                                    Margin="5,0,0,0"
-                                                    ColumnDefinitions="Auto,*"
-                                                    ColumnSpacing="20">
-                                                    <Border
-                                                        Grid.Column="0"
-                                                        Padding="10,10,10,8"
-                                                        BackgroundColor="{Binding IconBackColor}"
-                                                        Stroke="Transparent"
-                                                        StrokeShape="RoundRectangle 14"
-                                                        VerticalOptions="Center">
-                                                        <Label
-                                                            FontFamily="AppIcons"
-                                                            FontSize="28"
-                                                            Text="{Binding Icon}"
-                                                            TextColor="White" />
-                                                    </Border>
-
-                                                    <VerticalStackLayout
-                                                        Grid.Column="1"
-                                                        Spacing="4"
-                                                        VerticalOptions="Center">
-
-                                                        <VerticalStackLayout.Margin>
-                                                            <OnPlatform>
-                                                                <On Platform="Android" Value="6,0,0,0" />
-                                                                <On Platform="WinUI" Value="0" />
-                                                            </OnPlatform>
-                                                        </VerticalStackLayout.Margin>
-
-                                                        <Label
-                                                            FontAttributes="Bold"
-                                                            FontSize="18"
-                                                            Text="{Binding Title}"
-                                                            TextColor="White" />
-                                                        <Label
-                                                            FontAttributes="Bold"
-                                                            FontSize="12"
-                                                            Text="{Binding Subtitle}"
-                                                            TextColor="LightBlue" />
-                                                    </VerticalStackLayout>
-                                                </Grid>
-
-                                                <Border
-                                                    Margin="{Binding Margin}"
-                                                    BackgroundColor="Transparent"
-                                                    Stroke="Transparent"
-                                                    Style="{StaticResource MasterBorderStyle}">
-                                                    <Label
-                                                        FontFamily="Semibold"
-                                                        FontSize="13"
-                                                        LineHeight="1.5"
-                                                        Text="{Binding Info}"
-                                                        TextColor="White" />
-                                                </Border>
-                                            </VerticalStackLayout>
-                                        </Grid>
-                                    </Border>
+                                    <controls:CarouselItemView />
                                 </DataTemplate>
                             </CarouselView.ItemTemplate>
                         </CarouselView>

@@ -55,6 +55,7 @@
     <RunAOTCompilation>false</RunAOTCompilation>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <AndroidEnableLLVM>false</AndroidEnableLLVM>
+    <PublishTrimmed>false</PublishTrimmed>
   </PropertyGroup>
 
 	<ItemGroup>
@@ -145,17 +146,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <MauiImage Update="Resources\Images\carouselimage1.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </MauiImage>
-    <MauiImage Update="Resources\Images\carouselimage2.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </MauiImage>
-    <MauiImage Update="Resources\Images\carouselimage3.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </MauiImage>
-    <MauiImage Update="Resources\Images\carouselimage4.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </MauiImage>
+    <MauiLinkerDescriptors Include="Linker.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <MauiXaml Update="Controls\CarouselItemView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
   </ItemGroup>
 </Project>
