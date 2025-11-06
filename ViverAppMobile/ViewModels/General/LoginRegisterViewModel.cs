@@ -249,6 +249,12 @@ namespace ViverAppMobile.ViewModels.General
             }
         }
 
+        partial void OnCepChanged(string value)
+        {
+            if (Cep.Length == 9)
+                _ = SearchAdressByPostalCode();
+        }
+
         [RelayCommand] private async Task SearchAdressByPostalCode()
         {
             try

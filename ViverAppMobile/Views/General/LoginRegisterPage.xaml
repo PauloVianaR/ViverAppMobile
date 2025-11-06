@@ -403,7 +403,7 @@
                             <HorizontalStackLayout Spacing="6">
                                 <Label
                                     FontSize="12"
-                                    Text="Nome Completo"
+                                    Text="Nome e Sobrenome"
                                     TextColor="Black" />
                                 <Label
                                     FontSize="16"
@@ -430,6 +430,7 @@
                                         Margin="0,0,-5,0"
                                         BackgroundColor="Transparent"
                                         FlexLayout.Grow="1"
+                                        Keyboard="{x:Static Keyboard.Create(KeyboardFlags.CapitalizeWord)}"
                                         Placeholder="João Silva"
                                         PlaceholderColor="DarkGray"
                                         Text="{Binding Fullname}"
