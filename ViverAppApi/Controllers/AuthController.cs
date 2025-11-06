@@ -121,7 +121,10 @@ public class AuthController : ControllerBase
     {
         try
         {
-            string hash = "se você está lendo isso, parabén$, você é um ótimo HACKER ;) [" + DateTime.UtcNow.ToLongDateString() + "] <3";
+            Random hashrand = new();
+            int hashcode = hashrand.Next(0, 999999);
+
+            string hash = $"se você está lendo isso, parabén$, você é um ótimo HACKER ;) [{DateTime.UtcNow.ToLongDateString()}] <3 || Código: {hashcode.GetHashCode()}";
             int seed = hash.GetHashCode();
             Random x = new(seed);
             int confirmationCode = x.Next(1000, 10000);
@@ -215,7 +218,7 @@ public class AuthController : ControllerBase
                 return BadRequest("Código de confirmação inválido.");
 
             var existingConfirmEmail = await _context.EmailConfirmations
-                .FirstOrDefaultAsync(e => e.IdemailNavigation.Receiver == request.Email
+                .LastOrDefaultAsync(e => e.IdemailNavigation.Receiver == request.Email
                 && e.Confirmationcode == request.ConfirmationCode);
 
             if (existingConfirmEmail is null)
