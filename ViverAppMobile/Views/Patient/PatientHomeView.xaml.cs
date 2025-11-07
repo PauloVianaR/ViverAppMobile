@@ -21,15 +21,19 @@ public partial class PatientHomeView : ContentView
                 await Task.Yield();
                 await vm.InitializeAsync();
                 instanced = true;
-
-                _ = typeof(CarouselView);
-                _ = ImageCarousel.GetType();
+#if DEBUG
                 await Task.Delay(100);
-                ImageCarousel.IsVisible = true;
-                //await Task.Delay(150);
-
-                //Dispatcher.Dispatch(() => ImageCarousel.InvalidateMeasure());
-                //this.RestartAutoScroll();
+                Dispatcher.Dispatch(async() =>
+                {
+                    _ = typeof(CarouselView);
+                    _ = ImageCarousel.GetType();
+                    ImageCarouselBorder.IsVisible = true;
+                    ImageCarousel.IsVisible = true;
+                    await Task.Delay(150);
+                    ImageCarousel.InvalidateMeasure();
+                });
+                this.RestartAutoScroll();
+#endif
             }
         };
     }

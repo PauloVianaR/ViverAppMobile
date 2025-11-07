@@ -8,7 +8,7 @@
             <Image
                 Aspect="AspectFill"
                 HorizontalOptions="Fill"
-                Source="carouselimage1.png"
+                Source="{Binding Image}"
                 VerticalOptions="Fill" />
 
             <VerticalStackLayout
@@ -22,14 +22,14 @@
                     <Border
                         Grid.Column="0"
                         Padding="10,10,10,8"
-                        BackgroundColor="Gold"
+                        BackgroundColor="{Binding IconBackColor}"
                         Stroke="Transparent"
                         StrokeShape="RoundRectangle 14"
                         VerticalOptions="Center">
                         <Label
                             FontFamily="AppIcons"
                             FontSize="28"
-                            Text="s"
+                            Text="{Binding Icon}"
                             TextColor="White" />
                     </Border>
 
@@ -48,18 +48,18 @@
                         <Label
                             FontAttributes="Bold"
                             FontSize="18"
-                            Text="Meu"
+                            Text="{Binding Title}"
                             TextColor="White" />
                         <Label
                             FontAttributes="Bold"
                             FontSize="12"
-                            Text="Penis"
+                            Text="{Binding Subtitle}"
                             TextColor="LightBlue" />
                     </VerticalStackLayout>
                 </Grid>
 
                 <Border
-                    Margin="12,35,0,0"
+                    Margin="{Binding Margin}"
                     BackgroundColor="Transparent"
                     Stroke="Transparent"
                     Style="{StaticResource MasterBorderStyle}">
@@ -67,7 +67,7 @@
                         FontFamily="Semibold"
                         FontSize="13"
                         LineHeight="1.5"
-                        Text="meu pinto é grande e grosso"
+                        Text="{Binding Info}"
                         TextColor="White" />
                 </Border>
             </VerticalStackLayout>

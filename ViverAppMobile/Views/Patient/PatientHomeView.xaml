@@ -87,7 +87,11 @@
                     </Border>
                 </Grid>
 
-                <Border Stroke="Transparent" StrokeShape="RoundRectangle 8">
+                <Border
+                    x:Name="ImageCarouselBorder"
+                    IsVisible="false"
+                    Stroke="Transparent"
+                    StrokeShape="RoundRectangle 8">
                     <VerticalStackLayout Spacing="6">
                         <CarouselView
                             x:Name="ImageCarousel"
@@ -779,7 +783,7 @@
 
                             <Border
                                 Grid.Row="4"
-                                Padding="8"
+                                Padding="0"
                                 BackgroundColor="#d18800"
                                 Stroke="Transparent"
                                 StrokeShape="RoundRectangle 8">
@@ -788,7 +792,10 @@
                                     <TapGestureRecognizer Command="{Binding ShowPremiumPlansCommand}" />
                                 </Border.GestureRecognizers>
 
-                                <FlexLayout AlignItems="Center" JustifyContent="Center">
+                                <FlexLayout
+                                    Margin="0,8"
+                                    AlignItems="Center"
+                                    JustifyContent="Center">
                                     <Label
                                         FontAttributes="Bold"
                                         FontFamily="AppIcons"
@@ -796,7 +803,7 @@
                                         Text="&#xe80f;"
                                         TextColor="White" />
                                     <Label
-                                        Padding="5,1.2,0,0"
+                                        Padding="5,0,0,0"
                                         FontAttributes="Bold"
                                         FontFamily=""
                                         FontSize="14"

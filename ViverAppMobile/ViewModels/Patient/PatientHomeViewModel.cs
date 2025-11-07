@@ -65,6 +65,7 @@ namespace ViverAppMobile.ViewModels.Patient
             clinicService = new();
             appointmentService = new();
 
+#if DEBUG
             CarouselItems =
             [
                 new(
@@ -73,7 +74,7 @@ namespace ViverAppMobile.ViewModels.Patient
                     sub:"Exames regulares previnem problemas",
                     info:"A prevenção é o melhor remédio para manter seus olhos saudáveis por toda a vida.",
                     icon:"\ue836",
-                    backcolor:new SolidColorBrush(Colors.CornflowerBlue),
+                    backcolor:Colors.CornflowerBlue,
                     margin:new(12,35,0,0)),
                 new(
                     image:"carouselimage2.png",
@@ -81,7 +82,7 @@ namespace ViverAppMobile.ViewModels.Patient
                     sub:"Modernidade para diagnósticos precisos",
                     info:"Utilizamos os mais avançados equipamentos para cuidar da sua saúde visual.",
                     icon:"\ue809",
-                    backcolor:new SolidColorBrush(Colors.Gold),
+                    backcolor:Colors.Gold,
                     margin:new(12,23,0,0)),
                 new(
                     image:"carouselimage3.png",
@@ -89,7 +90,7 @@ namespace ViverAppMobile.ViewModels.Patient
                     sub:"Cuidamos da saúde e da estética",
                     info:"Seus olhos refletem sua personalidade. Mantenha-os sempre belos e saudáveis.",
                     icon:"\ue83e",
-                    backcolor:new SolidColorBrush(Colors.LimeGreen),
+                    backcolor:Colors.LimeGreen,
                     margin:new(12,23,0,0)),
                 new(
                     image:"carouselimage4.png",
@@ -97,9 +98,10 @@ namespace ViverAppMobile.ViewModels.Patient
                     sub:"Profissionais comprometidos com você",
                     info:"Nossa equipe médica está sempre pronta para oferecer o melhor tratamento.",
                     icon:"\ue82f",
-                    backcolor:new SolidColorBrush(Colors.OrangeRed),
+                    backcolor:Colors.OrangeRed,
                     margin:new(12,23,0,0)),
             ];
+#endif
         }
 
         public async Task InitializeAsync()

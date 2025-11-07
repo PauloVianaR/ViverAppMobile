@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace ViverAppMobile.Models
 {
-    public class CarouselItem(string image, string title, string sub, string info, string icon, Brush backcolor, Thickness margin)
+    public class CarouselItem(string image, string title, string sub, string info, string icon, Color backcolor, Thickness margin)
     {
         public string Image { get; set; } = image;
         public string Title { get; set; } = title;
         public string Subtitle { get; set; } = sub;
         public string Info { get; set; } = info;
         public string Icon { get; set; } = icon;
-        public Brush IconBackColor { get; set; } = backcolor;
+        public Color IconBackColor { get; set; } = backcolor;
         public Thickness Margin { get; set; } = margin;
     }
 }

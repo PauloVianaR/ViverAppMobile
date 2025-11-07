@@ -51,11 +51,12 @@
     <DefaultLanguage>pt-br</DefaultLanguage>
     <AndroidEnableAapt2>true</AndroidEnableAapt2>
     <AndroidUseLatestPlatformSdk>true</AndroidUseLatestPlatformSdk>
-    <AndroidLinkMode>None</AndroidLinkMode>
     <RunAOTCompilation>false</RunAOTCompilation>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <AndroidEnableLLVM>false</AndroidEnableLLVM>
     <PublishTrimmed>false</PublishTrimmed>
+    <MauiLinkMode>SdkOnly</MauiLinkMode>
+    <MauiLinkerDescriptors>linker.xml</MauiLinkerDescriptors>
   </PropertyGroup>
 
 	<ItemGroup>
@@ -143,10 +144,6 @@
 
   <ItemGroup>
     <GoogleServicesJson Include="Platforms/Android/google-services.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <MauiLinkerDescriptors Include="Linker.xml" />
   </ItemGroup>
 
   <ItemGroup>
